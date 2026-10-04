@@ -7,7 +7,7 @@
 
 CREATE TABLE usuario(
     id_usuario INT PRIMARY KEY,
-    numeroId TEXT UNIQUE,
+    numeroId VARCHAR(20) UNIQUE NOT NULL,
     nombre_completo VARCHAR(255) NOT NULL,
     telefono VARCHAR(10) NOT NULL,
     correo VARCHAR(255) NOT NULL
@@ -110,14 +110,18 @@ CREATE TABLE solicitud(
     id_domiciliario INT, -- Tiene multiplicidad 0..*
     fechaAsignacion DATE,
     horaAsignacion TIME,
-    id_direccionEntrega INT NOT NULL, --Usamos una direccion relacionada a un cliente
-    id_establecimientoRecogida INT NULL, --Si se recoge en un establecimiento
-    id_direccionRecogidaExterna INT NULL, --Si se recoge en un lugar externo
+    --Usamos una direccion relacionada a un cliente
+    id_direccionEntrega INT NOT NULL, 
+    --Si se recoge en un establecimiento
+    id_establecimientoRecogida INT NULL, 
+    --Si se recoge en un lugar externo
+    id_direccionRecogidaExterna INT NULL, 
     FOREIGN KEY (id_estado) REFERENCES estadoSolicitud(id_estado),
     FOREIGN KEY (id_metodoPago) REFERENCES metodoPago(id_metodoPago),
     FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
     FOREIGN KEY (id_domiciliario) REFERENCES domiciliario(id_domiciliario),
-    FOREIGN KEY (id_cliente, id_direccionEntrega) REFERENCES cliente_direccion(id_cliente, id_direccion), --Hacemos referencia a un par unico de cliente-direccion
+    --Hacemos referencia a un par unico de cliente-direccion
+    FOREIGN KEY (id_cliente, id_direccionEntrega) REFERENCES cliente_direccion(id_cliente, id_direccion), 
     FOREIGN KEY (id_establecimientoRecogida) REFERENCES establecimiento(id_establecimiento),
     FOREIGN KEY (id_direccionRecogidaExterna) REFERENCES direccion(id_direccion)
 );
