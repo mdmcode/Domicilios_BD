@@ -1,4 +1,4 @@
-INSERT INTO medioDeTransporte(id?trasporte, nombre)
+INSERT INTO medioDeTransporte(id_trasporte, nombre)
 VALUES
     (1, 'Bicicleta'),
     (2, 'Motocicleta'),
@@ -10,14 +10,17 @@ VALUES
     (2, 'Electronico'),
     (3, 'Ninguno');
 
-INSERT INTO estado(id_estado, nombre)
+INSERT INTO estadosolicitud(id_estado, nombre)
 VALUES
     (1, 'Creada'),
     (2, 'Asignada'),
     (3, 'En Curso'),
     (4, 'Finalizada'),
     (5, 'Cancelada'),
-    -- Estos últimos estados son para el domiciliario
+
+
+INSERT INTO estadodomiciliario(id_estado, nombre)
+VALUES
     (6, 'Activo'),
     (7, 'Inactivo');        
 
