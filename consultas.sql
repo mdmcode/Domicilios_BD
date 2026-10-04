@@ -55,7 +55,7 @@ JOIN usuario u ON cliente.id_cliente = u.id_usuario;
 -- Mostramos la información de las tablas mas pequeñas (estadoSolicitud, estadoDomiciliario, metodoDePago, medioDeTransporte, tipoEstablecimiento, tipoIncidente)
 SELECT * FROM estadosolicitud;
 SELECT * FROM estadodomiciliario;
-SELECT * FROM metododepago;
+SELECT * FROM metodoPago;
 SELECT * FROM mediodetransporte;
 SELECT * FROM tipoestablecimiento;
 SELECT * FROM tipoincidente;
@@ -139,7 +139,7 @@ SELECT
 FROM establecimiento e
 JOIN tipoestablecimiento tipo ON e.id_tipoEstablecimiento = tipo.id_tipoEstablecimiento
 JOIN direccion d ON e.id_direccion = d.id_direccion
-WHERE d.barrio = " OR d.comuna = ";
+WHERE d.barrio = "Limonar" OR d.comuna = "Comuna 17";
 
 -- Buscar cliente por numero de identificación
 SELECT 
@@ -149,7 +149,7 @@ SELECT
     u.correo AS "Correo"
 FROM cliente
 JOIN usuario u ON cliente.id_cliente = u.id_usuario
-WHERE u.numeroId = "";
+WHERE u.numeroId = "1097061525";
 
 -- Buscar domiciliarios activos
 SELECT 
@@ -224,6 +224,54 @@ FROM solicitud s
 JOIN estadosolicitud e ON s.id_estado = e.id_estado
 WHERE e.nombre = "Creada";
 
+-- Asignadas
+SELECT 
+    s.id_solicitud,
+    s.fechaCreacion,
+    s.horaCreacion,
+    s.descripcion,
+    s.montoTotal,
+    e.nombre
+FROM solicitud s
+JOIN estadosolicitud e ON s.id_estado = e.id_estado
+WHERE e.nombre = "Asignada";
+
+-- En curso
+SELECT 
+    s.id_solicitud,
+    s.fechaCreacion,
+    s.horaCreacion,
+    s.descripcion,
+    s.montoTotal,
+    e.nombre
+FROM solicitud s
+JOIN estadosolicitud e ON s.id_estado = e.id_estado
+WHERE e.nombre = "En curso";
+
+-- Finalizadas
+SELECT 
+    s.id_solicitud,
+    s.fechaCreacion,
+    s.horaCreacion,
+    s.descripcion,
+    s.montoTotal,
+    e.nombre
+FROM solicitud s
+JOIN estadosolicitud e ON s.id_estado = e.id_estado
+WHERE e.nombre = "Finalizada";
+
+-- Canceladas
+SELECT 
+    s.id_solicitud,
+    s.fechaCreacion,
+    s.horaCreacion,
+    s.descripcion,
+    s.montoTotal,
+    e.nombre
+FROM solicitud s
+JOIN estadosolicitud e ON s.id_estado = e.id_estado
+WHERE e.nombre = "Cancelada";
+
 -- Buscar solicitudes realizadas por un cliente
 SELECT 
     s.id_solicitud,
@@ -236,7 +284,7 @@ SELECT
 FROM solicitud s
 JOIN cliente ON s.id_cliente = cliente.id_cliente
 JOIN usuario u ON cliente.id_cliente = u.id_usuario
-WHERE u.numeroId = ""; 
+WHERE u.numeroId = "1097061525"; 
 
 /*
     La consulta principal del sistema permite mostrar todas las solicitudes a detalle,
@@ -351,7 +399,7 @@ FROM solicitud s
 JOIN domiciliario dom ON s.id_domiciliario = dom.id_domiciliario
 JOIN usuario u ON dom.id_domiciliario = u.id_usuario
 JOIN estadosolicitud e ON s.id_estado = e.id_estado
-WHERE dom.codigo = '';
+WHERE dom.codigo = '101';
 
 -- Mostramos que domiciliarios activos no tienen solicitudes asignadas
 SELECT
@@ -375,7 +423,7 @@ SELECT
     i.fecha,
     i.hora
 FROM incidente i
-JOIN tipoincidente ti ON i.id_tipoIncidente = ti.id_tipoIncidente
+JOIN tipoincidente ti ON i.tipoIncidente = ti.id_tipoIncidente
 ORDER BY i.fecha DESC, i.hora DESC;
 
 -- Mostramos los incidentes de una solicitud específica
@@ -387,11 +435,11 @@ SELECT
     i.fecha,
     i.hora
 FROM incidente i
-JOIN tipoincidente ti ON i.id_tipoIncidente = ti.id_tipoIncidente
+JOIN tipoincidente ti ON i.tipoIncidente = ti.id_tipoIncidente
 WHERE i.id_solicitud = 1;
 
 -- Mostramos que solicitudes tuvieron incidentes
-SELECT DISTINCT
+SELECT
     s.id_solicitud AS "Numero de solicitud",
     s.fechaCreacion,
     s.descripcion,
@@ -399,19 +447,6 @@ SELECT DISTINCT
 FROM solicitud s
 JOIN incidente i ON s.id_solicitud = i.id_solicitud
 JOIN estadosolicitud e ON s.id_estado = e.id_estado;
-
--- Mostramos los incidentes ocurridos en un periodo de tiempo (usando fecha)
-SELECT
-    i.id_incidente,
-    i.id_solicitud AS "Numero de solicitud",
-    ti.nombre AS "Tipo de incidente",
-    i.descripcion,
-    i.fecha,
-    i.hora
-FROM incidente i
-JOIN tipoincidente ti ON i.id_tipoIncidente = ti.id_tipoIncidente
-WHERE i.fecha BETWEEN '2024-01-01' AND '2024-12-31'
-ORDER BY i.fecha, i.hora;
 
 -- Mostramos los establecimientos relacionados con incidentes
 SELECT DISTINCT
@@ -429,4 +464,4 @@ FROM incidente i
 JOIN solicitud s ON i.id_solicitud = s.id_solicitud
 JOIN establecimiento est
     ON s.id_establecimientoRecogida = est.id_establecimiento
-JOIN tipoincidente ti ON i.id_tipoIncidente = ti.id_tipoIncidente;
+JOIN tipoincidente ti ON i.tipoIncidente = ti.id_tipoIncidente;
