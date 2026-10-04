@@ -7,7 +7,7 @@
 
 CREATE TABLE usuario(
     id_usuario INT PRIMARY KEY,
-    numeroId INT UNIQUE,
+    numeroId TEXT UNIQUE,
     nombre_completo VARCHAR(255) NOT NULL,
     telefono VARCHAR(10) NOT NULL,
     correo VARCHAR(255) NOT NULL
@@ -46,7 +46,12 @@ CREATE TABLE cliente_direccion(
     Creamos las tablas de estado, metodoPago y medioDeTransporte para cumplir la tercera forma normal, que indica que no deben haber atributos que no dependan unicamente de la llave primaria. Lo mismo aplica para tipoEstablecimiento y tipoIncidente
 */
 
-CREATE TABLE estado(
+CREATE TABLE estadoSolicitud(
+    id_estado INT PRIMARY KEY,
+    nombre VARCHAR(100)
+);
+
+CREATE TABLE estadoDomiciliario(
     id_estado INT PRIMARY KEY,
     nombre VARCHAR(100)
 );
@@ -64,9 +69,11 @@ CREATE TABLE medioDeTransporte(
 CREATE TABLE domiciliario(
     id_domiciliario INT PRIMARY KEY,
     codigo INT UNIQUE,
-    id_transporte INT,
+    id_transporte INT NOT NULL,
+    id_estado INT NOT NULL,
     FOREIGN KEY (id_domiciliario) REFERENCES usuario(id_usuario),
-    FOREIGN KEY (id_transporte) REFERENCES medioDeTransporte(id_transporte)
+    FOREIGN KEY (id_transporte) REFERENCES medioDeTransporte(id_transporte),
+    FOREIGN KEY (id_estado) REFERENCES estadoDomiciliario(id_estado)
 );
 
 CREATE TABLE tipoEstablecimiento(
@@ -93,10 +100,10 @@ CREATE TABLE establecimiento(
 
 CREATE TABLE solicitud(
     id_solicitud INT PRIMARY KEY,
-    fechaCreacion DATE,
-    horaCreacion TIME,
+    fechaCreacion DATE NOT NULL,
+    horaCreacion TIME NOT NULL,
     descripcion TEXT,
-    montoTotal FLOAT,
+    montoTotal DECIMAL(10,2) NOT NULL,
     id_estado INT NOT NULL,
     id_metodoPago INT NOT NULL,
     id_cliente INT NOT NULL,
@@ -106,7 +113,7 @@ CREATE TABLE solicitud(
     id_direccionEntrega INT NOT NULL, --Usamos una direccion relacionada a un cliente
     id_establecimientoRecogida INT NULL, --Si se recoge en un establecimiento
     id_direccionRecogidaExterna INT NULL, --Si se recoge en un lugar externo
-    FOREIGN KEY (id_estado) REFERENCES estado(id_estado),
+    FOREIGN KEY (id_estado) REFERENCES estadoSolicitud(id_estado),
     FOREIGN KEY (id_metodoPago) REFERENCES metodoPago(id_metodoPago),
     FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
     FOREIGN KEY (id_domiciliario) REFERENCES domiciliario(id_domiciliario),
@@ -127,7 +134,7 @@ CREATE TABLE incidente(
     descripcion VARCHAR(100),
     fecha DATE NOT NULL,
     hora TIME NOT NULL,
-    id_solicitud INT,
+    id_solicitud INT NOT NULL,
     FOREIGN KEY (tipoIncidente) REFERENCES tipoIncidente(id_tipoIncidente),
     FOREIGN KEY (id_solicitud) REFERENCES solicitud(id_solicitud)
 );
