@@ -167,6 +167,7 @@ JOIN estadodomiciliario e ON dom.id_estado = e.id_estado
 WHERE e.id_estado = 1;
 
 -- Buscar domiciliarios por medio de transporte
+-- Encuentra los que van en bicicleta
 SELECT 
     dom.codigo,
     u.nombre_completo AS 'Nombre',
@@ -179,8 +180,37 @@ FROM domiciliario dom
 JOIN usuario u ON dom.id_domiciliario = u.id_usuario
 JOIN mediodetransporte medio ON dom.id_transporte = medio.id_transporte
 JOIN estadodomiciliario e ON dom.id_estado = e.id_estado
--- Encuentra los que van en bicicleta por ejemplo
-WHERE medio.id_transporte = 1; 
+WHERE medio.nombre = 'Bicicleta';
+
+-- Encuentra los que van en motocicleta
+SELECT 
+    dom.codigo,
+    u.nombre_completo AS 'Nombre',
+    u.numeroId AS 'Identificación',
+    u.telefono AS 'Telefono',
+    u.correo AS 'Correo',
+    medio.nombre AS 'Medio de transporte',
+    e.nombre AS 'Estado'
+FROM domiciliario dom
+JOIN usuario u ON dom.id_domiciliario = u.id_usuario
+JOIN mediodetransporte medio ON dom.id_transporte = medio.id_transporte
+JOIN estadodomiciliario e ON dom.id_estado = e.id_estado
+WHERE medio.nombre = 'Motocicleta';
+
+-- Encuentra los que van en carro
+SELECT 
+    dom.codigo,
+    u.nombre_completo AS 'Nombre',
+    u.numeroId AS 'Identificación',
+    u.telefono AS 'Telefono',
+    u.correo AS 'Correo',
+    medio.nombre AS 'Medio de transporte',
+    e.nombre AS 'Estado'
+FROM domiciliario dom
+JOIN usuario u ON dom.id_domiciliario = u.id_usuario
+JOIN mediodetransporte medio ON dom.id_transporte = medio.id_transporte
+JOIN estadodomiciliario e ON dom.id_estado = e.id_estado
+WHERE medio.nombre = 'Carro';
 
 -- Buscar solicitudes por estado
 SELECT 
@@ -213,7 +243,8 @@ WHERE u.numeroId = '';
     y relaciona Solicitud con cliente, usuario, direccion, establecimiento, domiciliario,
     estadoSolicitud, metodoPago
 */
-
+SELECT * 
+FROM solicitud
 
 -- Mostramos solicitudes que todavía no tienen domiciliario asignado (teniendo en cuenta la multiplicidad 0..* que tiene domiciliario)
 
