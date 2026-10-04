@@ -1,19 +1,17 @@
 -- Mostramos los establecimientos con sus respectivos tipo y direcciones
 SELECT 
-    codigo, 
-    nombre, 
-    telefono, 
-    email, 
+    e.codigo, 
+    e.nombre, 
+    e.telefono, 
+    e.email, 
     tipo.nombre AS 'Tipo establecimiento',
     d.ubicacion AS 'Ubicación',
     d.barrio AS 'Barrio',
     d.comuna AS 'Comuna',
     d.referencia AS 'Referencia'
 FROM establecimiento e
-JOIN tipoestablecimiento tipo
-ON e.id_tipoEstablecimiento = tipo.id_tipoEstablecimiento
-JOIN direccion d
-ON e.id_direccion = d.id_direccion;
+JOIN tipoestablecimiento tipo ON e.id_tipoEstablecimiento = tipo.id_tipoEstablecimiento
+JOIN direccion d ON e.id_direccion = d.id_direccion;
 
 -- Mostramos la información de todos los clientes relacionando cliente con usuario
 SELECT 
@@ -22,8 +20,7 @@ SELECT
     u.telefono AS 'Telefono',
     u.correo AS 'Correo'
 FROM cliente
-JOIN usuario u
-ON cliente.id_cliente = u.id_usuario;
+JOIN usuario u ON cliente.id_cliente = u.id_usuario;
 
 -- Mostramos todos los domiciliarios relacionando domiciliario con usuario, medioDeTransporte y estadoDomiciliario
 SELECT 
@@ -31,7 +28,7 @@ SELECT
     u.nombre_completo AS 'Nombre',
     u.numeroId AS 'Identificación',
     u.telefono AS 'Telefono',
-    u.correo AS 'Correo'
+    u.correo AS 'Correo',
     medio.nombre AS 'Medio de transporte',
     e.nombre AS 'Estado'
 FROM domiciliario dom
@@ -52,26 +49,164 @@ SELECT
     d.referencia AS 'Referencia'
 FROM cliente
 JOIN cliente_direccion cd ON cd.id_cliente = cliente.id_cliente
-JOIN direccion d ON cliente_direccion.id_direccion = d.id_direccion
+JOIN direccion d ON cd.id_direccion = d.id_direccion
 JOIN usuario u ON cliente.id_cliente = u.id_usuario;
 
 -- Mostramos la información de las tablas mas pequeñas (estadoSolicitud, estadoDomiciliario, metodoDePago, medioDeTransporte, tipoEstablecimiento, tipoIncidente)
+SELECT * FROM estadosolicitud;
+SELECT * FROM estadodomiciliario;
+SELECT * FROM metododepago;
+SELECT * FROM mediodetransporte;
+SELECT * FROM tipoestablecimiento;
+SELECT * FROM tipoincidente;
 
 -- Buscar establecimiento por tipo
+-- Restaurantes
+SELECT
+    e.codigo, 
+    e.nombre, 
+    e.telefono, 
+    e.email, 
+    tipo.nombre AS 'Tipo establecimiento',
+    d.ubicacion AS 'Ubicación',
+    d.barrio AS 'Barrio',
+    d.comuna AS 'Comuna',
+    d.referencia AS 'Referencia'
+FROM establecimiento e
+JOIN tipoestablecimiento tipo ON e.id_tipoEstablecimiento = tipo.id_tipoEstablecimiento
+JOIN direccion d ON e.id_direccion = d.id_direccion
+WHERE tipo.nombre = 'Restaurante';
+
+-- Farmacias
+SELECT
+    e.codigo,
+    e.nombre,
+    e.telefono,
+    e.email,
+    tipo.nombre AS 'Tipo establecimiento',
+    d.ubicacion AS 'Ubicación',
+    d.barrio AS 'Barrio',
+    d.comuna AS 'Comuna',
+    d.referencia AS 'Referencia'
+FROM establecimiento e
+JOIN tipoestablecimiento tipo ON e.id_tipoEstablecimiento = tipo.id_tipoEstablecimiento
+JOIN direccion d ON e.id_direccion = d.id_direccion
+WHERE tipo.nombre = 'Farmacia';
+
+-- Supermercados
+SELECT
+    e.codigo,
+    e.nombre,
+    e.telefono,
+    e.email,
+    tipo.nombre AS 'Tipo establecimiento',
+    d.ubicacion AS 'Ubicación',
+    d.barrio AS 'Barrio',
+    d.comuna AS 'Comuna',
+    d.referencia AS 'Referencia'
+FROM establecimiento e
+JOIN tipoestablecimiento tipo ON e.id_tipoEstablecimiento = tipo.id_tipoEstablecimiento
+JOIN direccion d ON e.id_direccion = d.id_direccion
+WHERE tipo.nombre = 'Supermercado';
+
+-- Tiendas especializadas
+SELECT
+    e.codigo,
+    e.nombre,
+    e.telefono,
+    e.email,
+    tipo.nombre AS 'Tipo establecimiento',
+    d.ubicacion AS 'Ubicación',
+    d.barrio AS 'Barrio',
+    d.comuna AS 'Comuna',
+    d.referencia AS 'Referencia'
+FROM establecimiento e
+JOIN tipoestablecimiento tipo ON e.id_tipoEstablecimiento = tipo.id_tipoEstablecimiento
+JOIN direccion d ON e.id_direccion = d.id_direccion
+WHERE tipo.nombre = 'Tienda especializada';
 
 -- Buscar establecimiento por barrio o comuna
+SELECT
+    e.codigo, 
+    e.nombre, 
+    e.telefono, 
+    e.email, 
+    tipo.nombre AS 'Tipo establecimiento',
+    d.ubicacion AS 'Ubicación',
+    d.barrio AS 'Barrio',
+    d.comuna AS 'Comuna',
+    d.referencia AS 'Referencia'
+FROM establecimiento e
+JOIN tipoestablecimiento tipo ON e.id_tipoEstablecimiento = tipo.id_tipoEstablecimiento
+JOIN direccion d ON e.id_direccion = d.id_direccion
+WHERE d.barrio = '' OR d.comuna = '';
 
 -- Buscar cliente por numero de identificación
+SELECT 
+    u.nombre_completo AS 'Nombre',
+    u.numeroId AS 'Identificación',
+    u.telefono AS 'Telefono',
+    u.correo AS 'Correo'
+FROM cliente
+JOIN usuario u ON cliente.id_cliente = u.id_usuario
+WHERE u.numeroId = '';
 
 -- Buscar domiciliarios activos
+SELECT 
+    dom.codigo,
+    u.nombre_completo AS 'Nombre',
+    u.numeroId AS 'Identificación',
+    u.telefono AS 'Telefono',
+    u.correo AS 'Correo',
+    medio.nombre AS 'Medio de transporte',
+    e.nombre AS 'Estado'
+FROM domiciliario dom
+JOIN usuario u ON dom.id_domiciliario = u.id_usuario
+JOIN mediodetransporte medio ON dom.id_transporte = medio.id_transporte
+JOIN estadodomiciliario e ON dom.id_estado = e.id_estado
+WHERE e.id_estado = 1;
 
 -- Buscar domiciliarios por medio de transporte
+SELECT 
+    dom.codigo,
+    u.nombre_completo AS 'Nombre',
+    u.numeroId AS 'Identificación',
+    u.telefono AS 'Telefono',
+    u.correo AS 'Correo',
+    medio.nombre AS 'Medio de transporte',
+    e.nombre AS 'Estado'
+FROM domiciliario dom
+JOIN usuario u ON dom.id_domiciliario = u.id_usuario
+JOIN mediodetransporte medio ON dom.id_transporte = medio.id_transporte
+JOIN estadodomiciliario e ON dom.id_estado = e.id_estado
+-- Encuentra los que van en bicicleta por ejemplo
+WHERE medio.id_transporte = 1; 
 
 -- Buscar solicitudes por estado
-
--- Buscar solicitudes por rango de fechas
+SELECT 
+    s.id_solicitud,
+    s.fechaCreacion,
+    s.horaCreacion,
+    s.descripcion,
+    s.montoTotal,
+    e.nombre
+FROM solicitud s
+JOIN estadosolicitud e ON s.id_estado = e.id_estado
+WHERE e.nombre = 'Creada';
 
 -- Buscar solicitudes realizadas por un cliente
+SELECT 
+    s.id_solicitud,
+    s.fechaCreacion,
+    s.horaCreacion,
+    s.descripcion,
+    s.montoTotal,
+    u.nombre_completo AS 'Nombre del cliente',
+    u.numeroId AS 'Identificación del cliente'
+FROM solicitud s
+JOIN cliente ON s.id_cliente = cliente.id_cliente
+JOIN usuario u ON cliente.id_cliente = u.id_usuario
+WHERE u.numeroId = ''; 
 
 /*
     La consulta principal del sistema permite mostrar todas las solicitudes a detalle,

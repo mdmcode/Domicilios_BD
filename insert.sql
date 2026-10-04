@@ -1,4 +1,4 @@
-INSERT INTO medioDeTransporte(id_trasporte, nombre)
+INSERT INTO medioDeTransporte(id_transporte, nombre)
 VALUES
     (1, 'Bicicleta'),
     (2, 'Motocicleta'),
@@ -16,13 +16,12 @@ VALUES
     (2, 'Asignada'),
     (3, 'En Curso'),
     (4, 'Finalizada'),
-    (5, 'Cancelada'),
-
+    (5, 'Cancelada');
 
 INSERT INTO estadodomiciliario(id_estado, nombre)
 VALUES
-    (6, 'Activo'),
-    (7, 'Inactivo');        
+    (1, 'Activo'),
+    (2, 'Inactivo');        
 
 INSERT INTO tipoEstablecimiento(id_tipoEstablecimiento, nombre)
 VALUES
