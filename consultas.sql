@@ -366,20 +366,6 @@ LEFT JOIN solicitud s ON dom.id_domiciliario = s.id_domiciliario
 WHERE ed.id_estado = 1
   AND s.id_solicitud IS NULL;
 
--- Consultamos las solicitudes sin asignación despues de cierto tiempo
-SELECT
-    s.id_solicitud AS "Numero de solicitud",
-    s.fechaCreacion,
-    s.horaCreacion,
-    s.descripcion,
-    s.montoTotal,
-    e.nombre AS "Estado"
-FROM solicitud s
-JOIN estadosolicitud e ON s.id_estado = e.id_estado
-WHERE s.id_domiciliario IS NULL
-  AND TIMESTAMP(s.fechaCreacion, s.horaCreacion) <= NOW() - INTERVAL 30 MINUTE;
-
-
 -- Mostramos todos los incidentes relacionados con solicitudes
 SELECT
     i.id_incidente,
