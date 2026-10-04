@@ -197,7 +197,7 @@ JOIN mediodetransporte medio ON dom.id_transporte = medio.id_transporte
 JOIN estadodomiciliario e ON dom.id_estado = e.id_estado
 WHERE medio.nombre = "Motocicleta";
 
--- Encuentra los que van en carro
+-- Encuentra los que van en automovil
 SELECT 
     dom.codigo,
     u.nombre_completo AS "Nombre",
@@ -210,7 +210,7 @@ FROM domiciliario dom
 JOIN usuario u ON dom.id_domiciliario = u.id_usuario
 JOIN mediodetransporte medio ON dom.id_transporte = medio.id_transporte
 JOIN estadodomiciliario e ON dom.id_estado = e.id_estado
-WHERE medio.nombre = "Carro";
+WHERE medio.nombre = "Automovil";
 
 -- Buscar solicitudes por estado
 SELECT 
