@@ -106,7 +106,7 @@ CREATE TABLE solicitud(
     id_estado INT NOT NULL,
     id_metodoPago INT NOT NULL,
     id_cliente INT NOT NULL,
-    id_domiciliario INT, -- Tiene multiplicidad 0..1 
+    id_domiciliario INT NULL, -- Tiene multiplicidad 0..1 
     fechaAsignacion DATE,
     horaAsignacion TIME,
     --Usamos una direccion relacionada a un cliente
