@@ -97,7 +97,6 @@ CREATE TABLE establecimiento(
     Se puede decir que solicitud es la tabla central del sistema de 
     gestión de domicilios
 */
-
 CREATE TABLE solicitud(
     id_solicitud INT PRIMARY KEY,
     fechaCreacion DATE NOT NULL,
@@ -107,7 +106,7 @@ CREATE TABLE solicitud(
     id_estado INT NOT NULL,
     id_metodoPago INT NOT NULL,
     id_cliente INT NOT NULL,
-    id_domiciliario INT, -- Tiene multiplicidad 0..*
+    id_domiciliario INT, -- Tiene multiplicidad 0..1 
     fechaAsignacion DATE,
     horaAsignacion TIME,
     --Usamos una direccion relacionada a un cliente
