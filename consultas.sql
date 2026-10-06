@@ -1,3 +1,4 @@
+-- Active: 1791130450384@@127.0.0.1@3306@domicilios
 /*
     ÍNDICE DE CONSULTAS
 
@@ -395,6 +396,7 @@ JOIN cliente_direccion cd
     ON s.id_cliente = cd.id_cliente
     AND s.id_direccionEntrega = cd.id_direccion
 JOIN direccion de ON cd.id_direccion = de.id_direccion
+/* Usamos LEFT JOIN para unir las tablas opcionales*/
 LEFT JOIN domiciliario dom ON s.id_domiciliario = dom.id_domiciliario
 LEFT JOIN usuario ud ON dom.id_domiciliario = ud.id_usuario
 LEFT JOIN mediodetransporte medio ON dom.id_transporte = medio.id_transporte
@@ -524,6 +526,7 @@ JOIN establecimiento est
 JOIN tipoincidente ti ON i.tipoIncidente = ti.id_tipoIncidente;
 
 /* ===== SUBCONSULTAS ===== */
+
 -- 1. Clientes que han realizado al menos una solicitud.
 -- La subconsulta devuelve los id_cliente que aparecen en solicitud.
 SELECT
