@@ -1,0 +1,53 @@
+@model IEnumerable<DomiciliosApp.Models.domiciliario>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.codigo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.id_domiciliarioNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.id_estadoNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.id_transporteNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.codigo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_domiciliarioNavigation.id_usuario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_estadoNavigation.id_estado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_transporteNavigation.id_transporte)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id_domiciliario">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.id_domiciliario">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.id_domiciliario">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

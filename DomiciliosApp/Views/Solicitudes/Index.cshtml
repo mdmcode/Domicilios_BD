@@ -1,0 +1,107 @@
+@model IEnumerable<DomiciliosApp.Models.solicitud>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.fechaCreacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.horaCreacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.montoTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fechaAsignacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.horaAsignacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.cliente_direccion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.id_clienteNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.id_direccionRecogidaExternaNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.id_domiciliarioNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.id_establecimientoRecogidaNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.id_estadoNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.id_metodoPagoNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.fechaCreacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.horaCreacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.montoTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fechaAsignacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.horaAsignacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.cliente_direccion.id_cliente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_clienteNavigation.id_cliente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_direccionRecogidaExternaNavigation.id_direccion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_domiciliarioNavigation.id_domiciliario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_establecimientoRecogidaNavigation.id_establecimiento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_estadoNavigation.id_estado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_metodoPagoNavigation.id_metodoPago)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id_solicitud">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.id_solicitud">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.id_solicitud">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

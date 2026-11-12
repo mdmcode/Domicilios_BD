@@ -1,0 +1,53 @@
+@model IEnumerable<DomiciliosApp.Models.direccion>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ubicacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.barrio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.comuna)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.referencia)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ubicacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.barrio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.comuna)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.referencia)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id_direccion">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.id_direccion">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.id_direccion">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
