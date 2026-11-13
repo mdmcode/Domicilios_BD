@@ -1,15 +1,19 @@
 @model IEnumerable<DomiciliosApp.Models.estadodomiciliario>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Listado";
 }
 
-<h1>Index</h1>
+<h1>Listado</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<div class="list-toolbar">
+    <div class="search-box">
+        <label for="busquedaTabla" class="visually-hidden">Buscar</label>
+        <input id="busquedaTabla" class="form-control" type="search" placeholder="Buscar en todos los campos..." autocomplete="off" />
+    </div>
+    <a class="btn btn-primary btn-crear" asp-action="Create"><span aria-hidden="true">+</span> Crear nuevo</a>
+</div>
+<table class="table table-hover align-middle searchable-table">
     <thead>
         <tr>
             <th>
@@ -25,11 +29,15 @@
                 @Html.DisplayFor(modelItem => item.nombre)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.id_estado">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id_estado">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id_estado">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.id_estado">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.id_estado">Detalles</a> |
+                <a asp-action="Delete" asp-route-id="@item.id_estado">Eliminar</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+
+
+
