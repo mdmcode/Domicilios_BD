@@ -21,10 +21,15 @@ namespace DomiciliosApp.Controllers
         // GET: Domiciliarios
         public async Task<IActionResult> Index()
         {
-            var domiciliosContext = _context.domiciliarios.Include(d => d.id_domiciliarioNavigation).Include(d => d.id_estadoNavigation).Include(d => d.id_transporteNavigation);
-            return View(await domiciliosContext.ToListAsync());
+            var domiciliarios = await _context.domiciliarios
+                .Include(d => d.id_domiciliarioNavigation)   // domiciliario -> usuario
+                .Include(d => d.id_estadoNavigation)         // estadodomiciliario
+                .Include(d => d.id_transporteNavigation)     // mediodetransporte
+                .AsNoTracking()
+                .ToListAsync();
+            return View(domiciliarios);
         }
-
+        
         // GET: Domiciliarios/Details/5
         public async Task<IActionResult> Details(int? id)
         {

@@ -21,8 +21,11 @@ namespace DomiciliosApp.Controllers
         // GET: Clientes
         public async Task<IActionResult> Index()
         {
-            var domiciliosContext = _context.clientes.Include(c => c.id_clienteNavigation);
-            return View(await domiciliosContext.ToListAsync());
+            var clientes = await _context.clientes
+                .Include(c => c.id_clienteNavigation)   // cliente -> usuario
+                .AsNoTracking()
+                .ToListAsync();
+            return View(clientes);
         }
 
         // GET: Clientes/Details/5

@@ -1,10 +1,10 @@
 @model IEnumerable<DomiciliosApp.Models.solicitud>
 
 @{
-    ViewData["Title"] = "Listado";
+    ViewData["Title"] = "Solicitudes";
 }
 
-<h1>Listado</h1>
+<h1>Solicitudes</h1>
 
 <div class="list-toolbar">
     <div class="search-box">
@@ -13,103 +13,54 @@
     </div>
     <a class="btn btn-primary btn-crear" asp-action="Create"><span aria-hidden="true">+</span> Crear nuevo</a>
 </div>
-<table class="table table-hover align-middle searchable-table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.fechaCreacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.horaCreacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.descripcion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.montoTotal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.fechaAsignacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.horaAsignacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.cliente_direccion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.id_clienteNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.id_direccionRecogidaExternaNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.id_domiciliarioNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.id_establecimientoRecogidaNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.id_estadoNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.id_metodoPagoNavigation)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.fechaCreacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.horaCreacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.montoTotal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.fechaAsignacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.horaAsignacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.cliente_direccion.id_cliente)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.id_clienteNavigation.id_cliente)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.id_direccionRecogidaExternaNavigation.id_direccion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.id_domiciliarioNavigation.id_domiciliario)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.id_establecimientoRecogidaNavigation.id_establecimiento)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.id_estadoNavigation.id_estado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.id_metodoPagoNavigation.id_metodoPago)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id_solicitud">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.id_solicitud">Detalles</a> |
-                <a asp-action="Delete" asp-route-id="@item.id_solicitud">Eliminar</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
 
-
-
-
+<div class="table-responsive">
+    <table class="table table-hover table-sm align-middle searchable-table" style="font-size: 0.875rem;">
+        <thead>
+            <tr>
+                <th>Creación</th>
+                <th>Descripción</th>
+                <th>Monto</th>
+                <th>Asignación</th>
+                <th>Cliente</th>
+                <th>Domiciliario</th>
+                <th>Estado</th>
+                <th>Pago</th>
+                <th>Recoger en</th>
+                <th>Dirección externa</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.fechaCreacion.ToString("dd/MM/yyyy") @item.horaCreacion.ToString("HH:mm")</td>
+                <td>@item.descripcion</td>
+                <td>@item.montoTotal.ToString("N0")</td>
+                <td>@(item.fechaAsignacion?.ToString("dd/MM/yyyy")) @(item.horaAsignacion?.ToString("HH:mm"))</td>
+                <td>@item.id_clienteNavigation?.id_clienteNavigation?.nombre_completo</td>
+                <td>
+                    @if (item.id_domiciliarioNavigation == null)
+                    {
+                        <span class="text-muted">Sin asignar</span>
+                    }
+                    else
+                    {
+                        @item.id_domiciliarioNavigation.id_domiciliarioNavigation?.nombre_completo
+                    }
+                </td>
+                <td>@item.id_estadoNavigation?.nombre</td>
+                <td>@item.id_metodoPagoNavigation?.nombre</td>
+                <td>@item.id_establecimientoRecogidaNavigation?.nombre</td>
+                <td>@item.id_direccionRecogidaExternaNavigation?.ubicacion</td>
+                <td class="text-nowrap">
+                    <a asp-action="Edit" asp-route-id="@item.id_solicitud">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.id_solicitud">Detalles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.id_solicitud">Eliminar</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

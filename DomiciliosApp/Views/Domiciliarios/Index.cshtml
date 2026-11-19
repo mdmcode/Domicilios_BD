@@ -1,10 +1,10 @@
 @model IEnumerable<DomiciliosApp.Models.domiciliario>
 
 @{
-    ViewData["Title"] = "Listado";
+    ViewData["Title"] = "Domiciliarios";
 }
 
-<h1>Listado</h1>
+<h1>Domiciliarios</h1>
 
 <div class="list-toolbar">
     <div class="search-box">
@@ -13,49 +13,39 @@
     </div>
     <a class="btn btn-primary btn-crear" asp-action="Create"><span aria-hidden="true">+</span> Crear nuevo</a>
 </div>
-<table class="table table-hover align-middle searchable-table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.codigo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.id_domiciliarioNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.id_estadoNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.id_transporteNavigation)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.codigo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.id_domiciliarioNavigation.id_usuario)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.id_estadoNavigation.id_estado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.id_transporteNavigation.id_transporte)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id_domiciliario">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.id_domiciliario">Detalles</a> |
-                <a asp-action="Delete" asp-route-id="@item.id_domiciliario">Eliminar</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
 
-
-
-
+<div class="table-responsive">
+    <table class="table table-hover table-sm align-middle searchable-table" style="font-size: 0.875rem;">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Documento</th>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+                <th>Correo</th>
+                <th>Estado</th>
+                <th>Transporte</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.codigo</td>
+                <td>@item.id_domiciliarioNavigation?.numeroId</td>
+                <td>@item.id_domiciliarioNavigation?.nombre_completo</td>
+                <td>@item.id_domiciliarioNavigation?.telefono</td>
+                <td>@item.id_domiciliarioNavigation?.correo</td>
+                <td>@item.id_estadoNavigation?.nombre</td>
+                <td>@item.id_transporteNavigation?.nombre</td>
+                <td class="text-nowrap">
+                    <a asp-action="Edit" asp-route-id="@item.id_domiciliario">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.id_domiciliario">Detalles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.id_domiciliario">Eliminar</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

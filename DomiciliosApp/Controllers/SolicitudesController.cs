@@ -21,8 +21,19 @@ namespace DomiciliosApp.Controllers
         // GET: Solicitudes
         public async Task<IActionResult> Index()
         {
-            var domiciliosContext = _context.solicituds.Include(s => s.cliente_direccion).Include(s => s.id_clienteNavigation).Include(s => s.id_direccionRecogidaExternaNavigation).Include(s => s.id_domiciliarioNavigation).Include(s => s.id_establecimientoRecogidaNavigation).Include(s => s.id_estadoNavigation).Include(s => s.id_metodoPagoNavigation);
-            return View(await domiciliosContext.ToListAsync());
+            var solicitudes = await _context.solicituds
+                .Include(s => s.id_clienteNavigation)
+                    .ThenInclude(c => c.id_clienteNavigation)             // cliente -> usuario
+                .Include(s => s.id_domiciliarioNavigation)
+                    .ThenInclude(d => d.id_domiciliarioNavigation)        // domiciliario -> usuario
+                .Include(s => s.id_estadoNavigation)
+                .Include(s => s.id_metodoPagoNavigation)
+                .Include(s => s.id_establecimientoRecogidaNavigation)
+                .Include(s => s.id_direccionRecogidaExternaNavigation)
+                .AsNoTracking()
+                .ToListAsync();
+
+            return View(solicitudes);
         }
 
         // GET: Solicitudes/Details/5

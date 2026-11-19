@@ -21,7 +21,12 @@ namespace DomiciliosApp.Controllers
         // GET: Usuarios
         public async Task<IActionResult> Index()
         {
-            return View(await _context.usuarios.ToListAsync());
+            var usuarios = await _context.usuarios
+                .Include(u => u.cliente)
+                .Include(u => u.domiciliario)
+                .AsNoTracking()
+                .ToListAsync();
+            return View(usuarios);
         }
 
         // GET: Usuarios/Details/5

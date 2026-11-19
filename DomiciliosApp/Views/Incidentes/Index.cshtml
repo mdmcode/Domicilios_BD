@@ -1,10 +1,10 @@
 @model IEnumerable<DomiciliosApp.Models.incidente>
 
 @{
-    ViewData["Title"] = "Listado";
+    ViewData["Title"] = "Incidentes";
 }
 
-<h1>Listado</h1>
+<h1>Incidentes</h1>
 
 <div class="list-toolbar">
     <div class="search-box">
@@ -13,55 +13,33 @@
     </div>
     <a class="btn btn-primary btn-crear" asp-action="Create"><span aria-hidden="true">+</span> Crear nuevo</a>
 </div>
-<table class="table table-hover align-middle searchable-table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.descripcion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.fecha)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.hora)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.id_solicitudNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.tipoIncidenteNavigation)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.fecha)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.hora)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.id_solicitudNavigation.id_solicitud)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.tipoIncidenteNavigation.id_tipoIncidente)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id_incidente">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.id_incidente">Detalles</a> |
-                <a asp-action="Delete" asp-route-id="@item.id_incidente">Eliminar</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
 
-
-
-
+<div class="table-responsive">
+    <table class="table table-hover table-sm align-middle searchable-table" style="font-size: 0.875rem;">
+        <thead>
+            <tr>
+                <th>Tipo de incidente</th>
+                <th>Descripción</th>
+                <th>Fecha y hora</th>
+                <th>Solicitud #</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.tipoIncidenteNavigation?.nombre</td>
+                <td>@item.descripcion</td>
+                <td>@item.fecha.ToString("dd/MM/yyyy") @item.hora.ToString("HH:mm")</td>
+                <td>@item.id_solicitudNavigation?.id_solicitud</td>
+                <td class="text-nowrap">
+                    <a asp-action="Edit" asp-route-id="@item.id_incidente">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.id_incidente">Detalles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.id_incidente">Eliminar</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
