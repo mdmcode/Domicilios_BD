@@ -1,10 +1,14 @@
 @model IEnumerable<DomiciliosApp.Models.cliente_direccion>
+@using DomiciliosApp.Models
+@inject DomiciliosContext Db
 
 @{
-    ViewData["Title"] = "Listado";
+    ViewData["Title"] = "Direcciones de clientes";
+    var clientes = Db.Clientes();
+    var direcciones = Db.Direcciones();
 }
 
-<h1>Listado</h1>
+<h1>Direcciones de clientes</h1>
 
 <div class="list-toolbar">
     <div class="search-box">
@@ -13,37 +17,28 @@
     </div>
     <a class="btn btn-primary btn-crear" asp-action="Create"><span aria-hidden="true">+</span> Crear nuevo</a>
 </div>
-<table class="table table-hover align-middle searchable-table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.id_clienteNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.id_direccionNavigation)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.id_clienteNavigation.id_cliente)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.id_direccionNavigation.id_direccion)
-            </td>
-            <td>
-                @Html.ActionLink("Editar", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Detalles", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Eliminar", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
 
-
-
-
+<div class="table-responsive">
+    <table class="table table-hover table-sm align-middle searchable-table" style="font-size: 0.875rem;">
+        <thead>
+            <tr>
+                <th>Cliente</th>
+                <th>Dirección</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@clientes.Texto(item.id_cliente)</td>
+                <td>@direcciones.Texto(item.id_direccion)</td>
+                <td class="text-nowrap">
+                    <a asp-action="Details" asp-route-id_cliente="@item.id_cliente" asp-route-id_direccion="@item.id_direccion">Detalles</a> |
+                    <a asp-action="Delete" asp-route-id_cliente="@item.id_cliente" asp-route-id_direccion="@item.id_direccion">Eliminar</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

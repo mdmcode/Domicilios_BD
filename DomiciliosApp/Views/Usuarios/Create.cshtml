@@ -1,55 +1,59 @@
-@model DomiciliosApp.Models.usuario
-
+@model DomiciliosApp.Models.UsuarioCrearVM
 @{
-    ViewData["Title"] = "Crear";
+    ViewData["Title"] = "Nuevo usuario";
+    var tipo = Model?.Tipo ?? "cliente";
 }
 
-<h1>Crear</h1>
-
-<h4>usuario</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="id_usuario" class="control-label"></label>
-                <input asp-for="id_usuario" class="form-control" />
-                <span asp-validation-for="id_usuario" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="numeroId" class="control-label"></label>
-                <input asp-for="numeroId" class="form-control" />
-                <span asp-validation-for="numeroId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="nombre_completo" class="control-label"></label>
-                <input asp-for="nombre_completo" class="form-control" />
-                <span asp-validation-for="nombre_completo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="telefono" class="control-label"></label>
-                <input asp-for="telefono" class="form-control" />
-                <span asp-validation-for="telefono" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="correo" class="control-label"></label>
-                <input asp-for="correo" class="form-control" />
-                <span asp-validation-for="correo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Crear" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="page-head">
+    <div>
+        <h1>Nuevo usuario</h1>
+        <p class="page-sub">Elija el tipo de usuario y complete sus datos. Si es domiciliario, también se piden sus datos de operación.</p>
     </div>
+    <a asp-action="Index" class="btn btn-outline-secondary">&larr; Volver al listado</a>
 </div>
 
-<div>
-    <a asp-action="Index">Volver al listado</a>
-</div>
+<form asp-action="Create" class="form-card">
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+    <div class="form-section">
+        <h2>Tipo de usuario</h2>
+        <div class="tipo-options">
+            <label class="tipo-option">
+                <input type="radio" name="Tipo" value="cliente" checked="@(tipo == "cliente")" />
+                <span><strong>Cliente</strong><small>Hace solicitudes de domicilio</small></span>
+            </label>
+            <label class="tipo-option">
+                <input type="radio" name="Tipo" value="domiciliario" checked="@(tipo == "domiciliario")" />
+                <span><strong>Domiciliario</strong><small>Entrega los pedidos</small></span>
+            </label>
+            <label class="tipo-option">
+                <input type="radio" name="Tipo" value="ambos" checked="@(tipo == "ambos")" />
+                <span><strong>Ambos</strong><small>Cliente y domiciliario</small></span>
+            </label>
+        </div>
+        <span asp-validation-for="Tipo" class="field-error"></span>
+    </div>
+
+    <div class="form-section">
+        <h2>Datos personales</h2>
+        <div class="form-grid">
+            <partial name="_UsuarioCampos" model="Model" />
+        </div>
+    </div>
+
+    <div class="form-section" data-show-for="domiciliario,ambos">
+        <h2>Datos de domiciliario</h2>
+        <div class="form-grid">
+            <partial name="_DomiciliarioCampos" model="Model" />
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <a asp-action="Index" class="btn btn-light">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+</form>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-
-

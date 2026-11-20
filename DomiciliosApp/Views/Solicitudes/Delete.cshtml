@@ -1,101 +1,111 @@
 @model DomiciliosApp.Models.solicitud
-
+@using DomiciliosApp.Models
+@using Microsoft.EntityFrameworkCore
+@inject DomiciliosContext Db
 @{
-    ViewData["Title"] = "Eliminar";
+    ViewData["Title"] = "Eliminar solicitud";
+    var estados = Db.Estados();
+    var metodos = Db.Metodos();
+    var clientes = Db.Clientes();
+    var domiciliarios = Db.Domiciliarios();
+    var establecimientos = Db.Establecimientos();
+    var direcciones = Db.Direcciones();
 }
 
-<h1>Eliminar</h1>
-
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>solicitud</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.fechaCreacion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.fechaCreacion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.horaCreacion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.horaCreacion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.descripcion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.descripcion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.montoTotal)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.montoTotal)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.fechaAsignacion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.fechaAsignacion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.horaAsignacion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.horaAsignacion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.cliente_direccion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.cliente_direccion.id_cliente)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.id_clienteNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.id_clienteNavigation.id_cliente)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.id_direccionRecogidaExternaNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.id_direccionRecogidaExternaNavigation.id_direccion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.id_domiciliarioNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.id_domiciliarioNavigation.id_domiciliario)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.id_establecimientoRecogidaNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.id_establecimientoRecogidaNavigation.id_establecimiento)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.id_estadoNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.id_estadoNavigation.id_estado)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.id_metodoPagoNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.id_metodoPagoNavigation.id_metodoPago)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="id_solicitud" />
-        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
-        <a asp-action="Index">Volver al listado</a>
-    </form>
+<div class="page-head">
+    <div>
+        <h1>Eliminar solicitud</h1>
+        <p class="page-sub">Revise la información antes de confirmar.</p>
+    </div>
 </div>
 
-
+<div class="detail-card danger">
+    <div class="danger-banner">
+        <span aria-hidden="true">&#9888;</span>
+        <div>
+            <strong>Esta acción no se puede deshacer.</strong>
+            Si el registro está relacionado con otros datos, es posible que no se pueda eliminar.
+        </div>
+    </div>
+    <div class="detail-section">
+        <h2>Datos generales</h2>
+        <div class="detail-grid">
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.id_solicitud)</span>
+                <span class="detail-value">@Model.id_solicitud</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.fechaCreacion)</span>
+                <span class="detail-value">@Model.fechaCreacion.Mostrar()</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.horaCreacion)</span>
+                <span class="detail-value">@Model.horaCreacion.Mostrar()</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.montoTotal)</span>
+                <span class="detail-value">@Model.montoTotal.Mostrar()</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.id_estado)</span>
+                <span class="detail-value">@estados.Texto(Model.id_estado)</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.id_metodoPago)</span>
+                <span class="detail-value">@metodos.Texto(Model.id_metodoPago)</span>
+            </div>
+            <div class="detail-item span-2">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.descripcion)</span>
+                <span class="detail-value pre">@Model.descripcion.Mostrar()</span>
+            </div>
+        </div>
+    </div>
+    <div class="detail-section">
+        <h2>Cliente y entrega</h2>
+        <div class="detail-grid">
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.id_cliente)</span>
+                <span class="detail-value">@clientes.Texto(Model.id_cliente)</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.id_direccionEntrega)</span>
+                <span class="detail-value">@direcciones.Texto(Model.id_direccionEntrega)</span>
+            </div>
+        </div>
+    </div>
+    <div class="detail-section">
+        <h2>Recogida</h2>
+        <div class="detail-grid">
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.id_establecimientoRecogida)</span>
+                <span class="detail-value">@establecimientos.Texto(Model.id_establecimientoRecogida)</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.id_direccionRecogidaExterna)</span>
+                <span class="detail-value">@direcciones.Texto(Model.id_direccionRecogidaExterna)</span>
+            </div>
+        </div>
+    </div>
+    <div class="detail-section">
+        <h2>Asignación</h2>
+        <div class="detail-grid">
+            <div class="detail-item span-2">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.id_domiciliario)</span>
+                <span class="detail-value">@domiciliarios.Texto(Model.id_domiciliario)</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.fechaAsignacion)</span>
+                <span class="detail-value">@Model.fechaAsignacion.Mostrar()</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.horaAsignacion)</span>
+                <span class="detail-value">@Model.horaAsignacion.Mostrar()</span>
+            </div>
+        </div>
+    </div>
+    <form asp-action="Delete" class="form-actions">
+        <input type="hidden" asp-for="id_solicitud" />
+        <a asp-action="Index" class="btn btn-light">Cancelar</a>
+        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    </form>
+</div>

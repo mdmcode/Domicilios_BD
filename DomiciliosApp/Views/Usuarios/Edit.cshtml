@@ -1,51 +1,57 @@
 @model DomiciliosApp.Models.usuario
-
+@using DomiciliosApp.Models
+@using Microsoft.EntityFrameworkCore
+@inject DomiciliosContext Db
 @{
-    ViewData["Title"] = "Editar";
+    ViewData["Title"] = "Editar usuario";
 }
 
-<h1>Editar</h1>
-
-<h4>usuario</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="id_usuario" />
-            <div class="form-group">
-                <label asp-for="numeroId" class="control-label"></label>
-                <input asp-for="numeroId" class="form-control" />
-                <span asp-validation-for="numeroId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="nombre_completo" class="control-label"></label>
-                <input asp-for="nombre_completo" class="form-control" />
-                <span asp-validation-for="nombre_completo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="telefono" class="control-label"></label>
-                <input asp-for="telefono" class="form-control" />
-                <span asp-validation-for="telefono" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="correo" class="control-label"></label>
-                <input asp-for="correo" class="form-control" />
-                <span asp-validation-for="correo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Guardar" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="page-head">
+    <div>
+        <h1>Editar usuario</h1>
+        <p class="page-sub">Usuario n.º @Model.id_usuario</p>
     </div>
+    <a asp-action="Index" class="btn btn-outline-secondary">&larr; Volver al listado</a>
 </div>
 
-<div>
-    <a asp-action="Index">Volver al listado</a>
-</div>
+<form asp-action="Edit" class="form-card">
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+    <input type="hidden" asp-for="id_usuario" />
+
+    <div class="form-section">
+        <h2>Datos personales</h2>
+        <div class="form-grid">
+            <div class="field">
+                <label asp-for="numeroId" class="form-label required"></label>
+                <input asp-for="numeroId" class="form-control" inputmode="numeric" autocomplete="off" data-only="digits" maxlength="20" />
+                <div class="field-hint">Solo números, sin puntos ni espacios.</div>
+                <span asp-validation-for="numeroId" class="field-error"></span>
+            </div>
+            <div class="field">
+                <label asp-for="nombre_completo" class="form-label required"></label>
+                <input asp-for="nombre_completo" class="form-control" autocomplete="off" maxlength="255" data-clean autocomplete="name" />
+                <span asp-validation-for="nombre_completo" class="field-error"></span>
+            </div>
+            <div class="field">
+                <label asp-for="telefono" class="form-label required"></label>
+                <input asp-for="telefono" class="form-control" type="tel" inputmode="tel" autocomplete="off" data-only="digits" placeholder="3001234567" maxlength="10" />
+                <div class="field-hint">Celular (10 dígitos) o fijo con indicativo.</div>
+                <span asp-validation-for="telefono" class="field-error"></span>
+            </div>
+            <div class="field">
+                <label asp-for="correo" class="form-label required"></label>
+                <input asp-for="correo" class="form-control" type="email" inputmode="email" autocomplete="off" placeholder="nombre@dominio.com" maxlength="255" />
+                <span asp-validation-for="correo" class="field-error"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <a asp-action="Index" class="btn btn-light">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+    </div>
+</form>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-
-

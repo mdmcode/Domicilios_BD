@@ -1,36 +1,40 @@
 @model DomiciliosApp.Models.tipoincidente
-
+@using DomiciliosApp.Models
+@using Microsoft.EntityFrameworkCore
+@inject DomiciliosContext Db
 @{
-    ViewData["Title"] = "Editar";
+    ViewData["Title"] = "Editar tipo de incidente";
 }
 
-<h1>Editar</h1>
-
-<h4>tipoincidente</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="id_tipoIncidente" />
-            <div class="form-group">
-                <label asp-for="nombre" class="control-label"></label>
-                <input asp-for="nombre" class="form-control" />
-                <span asp-validation-for="nombre" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Guardar" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="page-head">
+    <div>
+        <h1>Editar tipo de incidente</h1>
+        <p class="page-sub">Registro n.º @Model.id_tipoIncidente</p>
     </div>
+    <a asp-action="Index" class="btn btn-outline-secondary">&larr; Volver al listado</a>
 </div>
 
-<div>
-    <a asp-action="Index">Volver al listado</a>
-</div>
+<form asp-action="Edit" class="form-card">
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+    <input type="hidden" asp-for="id_tipoIncidente" />
+
+    <div class="form-section">
+        <h2>Información</h2>
+        <div class="form-grid">
+            <div class="field span-2">
+                <label asp-for="nombre" class="form-label required"></label>
+                <input asp-for="nombre" class="form-control" autocomplete="off" maxlength="100" data-clean />
+                <span asp-validation-for="nombre" class="field-error"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <a asp-action="Index" class="btn btn-light">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+    </div>
+</form>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-
-

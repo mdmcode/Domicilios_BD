@@ -1,40 +1,39 @@
 @model DomiciliosApp.Models.metodopago
-
+@using DomiciliosApp.Models
+@using Microsoft.EntityFrameworkCore
+@inject DomiciliosContext Db
 @{
-    ViewData["Title"] = "Crear";
+    ViewData["Title"] = "Nuevo método de pago";
 }
 
-<h1>Crear</h1>
-
-<h4>metodopago</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="id_metodoPago" class="control-label"></label>
-                <input asp-for="id_metodoPago" class="form-control" />
-                <span asp-validation-for="id_metodoPago" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="nombre" class="control-label"></label>
-                <input asp-for="nombre" class="form-control" />
-                <span asp-validation-for="nombre" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Crear" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="page-head">
+    <div>
+        <h1>Nuevo método de pago</h1>
+        <p class="page-sub">Escriba el nombre del método de pago que desea agregar al catálogo.</p>
     </div>
+    <a asp-action="Index" class="btn btn-outline-secondary">&larr; Volver al listado</a>
 </div>
 
-<div>
-    <a asp-action="Index">Volver al listado</a>
-</div>
+<form asp-action="Create" class="form-card">
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+    <div class="form-section">
+        <h2>Información</h2>
+        <div class="form-grid">
+            <div class="field span-2">
+                <label asp-for="nombre" class="form-label required"></label>
+                <input asp-for="nombre" class="form-control" autocomplete="off" maxlength="255" data-clean />
+                <span asp-validation-for="nombre" class="field-error"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <a asp-action="Index" class="btn btn-light">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+</form>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-
-

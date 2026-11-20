@@ -21,7 +21,17 @@ namespace DomiciliosApp.Controllers
         // GET: Direcciones
         public async Task<IActionResult> Index()
         {
-            return View(await _context.direccions.ToListAsync());
+            var direcciones = await _context.direccions
+                .Include(d => d.cliente_direccions)
+                    .ThenInclude(cd => cd.id_clienteNavigation)          // cliente
+                        .ThenInclude(c => c.id_clienteNavigation)        // usuario (nombre)
+                .Include(d => d.establecimientos)
+                .Include(d => d.solicituds)                              // solicitudes con recogida externa
+                .AsSplitQuery()
+                .AsNoTracking()
+                .ToListAsync();
+
+            return View(direcciones);
         }
 
         // GET: Direcciones/Details/5

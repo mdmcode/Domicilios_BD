@@ -1,14 +1,22 @@
 using DomiciliosApp.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<DomiciliosContext>(options =>
-    options.UseMySql(
-        builder.Configuration.GetConnectionString("DomiciliosDb"),
-        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DomiciliosDb"))));
+builder.Services.AddControllersWithViews(options =>
+{
+    // Mensajes de validación en español
+    var m = options.ModelBindingMessageProvider;
+    m.SetValueMustNotBeNullAccessor(_ => "Este campo es obligatorio.");
+    m.SetMissingBindRequiredValueAccessor(campo => $"Falta el valor de {campo}.");
+    m.SetAttemptedValueIsInvalidAccessor((valor, campo) => $"'{valor}' no es un valor válido para {campo}.");
+    m.SetUnknownValueIsInvalidAccessor(campo => $"El valor no es válido para {campo}.");
+    m.SetValueIsInvalidAccessor(valor => $"'{valor}' no es válido.");
+    m.SetValueMustBeANumberAccessor(campo => $"{campo} debe ser un número.");
+});
 
 var app = builder.Build();
 
@@ -21,6 +29,15 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+var cultura = CultureInfo.InvariantCulture;
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(cultura),
+    SupportedCultures = new[] { cultura },
+    SupportedUICultures = new[] { cultura }
+});
+
 app.UseRouting();
 
 app.UseAuthorization();

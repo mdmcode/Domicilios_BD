@@ -1,34 +1,33 @@
-@model DomiciliosApp.Models.cliente
-
+@model DomiciliosApp.Models.UsuarioCrearVM
 @{
-    ViewData["Title"] = "Crear";
+    ViewData["Title"] = "Nuevo cliente";
 }
 
-<h1>Crear</h1>
-
-<h4>cliente</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="id_cliente" class="control-label"></label>
-                <select asp-for="id_cliente" class ="form-control" asp-items="ViewBag.id_cliente"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Crear" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="page-head">
+    <div>
+        <h1>Nuevo cliente</h1>
+        <p class="page-sub">Se crea el usuario con sus datos personales y se registra como cliente.</p>
     </div>
+    <a asp-action="Index" class="btn btn-outline-secondary">&larr; Volver al listado</a>
 </div>
 
-<div>
-    <a asp-action="Index">Volver al listado</a>
-</div>
+<form asp-action="Create" class="form-card">
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+    <input type="hidden" name="Tipo" value="cliente" />
+
+    <div class="form-section">
+        <h2>Datos personales</h2>
+        <div class="form-grid">
+            <partial name="_UsuarioCampos" model="Model" />
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <a asp-action="Index" class="btn btn-light">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+</form>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-
-

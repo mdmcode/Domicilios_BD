@@ -81,6 +81,8 @@ namespace DomiciliosApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id_solicitud,fechaCreacion,horaCreacion,descripcion,montoTotal,id_estado,id_metodoPago,id_cliente,id_domiciliario,fechaAsignacion,horaAsignacion,id_direccionEntrega,id_establecimientoRecogida,id_direccionRecogidaExterna")] solicitud solicitud)
         {
+            await ValidarReglasAsync(solicitud);    // Create
+
             if (ModelState.IsValid)
             {
                 _context.Add(solicitud);
@@ -131,6 +133,8 @@ namespace DomiciliosApp.Controllers
             {
                 return NotFound();
             }
+
+            await ValidarReglasAsync(solicitud);   // Edit
 
             if (ModelState.IsValid)
             {
@@ -200,6 +204,16 @@ namespace DomiciliosApp.Controllers
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        private async Task ValidarReglasAsync(solicitud s)
+        {
+            // La dirección de entrega debe estar registrada para ese cliente (clave foránea compuesta)
+            var existe = await _context.cliente_direccions
+                .AnyAsync(cd => cd.id_cliente == s.id_cliente && cd.id_direccion == s.id_direccionEntrega);
+            if (!existe)
+                ModelState.AddModelError(nameof(s.id_direccionEntrega),
+                    "La dirección de entrega no está registrada para el cliente seleccionado.");
         }
 
         private bool solicitudExists(int id)

@@ -1,47 +1,64 @@
 @model DomiciliosApp.Models.usuario
-
+@using DomiciliosApp.Models
+@using Microsoft.EntityFrameworkCore
+@inject DomiciliosContext Db
 @{
-    ViewData["Title"] = "Eliminar";
+    ViewData["Title"] = "Eliminar usuario";
+    var esCliente = Db.clientes.Any(c => c.id_cliente == Model.id_usuario);
+    var esDomiciliario = Db.domiciliarios.Any(d => d.id_domiciliario == Model.id_usuario);
+    var tipos = new List<string>();
+    if (esCliente) tipos.Add("Cliente");
+    if (esDomiciliario) tipos.Add("Domiciliario");
+    var tipo = tipos.Any() ? string.Join(" / ", tipos) : "Sin tipo";
 }
 
-<h1>Eliminar</h1>
-
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>usuario</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.numeroId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.numeroId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.nombre_completo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.nombre_completo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.telefono)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.telefono)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.correo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.correo)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="id_usuario" />
-        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
-        <a asp-action="Index">Volver al listado</a>
-    </form>
+<div class="page-head">
+    <div>
+        <h1>Eliminar usuario</h1>
+        <p class="page-sub">Revise la información antes de confirmar.</p>
+    </div>
 </div>
 
-
+<div class="detail-card danger">
+    <div class="danger-banner">
+        <span aria-hidden="true">&#9888;</span>
+        <div>
+            <strong>Esta acción no se puede deshacer.</strong>
+            Si el registro está relacionado con otros datos, es posible que no se pueda eliminar.
+        </div>
+    </div>
+    <div class="detail-section">
+        <h2>Datos personales</h2>
+        <div class="detail-grid">
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.id_usuario)</span>
+                <span class="detail-value">@Model.id_usuario</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.numeroId)</span>
+                <span class="detail-value">@Model.numeroId.Mostrar()</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.nombre_completo)</span>
+                <span class="detail-value">@Model.nombre_completo.Mostrar()</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.telefono)</span>
+                <span class="detail-value">@Model.telefono.Mostrar()</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.correo)</span>
+                <span class="detail-value">@Model.correo.Mostrar()</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Tipo de usuario</span>
+                <span class="detail-value">@tipo</span>
+            </div>
+        </div>
+    </div>
+    <form asp-action="Delete" class="form-actions">
+        <input type="hidden" asp-for="id_usuario" />
+        <a asp-action="Index" class="btn btn-light">Cancelar</a>
+        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    </form>
+</div>

@@ -86,7 +86,6 @@ public partial class DomiciliosContext : DbContext
 
             entity.ToTable("direccion");
 
-            entity.Property(e => e.id_direccion).ValueGeneratedNever();
             entity.Property(e => e.barrio).HasMaxLength(255);
             entity.Property(e => e.comuna).HasMaxLength(255);
             entity.Property(e => e.referencia).HasColumnType("text");
@@ -135,7 +134,6 @@ public partial class DomiciliosContext : DbContext
 
             entity.HasIndex(e => e.id_tipoEstablecimiento, "id_tipoEstablecimiento");
 
-            entity.Property(e => e.id_establecimiento).ValueGeneratedNever();
             entity.Property(e => e.email).HasMaxLength(100);
             entity.Property(e => e.nombre).HasMaxLength(100);
             entity.Property(e => e.telefono).HasMaxLength(100);
@@ -156,7 +154,6 @@ public partial class DomiciliosContext : DbContext
 
             entity.ToTable("estadodomiciliario");
 
-            entity.Property(e => e.id_estado).ValueGeneratedNever();
             entity.Property(e => e.nombre).HasMaxLength(100);
         });
 
@@ -166,7 +163,6 @@ public partial class DomiciliosContext : DbContext
 
             entity.ToTable("estadosolicitud");
 
-            entity.Property(e => e.id_estado).ValueGeneratedNever();
             entity.Property(e => e.nombre).HasMaxLength(100);
         });
 
@@ -180,7 +176,6 @@ public partial class DomiciliosContext : DbContext
 
             entity.HasIndex(e => e.tipoIncidente, "tipoIncidente");
 
-            entity.Property(e => e.id_incidente).ValueGeneratedNever();
             entity.Property(e => e.descripcion).HasMaxLength(100);
             entity.Property(e => e.hora).HasColumnType("time");
 
@@ -201,7 +196,6 @@ public partial class DomiciliosContext : DbContext
 
             entity.ToTable("mediodetransporte");
 
-            entity.Property(e => e.id_transporte).ValueGeneratedNever();
             entity.Property(e => e.nombre).HasMaxLength(255);
         });
 
@@ -211,7 +205,6 @@ public partial class DomiciliosContext : DbContext
 
             entity.ToTable("metodopago");
 
-            entity.Property(e => e.id_metodoPago).ValueGeneratedNever();
             entity.Property(e => e.nombre).HasMaxLength(255);
         });
 
@@ -233,7 +226,6 @@ public partial class DomiciliosContext : DbContext
 
             entity.HasIndex(e => e.id_metodoPago, "id_metodoPago");
 
-            entity.Property(e => e.id_solicitud).ValueGeneratedNever();
             entity.Property(e => e.descripcion).HasColumnType("text");
             entity.Property(e => e.horaAsignacion).HasColumnType("time");
             entity.Property(e => e.horaCreacion).HasColumnType("time");
@@ -278,7 +270,6 @@ public partial class DomiciliosContext : DbContext
 
             entity.ToTable("tipoestablecimiento");
 
-            entity.Property(e => e.id_tipoEstablecimiento).ValueGeneratedNever();
             entity.Property(e => e.nombre).HasMaxLength(255);
         });
 
@@ -288,7 +279,6 @@ public partial class DomiciliosContext : DbContext
 
             entity.ToTable("tipoincidente");
 
-            entity.Property(e => e.id_tipoIncidente).ValueGeneratedNever();
             entity.Property(e => e.nombre).HasMaxLength(100);
         });
 
@@ -300,7 +290,6 @@ public partial class DomiciliosContext : DbContext
 
             entity.HasIndex(e => e.numeroId, "numeroId").IsUnique();
 
-            entity.Property(e => e.id_usuario).ValueGeneratedNever();
             entity.Property(e => e.correo).HasMaxLength(255);
             entity.Property(e => e.nombre_completo).HasMaxLength(255);
             entity.Property(e => e.numeroId).HasMaxLength(20);

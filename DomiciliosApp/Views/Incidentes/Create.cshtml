@@ -1,58 +1,75 @@
 @model DomiciliosApp.Models.incidente
-
+@using DomiciliosApp.Models
+@using Microsoft.EntityFrameworkCore
+@inject DomiciliosContext Db
 @{
-    ViewData["Title"] = "Crear";
+    ViewData["Title"] = "Nuevo incidente";
+    var tipos = Db.TiposIncidente();
+    var solicitudes = Db.Solicitudes();
 }
 
-<h1>Crear</h1>
-
-<h4>incidente</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="id_incidente" class="control-label"></label>
-                <input asp-for="id_incidente" class="form-control" />
-                <span asp-validation-for="id_incidente" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="tipoIncidente" class="control-label"></label>
-                <select asp-for="tipoIncidente" class ="form-control" asp-items="ViewBag.tipoIncidente"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="descripcion" class="control-label"></label>
-                <input asp-for="descripcion" class="form-control" />
-                <span asp-validation-for="descripcion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="fecha" class="control-label"></label>
-                <input asp-for="fecha" class="form-control" />
-                <span asp-validation-for="fecha" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="hora" class="control-label"></label>
-                <input asp-for="hora" class="form-control" />
-                <span asp-validation-for="hora" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="id_solicitud" class="control-label"></label>
-                <select asp-for="id_solicitud" class ="form-control" asp-items="ViewBag.id_solicitud"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Crear" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="page-head">
+    <div>
+        <h1>Nuevo incidente</h1>
+        <p class="page-sub">Registre qué ocurrió y a qué solicitud pertenece.</p>
     </div>
+    <a asp-action="Index" class="btn btn-outline-secondary">&larr; Volver al listado</a>
 </div>
 
-<div>
-    <a asp-action="Index">Volver al listado</a>
-</div>
+<form asp-action="Create" class="form-card">
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+    <div class="form-section">
+        <h2>Clasificación</h2>
+        <div class="form-grid">
+            <div class="field">
+                <label asp-for="tipoIncidente" class="form-label required"></label>
+                <select asp-for="tipoIncidente" class="form-select" asp-items="tipos"><option value="">Seleccione…</option></select>
+                <span asp-validation-for="tipoIncidente" class="field-error"></span>
+            </div>
+            <div class="field">
+                <label asp-for="id_solicitud" class="form-label required"></label>
+                <select asp-for="id_solicitud" class="form-select searchable" asp-items="solicitudes"><option value="">Escriba para buscar una solicitud…</option></select>
+                <div class="field-hint">Busque por número, cliente o fecha.</div>
+                <span asp-validation-for="id_solicitud" class="field-error"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <h2>Cuándo ocurrió</h2>
+        <div class="form-grid">
+            <div class="field">
+                <label asp-for="fecha" class="form-label required"></label>
+                <input asp-for="fecha" class="form-control" type="date" data-default="today" data-max="today" />
+                <span asp-validation-for="fecha" class="field-error"></span>
+            </div>
+            <div class="field">
+                <label asp-for="hora" class="form-label required"></label>
+                <input asp-for="hora" class="form-control" type="time" data-default="now" />
+                <span asp-validation-for="hora" class="field-error"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <h2>Detalle</h2>
+        <div class="form-grid">
+            <div class="field span-2">
+                <label asp-for="descripcion" class="form-label required"></label>
+                <textarea asp-for="descripcion" class="form-control" rows="3" maxlength="100" data-clean></textarea>
+                <div class="field-hint">Máximo 100 caracteres.</div>
+                <span asp-validation-for="descripcion" class="field-error"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <a asp-action="Index" class="btn btn-light">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+</form>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-
-

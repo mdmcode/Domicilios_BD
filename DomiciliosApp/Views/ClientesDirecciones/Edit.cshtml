@@ -1,32 +1,37 @@
 @model DomiciliosApp.Models.cliente_direccion
-
+@using DomiciliosApp.Models
+@using Microsoft.EntityFrameworkCore
+@inject DomiciliosContext Db
 @{
-    ViewData["Title"] = "Editar";
+    ViewData["Title"] = "Editar dirección de cliente";
+    var clientes = Db.Clientes();
+    var direcciones = Db.Direcciones();
 }
 
-<h1>Editar</h1>
+<div class="page-head">
+    <div>
+        <h1>Editar dirección de cliente</h1>
+        <p class="page-sub">Esta relación no tiene campos editables.</p>
+    </div>
+    <a asp-action="Index" class="btn btn-outline-secondary">&larr; Volver al listado</a>
+</div>
 
-<h4>cliente_direccion</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="id_cliente" />
-            <input type="hidden" asp-for="id_direccion" />
-            <div class="form-group">
-                <input type="submit" value="Guardar" class="btn btn-primary" />
+<div class="form-card">
+    <div class="form-section">
+        <h2>Información</h2>
+        <div class="detail-grid">
+            <div class="detail-item span-2">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.id_cliente)</span>
+                <span class="detail-value">@clientes.Texto(Model.id_cliente)</span>
             </div>
-        </form>
+            <div class="detail-item span-2">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.id_direccion)</span>
+                <span class="detail-value">@direcciones.Texto(Model.id_direccion)</span>
+            </div>
+        </div>
+        <div class="info-note mt-3">Esta relación solo contiene cliente y dirección, que forman su identificador, por eso no se edita. Si necesita cambiarla, elimínela y cree una nueva.</div>
+    </div>
+    <div class="form-actions">
+        <a asp-action="Index" class="btn btn-primary">Volver al listado</a>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Volver al listado</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
-
-

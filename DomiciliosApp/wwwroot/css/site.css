@@ -100,6 +100,8 @@ body {
 .card-establecimientos .dashboard-icon { background-color: #7b43c6; }
 .card-incidentes .dashboard-icon { background-color: #d34b5b; }
 .card-usuarios .dashboard-icon { background-color: #526170; }
+.card-direcciones .dashboard-icon { background-color: #025d62; }
+.card-direcciones {width: 100%; }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
   color: var(--bs-secondary-color);
