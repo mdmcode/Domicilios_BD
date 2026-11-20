@@ -1,0 +1,74 @@
+@model DomiciliosApp.Models.establecimiento
+@using DomiciliosApp.Models
+@using Microsoft.EntityFrameworkCore
+@inject DomiciliosContext Db
+@{
+    ViewData["Title"] = "Nuevo establecimiento";
+    var tiposEst = Db.TiposEstablecimiento();
+    var direcciones = Db.Direcciones();
+}
+
+<div class="page-head">
+    <div>
+        <h1>Nuevo establecimiento</h1>
+        <p class="page-sub">Registre los datos del establecimiento y su ubicación.</p>
+    </div>
+    <a asp-action="Index" class="btn btn-outline-secondary">&larr; Volver al listado</a>
+</div>
+
+<form asp-action="Create" class="form-card">
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+    <div class="form-section">
+        <h2>Datos generales</h2>
+        <div class="form-grid">
+            <div class="field">
+                <label asp-for="codigo" class="form-label required"></label>
+                <input asp-for="codigo" class="form-control" type="number" min="1" step="1" inputmode="numeric" />
+                <span asp-validation-for="codigo" class="field-error"></span>
+            </div>
+            <div class="field">
+                <label asp-for="nombre" class="form-label required"></label>
+                <input asp-for="nombre" class="form-control" autocomplete="off" maxlength="100" data-clean />
+                <span asp-validation-for="nombre" class="field-error"></span>
+            </div>
+            <div class="field">
+                <label asp-for="id_tipoEstablecimiento" class="form-label required"></label>
+                <select asp-for="id_tipoEstablecimiento" class="form-select" asp-items="tiposEst"><option value="">Seleccione…</option></select>
+                <span asp-validation-for="id_tipoEstablecimiento" class="field-error"></span>
+            </div>
+            <div class="field">
+                <label asp-for="id_direccion" class="form-label required"></label>
+                <select asp-for="id_direccion" class="form-select" asp-items="direcciones"><option value="">Seleccione…</option></select>
+                <span asp-validation-for="id_direccion" class="field-error"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <h2>Contacto</h2>
+        <div class="form-grid">
+            <div class="field">
+                <label asp-for="telefono" class="form-label"></label>
+                <input asp-for="telefono" class="form-control" type="tel" inputmode="tel" autocomplete="off" data-only="digits" placeholder="3001234567" maxlength="10" />
+                <div class="field-hint">Opcional. Celular o fijo con indicativo.</div>
+                <span asp-validation-for="telefono" class="field-error"></span>
+            </div>
+            <div class="field">
+                <label asp-for="email" class="form-label"></label>
+                <input asp-for="email" class="form-control" type="email" inputmode="email" autocomplete="off" placeholder="nombre@dominio.com" maxlength="100" />
+                <div class="field-hint">Opcional.</div>
+                <span asp-validation-for="email" class="field-error"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <a asp-action="Index" class="btn btn-light">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

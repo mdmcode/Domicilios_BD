@@ -1,0 +1,56 @@
+@model DomiciliosApp.Models.usuario
+@using DomiciliosApp.Models
+@using Microsoft.EntityFrameworkCore
+@inject DomiciliosContext Db
+@{
+    ViewData["Title"] = "Detalle de el usuario";
+    var esCliente = Db.clientes.Any(c => c.id_cliente == Model.id_usuario);
+    var esDomiciliario = Db.domiciliarios.Any(d => d.id_domiciliario == Model.id_usuario);
+    var tipos = new List<string>();
+    if (esCliente) tipos.Add("Cliente");
+    if (esDomiciliario) tipos.Add("Domiciliario");
+    var tipo = tipos.Any() ? string.Join(" / ", tipos) : "Sin tipo";
+}
+
+<div class="page-head">
+    <div>
+        <h1>Detalle de el usuario</h1>
+        <p class="page-sub">Usuario n.º @Model.id_usuario</p>
+    </div>
+    <div class="head-actions">
+        <a asp-action="Edit" asp-route-id="@Model.id_usuario" class="btn btn-primary">Editar</a>
+        <a asp-action="Index" class="btn btn-outline-secondary">&larr; Volver al listado</a>
+    </div>
+</div>
+
+<div class="detail-card">
+    <div class="detail-section">
+        <h2>Datos personales</h2>
+        <div class="detail-grid">
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.id_usuario)</span>
+                <span class="detail-value">@Model.id_usuario</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.numeroId)</span>
+                <span class="detail-value">@Model.numeroId.Mostrar()</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.nombre_completo)</span>
+                <span class="detail-value">@Model.nombre_completo.Mostrar()</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.telefono)</span>
+                <span class="detail-value">@Model.telefono.Mostrar()</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.correo)</span>
+                <span class="detail-value">@Model.correo.Mostrar()</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Tipo de usuario</span>
+                <span class="detail-value">@tipo</span>
+            </div>
+        </div>
+    </div>
+</div>

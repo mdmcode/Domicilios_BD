@@ -1,0 +1,86 @@
+@{
+    ViewData["Title"] = "Panel principal";
+}
+
+<section class="hero-panel mb-4">
+    <div>
+        <p class="eyebrow">GESTIÓN DE DOMICILIOS</p>
+        <h1 class="display-5 fw-bold">Panel principal</h1>
+        <p class="lead mb-0">Administra solicitudes, clientes, domiciliarios y establecimientos desde un solo lugar.</p>
+    </div>
+</section>
+
+<section>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h4 mb-0">Módulos del sistema</h2>
+        <span class="text-muted small">Accesos rápidos</span>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6 col-xl-4">
+            <a class="dashboard-card card-solicitudes" asp-controller="Solicitudes" asp-action="Index">
+                <span class="dashboard-icon">↗</span>
+                <span>
+                    <strong>Solicitudes</strong>
+                    <small>Consultar y gestionar domicilios</small>
+                </span>
+            </a>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <a class="dashboard-card card-clientes" asp-controller="Clientes" asp-action="Index">
+                <span class="dashboard-icon">◎</span>
+                <span>
+                    <strong>Clientes</strong>
+                    <small>Administrar clientes registrados</small>
+                </span>
+            </a>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <a class="dashboard-card card-domiciliarios" asp-controller="Domiciliarios" asp-action="Index">
+                <span class="dashboard-icon">⚑</span>
+                <span>
+                    <strong>Domiciliarios</strong>
+                    <small>Consultar repartidores y estados</small>
+                </span>
+            </a>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <a class="dashboard-card card-establecimientos" asp-controller="Establecimientos" asp-action="Index">
+                <span class="dashboard-icon">⌂</span>
+                <span>
+                    <strong>Establecimientos</strong>
+                    <small>Gestionar lugares de recogida</small>
+                </span>
+            </a>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <a class="dashboard-card card-incidentes" asp-controller="Incidentes" asp-action="Index">
+                <span class="dashboard-icon">!</span>
+                <span>
+                    <strong>Incidentes</strong>
+                    <small>Revisar novedades de solicitudes</small>
+                </span>
+            </a>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <a class="dashboard-card card-usuarios" asp-controller="Usuarios" asp-action="Index">
+                <span class="dashboard-icon">+</span>
+                <span>
+                    <strong>Usuarios</strong>
+                    <small>Administrar información personal</small>
+                </span>
+            </a>
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <a class="dashboard-card card-direcciones" asp-controller="Direcciones" asp-action="Index">
+                <span class="dashboard-icon">◈</span>
+                <span>
+                    <strong>Direcciones</strong>
+                    <small>Ver a quién pertenece cada dirección</small>
+                </span>
+            </a>
+        </div>
+    </div>
+</div>
+
+

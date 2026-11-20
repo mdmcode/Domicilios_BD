@@ -1,3 +1,5 @@
+USE domicilios;
+
 INSERT INTO medioDeTransporte(id_transporte, nombre)
 VALUES
     (1, 'Bicicleta'),

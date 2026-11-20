@@ -1,0 +1,65 @@
+@model DomiciliosApp.Models.domiciliario
+@using DomiciliosApp.Models
+@using Microsoft.EntityFrameworkCore
+@inject DomiciliosContext Db
+@{
+    ViewData["Title"] = "Editar domiciliario";
+    var usuarios = Db.Usuarios();
+    var transportes = Db.Transportes();
+    var estadosDom = Db.EstadosDomiciliario();
+}
+
+<div class="page-head">
+    <div>
+        <h1>Editar domiciliario</h1>
+        <p class="page-sub">Actualice el código, el transporte o el estado.</p>
+    </div>
+    <a asp-action="Index" class="btn btn-outline-secondary">&larr; Volver al listado</a>
+</div>
+
+<form asp-action="Edit" class="form-card">
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+    <input type="hidden" asp-for="id_domiciliario" />
+
+    <div class="form-section">
+        <h2>Usuario</h2>
+        <div class="form-grid">
+            <div class="field span-2">
+                <label class="form-label">Usuario</label>
+                <input class="form-control" value="@usuarios.Texto(Model.id_domiciliario)" disabled />
+                <div class="field-hint">Para cambiar nombre, teléfono o correo, <a asp-controller="Usuarios" asp-action="Edit" asp-route-id="@Model.id_domiciliario">edite el usuario</a>.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <h2>Datos de operación</h2>
+        <div class="form-grid">
+            <div class="field">
+                <label asp-for="codigo" class="form-label required"></label>
+                <input asp-for="codigo" class="form-control" type="number" min="1" step="1" inputmode="numeric" />
+                <div class="field-hint">Código interno único del domiciliario.</div>
+                <span asp-validation-for="codigo" class="field-error"></span>
+            </div>
+            <div class="field">
+                <label asp-for="id_transporte" class="form-label required"></label>
+                <select asp-for="id_transporte" class="form-select" asp-items="transportes"><option value="">Seleccione…</option></select>
+                <span asp-validation-for="id_transporte" class="field-error"></span>
+            </div>
+            <div class="field">
+                <label asp-for="id_estado" class="form-label required"></label>
+                <select asp-for="id_estado" class="form-select" asp-items="estadosDom"><option value="">Seleccione…</option></select>
+                <span asp-validation-for="id_estado" class="field-error"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <a asp-action="Index" class="btn btn-light">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

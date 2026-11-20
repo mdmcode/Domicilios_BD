@@ -1,0 +1,66 @@
+@model IEnumerable<DomiciliosApp.Models.solicitud>
+
+@{
+    ViewData["Title"] = "Solicitudes";
+}
+
+<h1>Solicitudes</h1>
+
+<div class="list-toolbar">
+    <div class="search-box">
+        <label for="busquedaTabla" class="visually-hidden">Buscar</label>
+        <input id="busquedaTabla" class="form-control" type="search" placeholder="Buscar en todos los campos..." autocomplete="off" />
+    </div>
+    <a class="btn btn-primary btn-crear" asp-action="Create"><span aria-hidden="true">+</span> Crear nuevo</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover table-sm align-middle searchable-table" style="font-size: 0.875rem;">
+        <thead>
+            <tr>
+                <th>Creación</th>
+                <th>Descripción</th>
+                <th>Monto</th>
+                <th>Asignación</th>
+                <th>Cliente</th>
+                <th>Domiciliario</th>
+                <th>Estado</th>
+                <th>Pago</th>
+                <th>Recoger en</th>
+                <th>Dirección externa</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.fechaCreacion.ToString("dd/MM/yyyy") @item.horaCreacion.ToString("HH:mm")</td>
+                <td>@item.descripcion</td>
+                <td>@item.montoTotal.ToString("N0")</td>
+                <td>@(item.fechaAsignacion?.ToString("dd/MM/yyyy")) @(item.horaAsignacion?.ToString("HH:mm"))</td>
+                <td>@item.id_clienteNavigation?.id_clienteNavigation?.nombre_completo</td>
+                <td>
+                    @if (item.id_domiciliarioNavigation == null)
+                    {
+                        <span class="text-muted">Sin asignar</span>
+                    }
+                    else
+                    {
+                        @item.id_domiciliarioNavigation.id_domiciliarioNavigation?.nombre_completo
+                    }
+                </td>
+                <td>@item.id_estadoNavigation?.nombre</td>
+                <td>@item.id_metodoPagoNavigation?.nombre</td>
+                <td>@item.id_establecimientoRecogidaNavigation?.nombre</td>
+                <td>@item.id_direccionRecogidaExternaNavigation?.ubicacion</td>
+                <td class="text-nowrap">
+                    <a asp-action="Edit" asp-route-id="@item.id_solicitud">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.id_solicitud">Detalles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.id_solicitud">Eliminar</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

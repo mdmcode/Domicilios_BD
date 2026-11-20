@@ -1,0 +1,23 @@
+@model DomiciliosApp.Models.UsuarioCrearVM
+<div class="field">
+    <label asp-for="Usuario.numeroId" class="form-label required"></label>
+    <input asp-for="Usuario.numeroId" class="form-control" inputmode="numeric" autocomplete="off" data-only="digits" maxlength="20" />
+    <div class="field-hint">Solo números, sin puntos ni espacios.</div>
+    <span asp-validation-for="Usuario.numeroId" class="field-error"></span>
+</div>
+<div class="field">
+    <label asp-for="Usuario.nombre_completo" class="form-label required"></label>
+    <input asp-for="Usuario.nombre_completo" class="form-control" autocomplete="name" maxlength="255" data-clean />
+    <span asp-validation-for="Usuario.nombre_completo" class="field-error"></span>
+</div>
+<div class="field">
+    <label asp-for="Usuario.telefono" class="form-label required"></label>
+    <input asp-for="Usuario.telefono" class="form-control" type="tel" inputmode="tel" autocomplete="off" data-only="digits" maxlength="10" placeholder="3001234567" />
+    <div class="field-hint">Celular (10 dígitos) o fijo con indicativo.</div>
+    <span asp-validation-for="Usuario.telefono" class="field-error"></span>
+</div>
+<div class="field">
+    <label asp-for="Usuario.correo" class="form-label required"></label>
+    <input asp-for="Usuario.correo" class="form-control" type="email" inputmode="email" autocomplete="off" maxlength="255" placeholder="nombre@dominio.com" />
+    <span asp-validation-for="Usuario.correo" class="field-error"></span>
+</div>

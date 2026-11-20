@@ -1,0 +1,32 @@
+@model DomiciliosApp.Models.cliente
+@using DomiciliosApp.Models
+@using Microsoft.EntityFrameworkCore
+@inject DomiciliosContext Db
+@{
+    ViewData["Title"] = "Editar cliente";
+    var usuarios = Db.Usuarios();
+}
+
+<div class="page-head">
+    <div>
+        <h1>Editar cliente</h1>
+        <p class="page-sub">Los datos personales se editan desde Usuarios.</p>
+    </div>
+    <a asp-action="Index" class="btn btn-outline-secondary">&larr; Volver al listado</a>
+</div>
+
+<div class="form-card">
+    <div class="form-section">
+        <h2>Información</h2>
+        <div class="detail-grid">
+            <div class="detail-item span-2">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.id_cliente)</span>
+                <span class="detail-value">@usuarios.Texto(Model.id_cliente)</span>
+            </div>
+        </div>
+        <div class="info-note mt-3">Un cliente no tiene datos propios: toda su información está en el usuario. Para cambiar nombre, teléfono o correo, <a asp-controller="Usuarios" asp-action="Edit" asp-route-id="@Model.id_cliente">edite el usuario</a>.</div>
+    </div>
+    <div class="form-actions">
+        <a asp-action="Index" class="btn btn-primary">Volver al listado</a>
+    </div>
+</div>

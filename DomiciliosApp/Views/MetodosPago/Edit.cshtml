@@ -1,0 +1,40 @@
+@model DomiciliosApp.Models.metodopago
+@using DomiciliosApp.Models
+@using Microsoft.EntityFrameworkCore
+@inject DomiciliosContext Db
+@{
+    ViewData["Title"] = "Editar método de pago";
+}
+
+<div class="page-head">
+    <div>
+        <h1>Editar método de pago</h1>
+        <p class="page-sub">Registro n.º @Model.id_metodoPago</p>
+    </div>
+    <a asp-action="Index" class="btn btn-outline-secondary">&larr; Volver al listado</a>
+</div>
+
+<form asp-action="Edit" class="form-card">
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+    <input type="hidden" asp-for="id_metodoPago" />
+
+    <div class="form-section">
+        <h2>Información</h2>
+        <div class="form-grid">
+            <div class="field span-2">
+                <label asp-for="nombre" class="form-label required"></label>
+                <input asp-for="nombre" class="form-control" autocomplete="off" maxlength="255" data-clean />
+                <span asp-validation-for="nombre" class="field-error"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <a asp-action="Index" class="btn btn-light">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

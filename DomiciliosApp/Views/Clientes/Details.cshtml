@@ -1,0 +1,43 @@
+@model DomiciliosApp.Models.cliente
+@using DomiciliosApp.Models
+@using Microsoft.EntityFrameworkCore
+@inject DomiciliosContext Db
+@{
+    ViewData["Title"] = "Detalle de el cliente";
+    var u = Db.usuarios.AsNoTracking().FirstOrDefault(x => x.id_usuario == Model.id_cliente);
+}
+
+<div class="page-head">
+    <div>
+        <h1>Detalle de el cliente</h1>
+        <p class="page-sub">Cliente n.º @Model.id_cliente</p>
+    </div>
+    <div class="head-actions">
+        <a asp-action="Edit" asp-route-id="@Model.id_cliente" class="btn btn-primary">Editar</a>
+        <a asp-action="Index" class="btn btn-outline-secondary">&larr; Volver al listado</a>
+    </div>
+</div>
+
+<div class="detail-card">
+    <div class="detail-section">
+        <h2>Datos personales</h2>
+        <div class="detail-grid">
+            <div class="detail-item">
+                <span class="detail-label">Nombre completo</span>
+                <span class="detail-value">@((u?.nombre_completo).Mostrar())</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Documento de identidad</span>
+                <span class="detail-value">@((u?.numeroId).Mostrar())</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Teléfono</span>
+                <span class="detail-value">@((u?.telefono).Mostrar())</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Correo electrónico</span>
+                <span class="detail-value">@((u?.correo).Mostrar())</span>
+            </div>
+        </div>
+    </div>
+</div>

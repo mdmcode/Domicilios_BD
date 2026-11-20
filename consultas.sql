@@ -48,6 +48,8 @@
     34. Establecimientos con al menos una solicitud asociada.
 */
 
+USE domicilios;
+
 /* ===== CONSULTAS GENERALES ===== */
 
 -- Mostramos los establecimientos con sus respectivos tipo y direcciones

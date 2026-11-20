@@ -1,3 +1,7 @@
+DROP DATABASE IF EXISTS domicilios;
+CREATE DATABASE domicilios;
+USE domicilios;
+
 /*
     La tabla usuario se puede interpretar como una tabla padre
     de domiciliario y cliente, asi evitamos repetir los atributos

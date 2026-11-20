@@ -1,0 +1,70 @@
+@model DomiciliosApp.Models.incidente
+@using DomiciliosApp.Models
+@using Microsoft.EntityFrameworkCore
+@inject DomiciliosContext Db
+@{
+    ViewData["Title"] = "Eliminar incidente";
+    var tipos = Db.TiposIncidente();
+    var solicitudes = Db.Solicitudes();
+}
+
+<div class="page-head">
+    <div>
+        <h1>Eliminar incidente</h1>
+        <p class="page-sub">Revise la información antes de confirmar.</p>
+    </div>
+</div>
+
+<div class="detail-card danger">
+    <div class="danger-banner">
+        <span aria-hidden="true">&#9888;</span>
+        <div>
+            <strong>Esta acción no se puede deshacer.</strong>
+            Si el registro está relacionado con otros datos, es posible que no se pueda eliminar.
+        </div>
+    </div>
+    <div class="detail-section">
+        <h2>Clasificación</h2>
+        <div class="detail-grid">
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.id_incidente)</span>
+                <span class="detail-value">@Model.id_incidente</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.tipoIncidente)</span>
+                <span class="detail-value">@tipos.Texto(Model.tipoIncidente)</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.id_solicitud)</span>
+                <span class="detail-value">@solicitudes.Texto(Model.id_solicitud)</span>
+            </div>
+        </div>
+    </div>
+    <div class="detail-section">
+        <h2>Cuándo ocurrió</h2>
+        <div class="detail-grid">
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.fecha)</span>
+                <span class="detail-value">@Model.fecha.Mostrar()</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.hora)</span>
+                <span class="detail-value">@Model.hora.Mostrar()</span>
+            </div>
+        </div>
+    </div>
+    <div class="detail-section">
+        <h2>Detalle</h2>
+        <div class="detail-grid">
+            <div class="detail-item span-2">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.descripcion)</span>
+                <span class="detail-value pre">@Model.descripcion.Mostrar()</span>
+            </div>
+        </div>
+    </div>
+    <form asp-action="Delete" class="form-actions">
+        <input type="hidden" asp-for="id_incidente" />
+        <a asp-action="Index" class="btn btn-light">Cancelar</a>
+        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    </form>
+</div>

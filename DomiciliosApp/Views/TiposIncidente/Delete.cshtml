@@ -1,0 +1,42 @@
+@model DomiciliosApp.Models.tipoincidente
+@using DomiciliosApp.Models
+@using Microsoft.EntityFrameworkCore
+@inject DomiciliosContext Db
+@{
+    ViewData["Title"] = "Eliminar tipo de incidente";
+}
+
+<div class="page-head">
+    <div>
+        <h1>Eliminar tipo de incidente</h1>
+        <p class="page-sub">Revise la información antes de confirmar.</p>
+    </div>
+</div>
+
+<div class="detail-card danger">
+    <div class="danger-banner">
+        <span aria-hidden="true">&#9888;</span>
+        <div>
+            <strong>Esta acción no se puede deshacer.</strong>
+            Si el registro está relacionado con otros datos, es posible que no se pueda eliminar.
+        </div>
+    </div>
+    <div class="detail-section">
+        <h2>Información</h2>
+        <div class="detail-grid">
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.id_tipoIncidente)</span>
+                <span class="detail-value">@Model.id_tipoIncidente</span>
+            </div>
+            <div class="detail-item span-2">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.nombre)</span>
+                <span class="detail-value">@Model.nombre.Mostrar()</span>
+            </div>
+        </div>
+    </div>
+    <form asp-action="Delete" class="form-actions">
+        <input type="hidden" asp-for="id_tipoIncidente" />
+        <a asp-action="Index" class="btn btn-light">Cancelar</a>
+        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    </form>
+</div>

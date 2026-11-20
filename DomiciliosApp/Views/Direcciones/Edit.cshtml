@@ -1,0 +1,57 @@
+@model DomiciliosApp.Models.direccion
+@using DomiciliosApp.Models
+@using Microsoft.EntityFrameworkCore
+@inject DomiciliosContext Db
+@{
+    ViewData["Title"] = "Editar dirección";
+}
+
+<div class="page-head">
+    <div>
+        <h1>Editar dirección</h1>
+        <p class="page-sub">Dirección n.º @Model.id_direccion</p>
+    </div>
+    <a asp-action="Index" class="btn btn-outline-secondary">&larr; Volver al listado</a>
+</div>
+
+<form asp-action="Edit" class="form-card">
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+    <input type="hidden" asp-for="id_direccion" />
+
+    <div class="form-section">
+        <h2>Ubicación</h2>
+        <div class="form-grid">
+            <div class="field span-2">
+                <label asp-for="ubicacion" class="form-label required"></label>
+                <input asp-for="ubicacion" class="form-control" autocomplete="off" maxlength="500" data-clean />
+                <div class="field-hint">Ej.: Cra 5 # 12-34, Apto 301</div>
+                <span asp-validation-for="ubicacion" class="field-error"></span>
+            </div>
+            <div class="field">
+                <label asp-for="barrio" class="form-label"></label>
+                <input asp-for="barrio" class="form-control" autocomplete="off" maxlength="255" data-clean />
+                <span asp-validation-for="barrio" class="field-error"></span>
+            </div>
+            <div class="field">
+                <label asp-for="comuna" class="form-label"></label>
+                <input asp-for="comuna" class="form-control" autocomplete="off" maxlength="255" data-clean />
+                <span asp-validation-for="comuna" class="field-error"></span>
+            </div>
+            <div class="field span-2">
+                <label asp-for="referencia" class="form-label"></label>
+                <textarea asp-for="referencia" class="form-control" rows="3" maxlength="500" data-clean></textarea>
+                <div class="field-hint">Punto de referencia para ubicar el lugar (opcional).</div>
+                <span asp-validation-for="referencia" class="field-error"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <a asp-action="Index" class="btn btn-light">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

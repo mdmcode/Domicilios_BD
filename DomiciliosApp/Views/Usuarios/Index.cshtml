@@ -1,0 +1,52 @@
+@model IEnumerable<DomiciliosApp.Models.usuario>
+
+@{
+    ViewData["Title"] = "Usuarios";
+}
+
+<h1>Usuarios</h1>
+
+<div class="list-toolbar">
+    <div class="search-box">
+        <label for="busquedaTabla" class="visually-hidden">Buscar</label>
+        <input id="busquedaTabla" class="form-control" type="search" placeholder="Buscar en todos los campos..." autocomplete="off" />
+    </div>
+    <a class="btn btn-primary btn-crear" asp-action="Create"><span aria-hidden="true">+</span> Crear nuevo</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover table-sm align-middle searchable-table" style="font-size: 0.875rem;">
+        <thead>
+            <tr>
+                <th>Documento</th>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+                <th>Correo</th>
+                <th>Tipo de usuario</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            var tipos = new List<string>();
+            if (item.cliente != null) tipos.Add("Cliente");
+            if (item.domiciliario != null) tipos.Add("Domiciliario");
+            var tipo = tipos.Any() ? string.Join(" / ", tipos) : "Sin tipo";
+
+            <tr>
+                <td>@item.numeroId</td>
+                <td>@item.nombre_completo</td>
+                <td>@item.telefono</td>
+                <td>@item.correo</td>
+                <td>@tipo</td>
+                <td class="text-nowrap">
+                    <a asp-action="Edit" asp-route-id="@item.id_usuario">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.id_usuario">Detalles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.id_usuario">Eliminar</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

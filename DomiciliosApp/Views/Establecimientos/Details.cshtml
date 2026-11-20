@@ -1,0 +1,61 @@
+@model DomiciliosApp.Models.establecimiento
+@using DomiciliosApp.Models
+@using Microsoft.EntityFrameworkCore
+@inject DomiciliosContext Db
+@{
+    ViewData["Title"] = "Detalle de el establecimiento";
+    var tiposEst = Db.TiposEstablecimiento();
+    var direcciones = Db.Direcciones();
+}
+
+<div class="page-head">
+    <div>
+        <h1>Detalle de el establecimiento</h1>
+        <p class="page-sub">Establecimiento n.º @Model.id_establecimiento</p>
+    </div>
+    <div class="head-actions">
+        <a asp-action="Edit" asp-route-id="@Model.id_establecimiento" class="btn btn-primary">Editar</a>
+        <a asp-action="Index" class="btn btn-outline-secondary">&larr; Volver al listado</a>
+    </div>
+</div>
+
+<div class="detail-card">
+    <div class="detail-section">
+        <h2>Datos generales</h2>
+        <div class="detail-grid">
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.id_establecimiento)</span>
+                <span class="detail-value">@Model.id_establecimiento</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.codigo)</span>
+                <span class="detail-value">@Model.codigo.Mostrar()</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.nombre)</span>
+                <span class="detail-value">@Model.nombre.Mostrar()</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.id_tipoEstablecimiento)</span>
+                <span class="detail-value">@tiposEst.Texto(Model.id_tipoEstablecimiento)</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.id_direccion)</span>
+                <span class="detail-value">@direcciones.Texto(Model.id_direccion)</span>
+            </div>
+        </div>
+    </div>
+    <div class="detail-section">
+        <h2>Contacto</h2>
+        <div class="detail-grid">
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.telefono)</span>
+                <span class="detail-value">@Model.telefono.Mostrar()</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.email)</span>
+                <span class="detail-value">@Model.email.Mostrar()</span>
+            </div>
+        </div>
+    </div>
+</div>

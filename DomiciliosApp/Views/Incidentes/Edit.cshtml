@@ -1,0 +1,76 @@
+@model DomiciliosApp.Models.incidente
+@using DomiciliosApp.Models
+@using Microsoft.EntityFrameworkCore
+@inject DomiciliosContext Db
+@{
+    ViewData["Title"] = "Editar incidente";
+    var tipos = Db.TiposIncidente();
+    var solicitudes = Db.Solicitudes();
+}
+
+<div class="page-head">
+    <div>
+        <h1>Editar incidente</h1>
+        <p class="page-sub">Incidente n.º @Model.id_incidente</p>
+    </div>
+    <a asp-action="Index" class="btn btn-outline-secondary">&larr; Volver al listado</a>
+</div>
+
+<form asp-action="Edit" class="form-card">
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+    <input type="hidden" asp-for="id_incidente" />
+
+    <div class="form-section">
+        <h2>Clasificación</h2>
+        <div class="form-grid">
+            <div class="field">
+                <label asp-for="tipoIncidente" class="form-label required"></label>
+                <select asp-for="tipoIncidente" class="form-select" asp-items="tipos"><option value="">Seleccione…</option></select>
+                <span asp-validation-for="tipoIncidente" class="field-error"></span>
+            </div>
+            <div class="field">
+                <label asp-for="id_solicitud" class="form-label required"></label>
+                <select asp-for="id_solicitud" class="form-select searchable" asp-items="solicitudes"><option value="">Escriba para buscar una solicitud…</option></select>
+                <div class="field-hint">Busque por número, cliente o fecha.</div>
+                <span asp-validation-for="id_solicitud" class="field-error"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <h2>Cuándo ocurrió</h2>
+        <div class="form-grid">
+            <div class="field">
+                <label asp-for="fecha" class="form-label required"></label>
+                <input asp-for="fecha" class="form-control" type="date" data-max="today" />
+                <span asp-validation-for="fecha" class="field-error"></span>
+            </div>
+            <div class="field">
+                <label asp-for="hora" class="form-label required"></label>
+                <input asp-for="hora" class="form-control" type="time" />
+                <span asp-validation-for="hora" class="field-error"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <h2>Detalle</h2>
+        <div class="form-grid">
+            <div class="field span-2">
+                <label asp-for="descripcion" class="form-label required"></label>
+                <textarea asp-for="descripcion" class="form-control" rows="3" maxlength="100" data-clean></textarea>
+                <div class="field-hint">Máximo 100 caracteres.</div>
+                <span asp-validation-for="descripcion" class="field-error"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <a asp-action="Index" class="btn btn-light">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,46 @@
+@model DomiciliosApp.Models.direccion
+@using DomiciliosApp.Models
+@using Microsoft.EntityFrameworkCore
+@inject DomiciliosContext Db
+@{
+    ViewData["Title"] = "Detalle de la dirección";
+}
+
+<div class="page-head">
+    <div>
+        <h1>Detalle de la dirección</h1>
+        <p class="page-sub">Dirección n.º @Model.id_direccion</p>
+    </div>
+    <div class="head-actions">
+        <a asp-action="Edit" asp-route-id="@Model.id_direccion" class="btn btn-primary">Editar</a>
+        <a asp-action="Index" class="btn btn-outline-secondary">&larr; Volver al listado</a>
+    </div>
+</div>
+
+<div class="detail-card">
+    <div class="detail-section">
+        <h2>Ubicación</h2>
+        <div class="detail-grid">
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.id_direccion)</span>
+                <span class="detail-value">@Model.id_direccion</span>
+            </div>
+            <div class="detail-item span-2">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.ubicacion)</span>
+                <span class="detail-value">@Model.ubicacion.Mostrar()</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.barrio)</span>
+                <span class="detail-value">@Model.barrio.Mostrar()</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.comuna)</span>
+                <span class="detail-value">@Model.comuna.Mostrar()</span>
+            </div>
+            <div class="detail-item span-2">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.referencia)</span>
+                <span class="detail-value pre">@Model.referencia.Mostrar()</span>
+            </div>
+        </div>
+    </div>
+</div>

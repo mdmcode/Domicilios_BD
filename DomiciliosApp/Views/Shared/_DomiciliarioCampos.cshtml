@@ -1,0 +1,23 @@
+@model DomiciliosApp.Models.UsuarioCrearVM
+@using DomiciliosApp.Models
+@inject DomiciliosContext Db
+@{
+    var transportes = Db.Transportes();
+    var estados = Db.EstadosDomiciliario();
+}
+<div class="field">
+    <label asp-for="Codigo" class="form-label required"></label>
+    <input asp-for="Codigo" class="form-control" type="number" min="1" max="999999" step="1" inputmode="numeric" data-req-when-shown />
+    <div class="field-hint">Código interno único del domiciliario.</div>
+    <span asp-validation-for="Codigo" class="field-error"></span>
+</div>
+<div class="field">
+    <label asp-for="IdTransporte" class="form-label required"></label>
+    <select asp-for="IdTransporte" class="form-select" asp-items="transportes" data-req-when-shown><option value="">Seleccione…</option></select>
+    <span asp-validation-for="IdTransporte" class="field-error"></span>
+</div>
+<div class="field">
+    <label asp-for="IdEstado" class="form-label required"></label>
+    <select asp-for="IdEstado" class="form-select" asp-items="estados" data-req-when-shown><option value="">Seleccione…</option></select>
+    <span asp-validation-for="IdEstado" class="field-error"></span>
+</div>

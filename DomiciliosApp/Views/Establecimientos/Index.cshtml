@@ -1,0 +1,49 @@
+@model IEnumerable<DomiciliosApp.Models.establecimiento>
+
+@{
+    ViewData["Title"] = "Establecimientos";
+}
+
+<h1>Establecimientos</h1>
+
+<div class="list-toolbar">
+    <div class="search-box">
+        <label for="busquedaTabla" class="visually-hidden">Buscar</label>
+        <input id="busquedaTabla" class="form-control" type="search" placeholder="Buscar en todos los campos..." autocomplete="off" />
+    </div>
+    <a class="btn btn-primary btn-crear" asp-action="Create"><span aria-hidden="true">+</span> Crear nuevo</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover table-sm align-middle searchable-table" style="font-size: 0.875rem;">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+                <th>Correo</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.codigo</td>
+                <td>@item.nombre</td>
+                <td>@item.id_tipoEstablecimientoNavigation?.nombre</td>
+                <td>@item.id_direccionNavigation?.ubicacion</td>
+                <td>@item.telefono</td>
+                <td>@item.email</td>
+                <td class="text-nowrap">
+                    <a asp-action="Edit" asp-route-id="@item.id_establecimiento">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.id_establecimiento">Detalles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.id_establecimiento">Eliminar</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

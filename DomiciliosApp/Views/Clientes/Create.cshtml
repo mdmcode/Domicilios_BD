@@ -1,0 +1,33 @@
+@model DomiciliosApp.Models.UsuarioCrearVM
+@{
+    ViewData["Title"] = "Nuevo cliente";
+}
+
+<div class="page-head">
+    <div>
+        <h1>Nuevo cliente</h1>
+        <p class="page-sub">Se crea el usuario con sus datos personales y se registra como cliente.</p>
+    </div>
+    <a asp-action="Index" class="btn btn-outline-secondary">&larr; Volver al listado</a>
+</div>
+
+<form asp-action="Create" class="form-card">
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+    <input type="hidden" name="Tipo" value="cliente" />
+
+    <div class="form-section">
+        <h2>Datos personales</h2>
+        <div class="form-grid">
+            <partial name="_UsuarioCampos" model="Model" />
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <a asp-action="Index" class="btn btn-light">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

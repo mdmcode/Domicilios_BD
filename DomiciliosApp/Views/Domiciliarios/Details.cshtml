@@ -1,0 +1,62 @@
+@model DomiciliosApp.Models.domiciliario
+@using DomiciliosApp.Models
+@using Microsoft.EntityFrameworkCore
+@inject DomiciliosContext Db
+@{
+    ViewData["Title"] = "Detalle de el domiciliario";
+    var transportes = Db.Transportes();
+    var estadosDom = Db.EstadosDomiciliario();
+    var u = Db.usuarios.AsNoTracking().FirstOrDefault(x => x.id_usuario == Model.id_domiciliario);
+}
+
+<div class="page-head">
+    <div>
+        <h1>Detalle de el domiciliario</h1>
+        <p class="page-sub">Domiciliario n.º @Model.id_domiciliario</p>
+    </div>
+    <div class="head-actions">
+        <a asp-action="Edit" asp-route-id="@Model.id_domiciliario" class="btn btn-primary">Editar</a>
+        <a asp-action="Index" class="btn btn-outline-secondary">&larr; Volver al listado</a>
+    </div>
+</div>
+
+<div class="detail-card">
+    <div class="detail-section">
+        <h2>Datos personales</h2>
+        <div class="detail-grid">
+            <div class="detail-item">
+                <span class="detail-label">Nombre completo</span>
+                <span class="detail-value">@((u?.nombre_completo).Mostrar())</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Documento de identidad</span>
+                <span class="detail-value">@((u?.numeroId).Mostrar())</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Teléfono</span>
+                <span class="detail-value">@((u?.telefono).Mostrar())</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Correo electrónico</span>
+                <span class="detail-value">@((u?.correo).Mostrar())</span>
+            </div>
+        </div>
+    </div>
+    <div class="detail-section">
+        <h2>Datos de operación</h2>
+        <div class="detail-grid">
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.codigo)</span>
+                <span class="detail-value">@Model.codigo.Mostrar()</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.id_transporte)</span>
+                <span class="detail-value">@transportes.Texto(Model.id_transporte)</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(m => m.id_estado)</span>
+                <span class="detail-value">@estadosDom.Texto(Model.id_estado)</span>
+            </div>
+        </div>
+    </div>
+</div>
