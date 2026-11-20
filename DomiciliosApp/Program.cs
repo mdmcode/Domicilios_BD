@@ -18,6 +18,16 @@ builder.Services.AddControllersWithViews(options =>
     m.SetValueMustBeANumberAccessor(campo => $"{campo} debe ser un número.");
 });
 
+// Registro del DbContext (MySQL con Pomelo)
+var connectionString = builder.Configuration.GetConnectionString("DomiciliosDb")
+    ?? throw new InvalidOperationException("Falta la cadena de conexión 'DomiciliosDb' en appsettings.json.");
+
+// Se detecta la versión de MySQL una sola vez al arrancar (no en cada petición)
+var serverVersion = ServerVersion.AutoDetect(connectionString);
+
+builder.Services.AddDbContext<DomiciliosContext>(options =>
+    options.UseMySql(connectionString, serverVersion));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

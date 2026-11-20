@@ -7757,11 +7757,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\DomiciliosApp.csproj",
+      "projectUniqueName": "c:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\DomiciliosApp.csproj",
       "projectName": "DomiciliosApp",
-      "projectPath": "C:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\DomiciliosApp.csproj",
+      "projectPath": "c:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\DomiciliosApp.csproj",
       "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\obj\\",
+      "outputPath": "c:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -7841,13 +7841,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.124/PortableRuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1900",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Error occurred while getting package vulnerability data: Unable to load the service index for source https://api.nuget.org/v3/index.json."
-    }
-  ]
+  }
 }

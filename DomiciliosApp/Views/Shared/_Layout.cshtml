@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - DomiciliosApp</title>
+    <title>@ViewData["Title"] - Domi Express</title>
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.bootstrap5.min.css" />
@@ -15,7 +15,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">DomiciliosApp</a>
+                <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">Domi Express</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -23,18 +23,47 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Inicio</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Solicitudes" asp-action="Index">Solicitudes</a>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown">Operación</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-controller="Solicitudes" asp-action="Index">Solicitudes</a></li>
+                                <li><a class="dropdown-item" asp-controller="Incidentes" asp-action="Index">Incidentes</a></li>
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown">Personas</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-controller="Usuarios" asp-action="Index">Usuarios</a></li>
+                                <li><a class="dropdown-item" asp-controller="Clientes" asp-action="Index">Clientes</a></li>
+                                <li><a class="dropdown-item" asp-controller="Domiciliarios" asp-action="Index">Domiciliarios</a></li>
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Domiciliarios" asp-action="Index">Domiciliarios</a>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown">Lugares</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-controller="Establecimientos" asp-action="Index">Establecimientos</a></li>
+                                <li><a class="dropdown-item" asp-controller="Direcciones" asp-action="Index">Direcciones</a></li>
+                                <li><a class="dropdown-item" asp-controller="ClientesDirecciones" asp-action="Index">Direcciones de clientes</a></li>
+                            </ul>
                         </li>
-                    </ul>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown">Catálogos</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-controller="EstadosSolicitud" asp-action="Index">Estados de solicitud</a></li>
+                                <li><a class="dropdown-item" asp-controller="EstadosDomiciliario" asp-action="Index">Estados de domiciliario</a></li>
+                                <li><a class="dropdown-item" asp-controller="MetodosPago" asp-action="Index">Métodos de pago</a></li>
+                                <li><a class="dropdown-item" asp-controller="MediosTransporte" asp-action="Index">Medios de transporte</a></li>
+                                <li><a class="dropdown-item" asp-controller="TiposEstablecimiento" asp-action="Index">Tipos de establecimiento</a></li>
+                                <li><a class="dropdown-item" asp-controller="TiposIncidente" asp-action="Index">Tipos de incidente</a></li>
+                            </ul>
+                        </li>
+                    </ul>           
                 </div>
             </div>
         </nav>
@@ -47,7 +76,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2026 - DomiciliosApp
+            &copy; 2026 - Domi Express
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

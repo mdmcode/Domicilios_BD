@@ -5,12 +5,20 @@
       "PackagePath": "staticwebassets\\DomiciliosApp.ksd02mkdgc.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\wwwroot\\css\\forms.css",
+      "PackagePath": "staticwebassets\\css\\forms.css"
+    },
+    {
       "Id": "C:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
       "Id": "C:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\wwwroot\\js\\forms.js",
+      "PackagePath": "staticwebassets\\js\\forms.js"
     },
     {
       "Id": "C:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\wwwroot\\js\\site.js",

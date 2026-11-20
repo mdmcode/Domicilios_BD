@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DomiciliosApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fcbd67ea88688dfb8ab8dc1187e49a19221d956f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7a2225d9c0270c567473bb67a21666ce040c7732")]
 [assembly: System.Reflection.AssemblyProductAttribute("DomiciliosApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DomiciliosApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
