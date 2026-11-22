@@ -48,6 +48,8 @@ namespace DomiciliosApp.Controllers
                 return NotFound();
             }
 
+            ViewBag.EstaDisponible = await DbSqlHelper.DomiciliarioDisponibleAsync(_context, domiciliario.id_domiciliario);
+
             return View(domiciliario);
         }
 

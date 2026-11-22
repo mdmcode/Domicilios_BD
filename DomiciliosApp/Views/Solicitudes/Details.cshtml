@@ -3,6 +3,9 @@
 @using Microsoft.EntityFrameworkCore
 @inject DomiciliosContext Db
 @{
+    var disponibles = Db.DomiciliariosDisponibles();
+    int? minutosAsignacion = ViewBag.MinutosAsignacion as int?;
+    var historial = ViewBag.HistorialEstados as List<log_estado_solicitud> ?? new();
     ViewData["Title"] = "Detalle de la solicitud";
     var estados = Db.Estados();
     var metodos = Db.Metodos();
@@ -98,6 +101,90 @@
                 <span class="detail-label">@Html.DisplayNameFor(m => m.horaAsignacion)</span>
                 <span class="detail-value">@Model.horaAsignacion.Mostrar()</span>
             </div>
+            <div class="detail-item">
+                <span class="detail-label">Tiempo hasta asignación</span>
+                <span class="detail-value">@(minutosAsignacion.HasValue ? $"{minutosAsignacion} min" : "—")</span>
+            </div>
         </div>
+    </div>
+</div>
+@if (Model.id_estado is 1 or 2 or 3)
+{
+    <div class="detail-card mt-3">
+        <div class="detail-section">
+            <h2>Acciones de operación</h2>
+
+            @if (Model.id_estado == 1)
+            {
+                <form asp-action="Asignar" method="post" class="row g-2 align-items-end mb-3">
+                    <input type="hidden" name="id" value="@Model.id_solicitud" />
+                    <div class="col-md-6">
+                        <label class="form-label">Domiciliario disponible</label>
+                        <select name="id_domiciliario" class="form-select searchable" asp-items="disponibles" required>
+                            <option value="">Seleccione un domiciliario disponible…</option>
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary">Asignar domiciliario</button>
+                    </div>
+                </form>
+            }
+
+            <div class="d-flex gap-2">
+                @if (Model.id_estado == 3)
+                {
+                    <form asp-action="Finalizar" method="post">
+                        <input type="hidden" name="id" value="@Model.id_solicitud" />
+                        <button type="submit" class="btn btn-success">Finalizar solicitud</button>
+                    </form>
+                }
+
+                @if (Model.id_estado == 2)
+                {
+                    <form asp-action="IniciarEntrega" method="post">
+                        <input type="hidden" name="id" value="@Model.id_solicitud" />
+                        <button type="submit" class="btn btn-warning">Iniciar entrega</button>
+                    </form>
+                }
+
+                <form asp-action="Cancelar" method="post"
+                      onsubmit="return confirm('¿Seguro que deseas cancelar esta solicitud?');">
+                    <input type="hidden" name="id" value="@Model.id_solicitud" />
+                    <button type="submit" class="btn btn-outline-danger">Cancelar solicitud</button>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="detail-card mt-3">
+    <div class="detail-section">
+        <h2>Historial de cambios de estado</h2>
+        @if (!historial.Any())
+        {
+            <p class="text-muted mb-0">Aún no se registran cambios de estado para esta solicitud.</p>
+        }
+        else
+        {
+            <table class="table table-sm mb-0">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Estado anterior</th>
+                        <th>Estado nuevo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var h in historial)
+                    {
+                        <tr>
+                            <td>@h.fecha_cambio.Mostrar()</td>
+                            <td>@estados.Texto(h.estado_anterior)</td>
+                            <td>@estados.Texto(h.estado_nuevo)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
     </div>
 </div>

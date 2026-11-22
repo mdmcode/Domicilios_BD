@@ -44,6 +44,8 @@ namespace DomiciliosApp.Controllers
                 return NotFound();
             }
 
+            ViewBag.TotalGastado = await DbSqlHelper.ObtenerTotalClienteAsync(_context, cliente.id_cliente);
+
             return View(cliente);
         }
 

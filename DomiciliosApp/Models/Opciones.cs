@@ -130,6 +130,20 @@ public static class Opciones
                 .Select(x => Item(x.id_solicitud, $"#{x.id_solicitud} — {x.nombre_completo} — {x.fechaCreacion.Mostrar()}")).ToList();
     }
 
+    public static List<SelectListItem> DomiciliariosDisponibles(this DomiciliosContext db)
+    {
+        var disponibles = db.domiciliarios
+            .FromSqlInterpolated($"SELECT * FROM domiciliario WHERE fn_domiciliario_disponible(id_domiciliario) = 1")
+            .Include(d => d.id_domiciliarioNavigation)
+            .AsNoTracking()
+            .ToList();
+
+        return disponibles
+            .OrderBy(d => d.id_domiciliarioNavigation?.nombre_completo)
+            .Select(d => Item(d.id_domiciliario, $"{d.id_domiciliarioNavigation?.nombre_completo}{Cod(d.codigo)}"))
+            .ToList();
+    }
+
     // ---------- Utilidades para las vistas ----------
     /// <summary>Devuelve el texto de la opción cuyo valor es "id" (o "—" si no existe).</summary>
     public static string Texto(this IEnumerable<SelectListItem> lista, object? id) =>

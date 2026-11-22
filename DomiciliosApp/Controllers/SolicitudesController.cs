@@ -39,10 +39,7 @@ namespace DomiciliosApp.Controllers
         // GET: Solicitudes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var solicitud = await _context.solicituds
                 .Include(s => s.cliente_direccion)
@@ -53,43 +50,50 @@ namespace DomiciliosApp.Controllers
                 .Include(s => s.id_estadoNavigation)
                 .Include(s => s.id_metodoPagoNavigation)
                 .FirstOrDefaultAsync(m => m.id_solicitud == id);
-            if (solicitud == null)
-            {
-                return NotFound();
-            }
+
+            if (solicitud == null) return NotFound();
+
+            // Función fn_minutos_asignacion y tabla de auditoría del trigger trg_solicitud_log_au
+            ViewBag.MinutosAsignacion = await DbSqlHelper.ObtenerMinutosAsignacionAsync(_context, solicitud.id_solicitud);
+            ViewBag.HistorialEstados = await _context.log_estado_solicituds
+                .AsNoTracking()
+                .Where(l => l.id_solicitud == solicitud.id_solicitud)
+                .OrderBy(l => l.id)
+                .ToListAsync();
 
             return View(solicitud);
         }
 
         // GET: Solicitudes/Create
-        public IActionResult Create()
-        {
-            ViewData["id_cliente"] = new SelectList(_context.cliente_direccions, "id_cliente", "id_cliente");
-            ViewData["id_cliente"] = new SelectList(_context.clientes, "id_cliente", "id_cliente");
-            ViewData["id_direccionRecogidaExterna"] = new SelectList(_context.direccions, "id_direccion", "id_direccion");
-            ViewData["id_domiciliario"] = new SelectList(_context.domiciliarios, "id_domiciliario", "id_domiciliario");
-            ViewData["id_establecimientoRecogida"] = new SelectList(_context.establecimientos, "id_establecimiento", "id_establecimiento");
-            ViewData["id_estado"] = new SelectList(_context.estadosolicituds, "id_estado", "id_estado");
-            ViewData["id_metodoPago"] = new SelectList(_context.metodopagos, "id_metodoPago", "id_metodoPago");
-            return View();
-        }
-
-        // POST: Solicitudes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id_solicitud,fechaCreacion,horaCreacion,descripcion,montoTotal,id_estado,id_metodoPago,id_cliente,id_domiciliario,fechaAsignacion,horaAsignacion,id_direccionEntrega,id_establecimientoRecogida,id_direccionRecogidaExterna")] solicitud solicitud)
+        public async Task<IActionResult> Create([Bind("descripcion,montoTotal,id_metodoPago,id_cliente,id_direccionEntrega,id_establecimientoRecogida,id_direccionRecogidaExterna")] solicitud solicitud)
         {
-            await ValidarReglasAsync(solicitud);    // Create
+            // El procedimiento sp_crear_solicitud asigna fechaCreacion, horaCreacion e id_estado = 1
+            ModelState.Remove(nameof(solicitud.fechaCreacion));
+            ModelState.Remove(nameof(solicitud.horaCreacion));
+            ModelState.Remove(nameof(solicitud.id_estado));
+
+            await ValidarReglasAsync(solicitud);
 
             if (ModelState.IsValid)
             {
-                _context.Add(solicitud);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    var nuevoId = await DbSqlHelper.CrearSolicitudAsync(_context, solicitud);
+                    TempData["Exito"] = $"Solicitud #{nuevoId} creada correctamente.";
+                    return RedirectToAction(nameof(Details), new { id = nuevoId });
+                }
+                catch (Exception ex)
+                {
+                    var msg = DbSqlHelper.ExtraerMensajeNegocio(ex);
+                    if (msg != null)
+                        ModelState.AddModelError(string.Empty, msg);
+                    else
+                        throw;
+                }
             }
-            ViewData["id_cliente"] = new SelectList(_context.cliente_direccions, "id_cliente", "id_cliente", solicitud.id_cliente);
+
             ViewData["id_cliente"] = new SelectList(_context.clientes, "id_cliente", "id_cliente", solicitud.id_cliente);
             ViewData["id_direccionRecogidaExterna"] = new SelectList(_context.direccions, "id_direccion", "id_direccion", solicitud.id_direccionRecogidaExterna);
             ViewData["id_domiciliario"] = new SelectList(_context.domiciliarios, "id_domiciliario", "id_domiciliario", solicitud.id_domiciliario);
@@ -142,10 +146,16 @@ namespace DomiciliosApp.Controllers
                 {
                     _context.Update(solicitud);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception ex)
                 {
-                    if (!solicitudExists(solicitud.id_solicitud))
+                    var msg = DbSqlHelper.ExtraerMensajeNegocio(ex);
+                    if (msg != null)
+                    {
+                        ModelState.AddModelError(string.Empty, msg);
+                    }
+                    else if (ex is DbUpdateConcurrencyException && !solicitudExists(solicitud.id_solicitud))
                     {
                         return NotFound();
                     }
@@ -219,6 +229,70 @@ namespace DomiciliosApp.Controllers
         private bool solicitudExists(int id)
         {
             return _context.solicituds.Any(e => e.id_solicitud == id);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Asignar(int id, int id_domiciliario)
+        {
+            try
+            {
+                await DbSqlHelper.AsignarDomiciliarioAsync(_context, id, id_domiciliario);
+                TempData["Exito"] = "Domiciliario asignado correctamente.";
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = DbSqlHelper.ExtraerMensajeNegocio(ex) ?? "No se pudo asignar el domiciliario.";
+            }
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Finalizar(int id)
+        {
+            try
+            {
+                await DbSqlHelper.FinalizarSolicitudAsync(_context, id);
+                TempData["Exito"] = "Solicitud finalizada correctamente.";
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = DbSqlHelper.ExtraerMensajeNegocio(ex) ?? "No se pudo finalizar la solicitud.";
+            }
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Cancelar(int id)
+        {
+            try
+            {
+                await DbSqlHelper.CancelarSolicitudAsync(_context, id);
+                TempData["Exito"] = "Solicitud cancelada.";
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = DbSqlHelper.ExtraerMensajeNegocio(ex) ?? "No se pudo cancelar la solicitud.";
+            }
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> IniciarEntrega(int id)
+        {
+            try
+            {
+                await DbSqlHelper.IniciarEntregaAsync(_context, id);
+                TempData["Exito"] = "Entrega iniciada (En Curso).";
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = DbSqlHelper.ExtraerMensajeNegocio(ex) ?? "No se pudo iniciar la entrega.";
+            }
+            return RedirectToAction(nameof(Details), new { id });
         }
     }
 }

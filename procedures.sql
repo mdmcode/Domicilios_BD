@@ -179,3 +179,34 @@ BEGIN
 END $$
 
 DELIMITER ;
+
+-- P6. sp_iniciar_entrega(p_solicitud)
+-- Valida que la solicitud exista y este Asignada (2). La pasa a En Curso (3).
+DELIMITER $$
+
+CREATE PROCEDURE sp_iniciar_entrega(
+    IN p_solicitud INT
+)
+BEGIN
+    DECLARE v_estado INT;
+
+    IF NOT EXISTS (SELECT 1 FROM solicitud WHERE id_solicitud = p_solicitud) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Solicitud inexistente';
+    END IF;
+
+    SELECT id_estado INTO v_estado
+    FROM solicitud
+    WHERE id_solicitud = p_solicitud;
+
+    IF v_estado != 2 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Solo se pueden iniciar solicitudes en estado Asignada';
+    END IF;
+
+    UPDATE solicitud
+    SET id_estado = 3
+    WHERE id_solicitud = p_solicitud;
+END $$
+
+DELIMITER ;

@@ -58,14 +58,35 @@ namespace DomiciliosApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id_incidente,tipoIncidente,descripcion,fecha,hora,id_solicitud")] incidente incidente)
+        public async Task<IActionResult> Create([Bind("tipoIncidente,descripcion,id_solicitud")] incidente incidente)
         {
+            // El procedimiento sp_registrar_incidente asigna fecha y hora actuales automáticamente
+            ModelState.Remove(nameof(incidente.fecha));
+            ModelState.Remove(nameof(incidente.hora));
+
             if (ModelState.IsValid)
             {
-                _context.Add(incidente);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    await DbSqlHelper.RegistrarIncidenteAsync(
+                        _context,
+                        incidente.id_solicitud,
+                        incidente.tipoIncidente,
+                        incidente.descripcion);
+
+                    TempData["Exito"] = "Incidente registrado correctamente.";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    var msg = DbSqlHelper.ExtraerMensajeNegocio(ex);
+                    if (msg != null)
+                        ModelState.AddModelError(string.Empty, msg);
+                    else
+                        throw;
+                }
             }
+
             ViewData["id_solicitud"] = new SelectList(_context.solicituds, "id_solicitud", "id_solicitud", incidente.id_solicitud);
             ViewData["tipoIncidente"] = new SelectList(_context.tipoincidentes, "id_tipoIncidente", "id_tipoIncidente", incidente.tipoIncidente);
             return View(incidente);

@@ -57,6 +57,19 @@
                 <span class="detail-label">@Html.DisplayNameFor(m => m.id_estado)</span>
                 <span class="detail-value">@estadosDom.Texto(Model.id_estado)</span>
             </div>
+            <div class="detail-item">
+                <span class="detail-label">Disponibilidad operativa</span>
+                <span class="detail-value">
+                    @if ((bool)(ViewBag.EstaDisponible ?? false))
+                    {
+                        <span class="badge bg-success">Disponible para asignar</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">No disponible / Ocupado</span>
+                    }
+                </span>
+            </div>
         </div>
     </div>
 </div>

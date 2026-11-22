@@ -4,10 +4,8 @@
 @inject DomiciliosContext Db
 @{
     ViewData["Title"] = "Nueva solicitud";
-    var estados = Db.Estados();
     var metodos = Db.Metodos();
     var clientes = Db.Clientes();
-    var domiciliarios = Db.Domiciliarios();
     var establecimientos = Db.Establecimientos();
     var direcciones = Db.Direcciones();
     var mapa = Db.DireccionesPorCliente();
@@ -17,7 +15,7 @@
 <div class="page-head">
     <div>
         <h1>Nueva solicitud</h1>
-        <p class="page-sub">Complete los datos del pedido. Los campos con * son obligatorios.</p>
+        <p class="page-sub">Complete los datos del pedido. La fecha, hora y estado inicial se asignan automáticamente.</p>
     </div>
     <a asp-action="Index" class="btn btn-outline-secondary">&larr; Volver al listado</a>
 </div>
@@ -29,25 +27,10 @@
         <h2>Datos generales</h2>
         <div class="form-grid">
             <div class="field">
-                <label asp-for="fechaCreacion" class="form-label required"></label>
-                <input asp-for="fechaCreacion" class="form-control" type="date" data-default="today" />
-                <span asp-validation-for="fechaCreacion" class="field-error"></span>
-            </div>
-            <div class="field">
-                <label asp-for="horaCreacion" class="form-label required"></label>
-                <input asp-for="horaCreacion" class="form-control" type="time" data-default="now" />
-                <span asp-validation-for="horaCreacion" class="field-error"></span>
-            </div>
-            <div class="field">
                 <label asp-for="montoTotal" class="form-label required"></label>
                 <input asp-for="montoTotal" class="form-control" type="number" min="0.01" max="99999999.99" step="0.01" inputmode="decimal" placeholder="0.00" />
                 <div class="field-hint">Solo números; use punto para los decimales (ej. 15000.50).</div>
                 <span asp-validation-for="montoTotal" class="field-error"></span>
-            </div>
-            <div class="field">
-                <label asp-for="id_estado" class="form-label required"></label>
-                <select asp-for="id_estado" class="form-select" asp-items="estados"><option value="">Seleccione…</option></select>
-                <span asp-validation-for="id_estado" class="field-error"></span>
             </div>
             <div class="field">
                 <label asp-for="id_metodoPago" class="form-label required"></label>
@@ -93,28 +76,6 @@
                 <label asp-for="id_direccionRecogidaExterna" class="form-label"></label>
                 <select asp-for="id_direccionRecogidaExterna" class="form-select searchable" asp-items="direcciones" data-excludes="id_establecimientoRecogida"><option value="">Sin dirección externa</option></select>
                 <span asp-validation-for="id_direccionRecogidaExterna" class="field-error"></span>
-            </div>
-        </div>
-    </div>
-
-    <div class="form-section">
-        <h2>Asignación</h2>
-        <div class="form-grid">
-            <div class="field span-2">
-                <label asp-for="id_domiciliario" class="form-label"></label>
-                <select asp-for="id_domiciliario" class="form-select searchable" asp-items="domiciliarios" data-assign-date="fechaAsignacion" data-assign-time="horaAsignacion"><option value="">Sin asignar</option></select>
-                <div class="field-hint">Al elegir un domiciliario se completa la fecha y hora de asignación.</div>
-                <span asp-validation-for="id_domiciliario" class="field-error"></span>
-            </div>
-            <div class="field">
-                <label asp-for="fechaAsignacion" class="form-label"></label>
-                <input asp-for="fechaAsignacion" class="form-control" type="date" />
-                <span asp-validation-for="fechaAsignacion" class="field-error"></span>
-            </div>
-            <div class="field">
-                <label asp-for="horaAsignacion" class="form-label"></label>
-                <input asp-for="horaAsignacion" class="form-control" type="time" />
-                <span asp-validation-for="horaAsignacion" class="field-error"></span>
             </div>
         </div>
     </div>

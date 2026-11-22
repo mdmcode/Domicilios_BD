@@ -11,7 +11,7 @@
 <div class="page-head">
     <div>
         <h1>Nuevo incidente</h1>
-        <p class="page-sub">Registre qué ocurrió y a qué solicitud pertenece.</p>
+        <p class="page-sub">Registre qué ocurrió y a qué solicitud pertenece. La fecha y hora se registran automáticamente.</p>
     </div>
     <a asp-action="Index" class="btn btn-outline-secondary">&larr; Volver al listado</a>
 </div>
@@ -32,22 +32,6 @@
                 <select asp-for="id_solicitud" class="form-select searchable" asp-items="solicitudes"><option value="">Escriba para buscar una solicitud…</option></select>
                 <div class="field-hint">Busque por número, cliente o fecha.</div>
                 <span asp-validation-for="id_solicitud" class="field-error"></span>
-            </div>
-        </div>
-    </div>
-
-    <div class="form-section">
-        <h2>Cuándo ocurrió</h2>
-        <div class="form-grid">
-            <div class="field">
-                <label asp-for="fecha" class="form-label required"></label>
-                <input asp-for="fecha" class="form-control" type="date" data-default="today" data-max="today" />
-                <span asp-validation-for="fecha" class="field-error"></span>
-            </div>
-            <div class="field">
-                <label asp-for="hora" class="form-label required"></label>
-                <input asp-for="hora" class="form-control" type="time" data-default="now" />
-                <span asp-validation-for="hora" class="field-error"></span>
             </div>
         </div>
     </div>

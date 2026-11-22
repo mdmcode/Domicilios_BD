@@ -39,6 +39,7 @@ public partial class DomiciliosContext : DbContext
 
     public virtual DbSet<usuario> usuarios { get; set; }
 
+    public virtual DbSet<log_estado_solicitud> log_estado_solicituds { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
@@ -294,6 +295,12 @@ public partial class DomiciliosContext : DbContext
             entity.Property(e => e.nombre_completo).HasMaxLength(255);
             entity.Property(e => e.numeroId).HasMaxLength(20);
             entity.Property(e => e.telefono).HasMaxLength(10);
+        });
+
+        modelBuilder.Entity<log_estado_solicitud>(entity =>
+        {
+            entity.HasKey(e => e.id).HasName("PRIMARY");
+            entity.ToTable("log_estado_solicitud");
         });
 
         OnModelCreatingPartial(modelBuilder);
