@@ -1,7 +1,14 @@
 @model IEnumerable<DomiciliosApp.Models.establecimiento>
+@using DomiciliosApp.Models
+@inject DomiciliosContext Db
 
 @{
     ViewData["Title"] = "Establecimientos";
+    int? idTipoEstablecimiento = ViewBag.IdTipoEstablecimiento as int?;
+
+    var tiposEst = Db.TiposEstablecimiento()
+        .Select(x => new SelectListItem(x.Text, x.Value, x.Value == idTipoEstablecimiento?.ToString()))
+        .ToList();
 }
 
 <h1>Establecimientos</h1>
@@ -13,6 +20,21 @@
     </div>
     <a class="btn btn-primary btn-crear" asp-action="Create"><span aria-hidden="true">+</span> Crear nuevo</a>
 </div>
+
+<form method="get" asp-action="Index" class="row g-2 align-items-end mb-3">
+    <div class="col-md-5">
+        <label for="idTipoEstablecimiento" class="form-label">Tipo de establecimiento</label>
+        <select id="idTipoEstablecimiento" name="idTipoEstablecimiento" class="form-select searchable" asp-items="tiposEst" onchange="this.form.submit()">
+            <option value="">Todos los tipos</option>
+        </select>
+    </div>
+    @if (idTipoEstablecimiento.HasValue)
+    {
+        <div class="col-auto">
+            <a asp-action="Index" class="btn btn-outline-secondary">Limpiar filtro</a>
+        </div>
+    }
+</form>
 
 <div class="table-responsive">
     <table class="table table-hover table-sm align-middle searchable-table" style="font-size: 0.875rem;">

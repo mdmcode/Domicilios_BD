@@ -19,10 +19,21 @@ namespace DomiciliosApp.Controllers
         }
 
         // GET: Establecimientos
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? idTipoEstablecimiento)
         {
-            var domiciliosContext = _context.establecimientos.Include(e => e.id_direccionNavigation).Include(e => e.id_tipoEstablecimientoNavigation);
-            return View(await domiciliosContext.ToListAsync());
+            var query = _context.establecimientos
+                .AsNoTracking()
+                .Include(e => e.id_tipoEstablecimientoNavigation)
+                .Include(e => e.id_direccionNavigation)
+                .AsQueryable();
+
+            if (idTipoEstablecimiento.HasValue)
+                query = query.Where(e => e.id_tipoEstablecimiento == idTipoEstablecimiento.Value);
+
+            ViewData["TiposEstablecimiento"] = await _context.TiposEstablecimientoAsync(idTipoEstablecimiento);
+            ViewData["FiltroTipo"] = idTipoEstablecimiento;
+
+            return View(await query.ToListAsync());
         }
 
         // GET: Establecimientos/Details/5

@@ -19,10 +19,21 @@ namespace DomiciliosApp.Controllers
         }
 
         // GET: Incidentes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? idTipoIncidente)
         {
-            var domiciliosContext = _context.incidentes.Include(i => i.id_solicitudNavigation).Include(i => i.tipoIncidenteNavigation);
-            return View(await domiciliosContext.ToListAsync());
+            var query = _context.incidentes
+                .AsNoTracking()
+                .Include(i => i.id_solicitudNavigation)
+                .Include(i => i.tipoIncidenteNavigation)
+                .AsQueryable();
+
+            if (idTipoIncidente.HasValue)
+                query = query.Where(i => i.tipoIncidente == idTipoIncidente.Value);
+
+            ViewData["TiposIncidente"] = await _context.TiposIncidenteAsync(idTipoIncidente);
+            ViewData["FiltroTipoIncidente"] = idTipoIncidente;
+
+            return View(await query.OrderByDescending(i => i.id_incidente).ToListAsync());
         }
 
         // GET: Incidentes/Details/5

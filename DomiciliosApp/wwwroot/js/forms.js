@@ -136,3 +136,20 @@
         if (radiosTipo.length) aplicarTipo(); else sincronizarRequeridos();
     });
 })();
+
+// Dentro de la inicialización de Tom Select en wwwroot/js/forms.js
+document.querySelectorAll('select.form-select').forEach((selectEl) => {
+    if (selectEl.tomselect) return;
+
+    const esFiltro = selectEl.dataset.autoSubmit === 'true';
+
+    new TomSelect(selectEl, {
+        allowEmptyOption: true,
+        create: false,
+        onChange: function () {
+            if (esFiltro && selectEl.form) {
+                selectEl.form.submit();
+            }
+        }
+    });
+});

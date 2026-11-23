@@ -40,6 +40,7 @@ public partial class DomiciliosContext : DbContext
     public virtual DbSet<usuario> usuarios { get; set; }
 
     public virtual DbSet<log_estado_solicitud> log_estado_solicituds { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
@@ -300,7 +301,13 @@ public partial class DomiciliosContext : DbContext
         modelBuilder.Entity<log_estado_solicitud>(entity =>
         {
             entity.HasKey(e => e.id).HasName("PRIMARY");
+
             entity.ToTable("log_estado_solicitud");
+
+            entity.Property(e => e.id_solicitud).HasColumnName("id_solicitud");
+            entity.Property(e => e.estado_anterior).HasColumnName("estado_anterior");
+            entity.Property(e => e.estado_nuevo).HasColumnName("estado_nuevo");
+            entity.Property(e => e.fecha_cambio).HasColumnName("fecha_cambio");
         });
 
         OnModelCreatingPartial(modelBuilder);

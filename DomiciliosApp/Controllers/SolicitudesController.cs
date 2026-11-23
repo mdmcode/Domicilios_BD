@@ -19,21 +19,28 @@ namespace DomiciliosApp.Controllers
         }
 
         // GET: Solicitudes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? idEstado, int? idMetodoPago)
         {
-            var solicitudes = await _context.solicituds
-                .Include(s => s.id_clienteNavigation)
-                    .ThenInclude(c => c.id_clienteNavigation)             // cliente -> usuario
-                .Include(s => s.id_domiciliarioNavigation)
-                    .ThenInclude(d => d.id_domiciliarioNavigation)        // domiciliario -> usuario
+            var query = _context.solicituds
+                .AsNoTracking()
+                .Include(s => s.id_clienteNavigation).ThenInclude(c => c.id_clienteNavigation)
+                .Include(s => s.id_domiciliarioNavigation).ThenInclude(d => d!.id_domiciliarioNavigation)
                 .Include(s => s.id_estadoNavigation)
                 .Include(s => s.id_metodoPagoNavigation)
-                .Include(s => s.id_establecimientoRecogidaNavigation)
-                .Include(s => s.id_direccionRecogidaExternaNavigation)
-                .AsNoTracking()
-                .ToListAsync();
+                .AsQueryable();
 
-            return View(solicitudes);
+            if (idEstado.HasValue)
+                query = query.Where(s => s.id_estado == idEstado.Value);
+
+            if (idMetodoPago.HasValue)
+                query = query.Where(s => s.id_metodoPago == idMetodoPago.Value);
+
+            ViewData["EstadosSolicitud"] = await _context.EstadosSolicitudAsync(idEstado);
+            ViewData["MetodosPago"] = await _context.MetodosPagoAsync(idMetodoPago);
+            ViewData["FiltroEstado"] = idEstado;
+            ViewData["FiltroMetodoPago"] = idMetodoPago;
+
+            return View(await query.OrderByDescending(s => s.id_solicitud).ToListAsync());
         }
 
         // GET: Solicitudes/Details/5

@@ -1,7 +1,18 @@
 @model IEnumerable<DomiciliosApp.Models.domiciliario>
+@using DomiciliosApp.Models
+@inject DomiciliosContext Db
 
 @{
     ViewData["Title"] = "Domiciliarios";
+    int? idEstado = ViewBag.IdEstado as int?;
+    int? idTransporte = ViewBag.IdTransporte as int?;
+
+    var estadosDom = Db.EstadosDomiciliario()
+        .Select(x => new SelectListItem(x.Text, x.Value, x.Value == idEstado?.ToString()))
+        .ToList();
+    var transportes = Db.Transportes()
+        .Select(x => new SelectListItem(x.Text, x.Value, x.Value == idTransporte?.ToString()))
+        .ToList();
 }
 
 <h1>Domiciliarios</h1>
@@ -13,6 +24,27 @@
     </div>
     <a class="btn btn-primary btn-crear" asp-action="Create"><span aria-hidden="true">+</span> Crear nuevo</a>
 </div>
+
+<form method="get" asp-action="Index" class="row g-2 align-items-end mb-3">
+    <div class="col-md-4">
+        <label for="idEstado" class="form-label">Estado</label>
+        <select id="idEstado" name="idEstado" class="form-select searchable" asp-items="estadosDom" onchange="this.form.submit()">
+            <option value="">Todos los estados</option>
+        </select>
+    </div>
+    <div class="col-md-4">
+        <label for="idTransporte" class="form-label">Medio de transporte</label>
+        <select id="idTransporte" name="idTransporte" class="form-select searchable" asp-items="transportes" onchange="this.form.submit()">
+            <option value="">Todos los transportes</option>
+        </select>
+    </div>
+    @if (idEstado.HasValue || idTransporte.HasValue)
+    {
+        <div class="col-auto">
+            <a asp-action="Index" class="btn btn-outline-secondary">Limpiar filtros</a>
+        </div>
+    }
+</form>
 
 <div class="table-responsive">
     <table class="table table-hover table-sm align-middle searchable-table" style="font-size: 0.875rem;">

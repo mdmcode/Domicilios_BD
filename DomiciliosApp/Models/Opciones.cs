@@ -144,6 +144,73 @@ public static class Opciones
             .ToList();
     }
 
+    // En Opciones.cs (ajusta los nombres de DbSet/propiedades si EF Core los generó en PascalCase)
+    public static async Task<SelectList> EstadosDomiciliarioAsync(this DomiciliosContext db, int? seleccionado = null)
+    {
+        var items = await db.estadodomiciliarios
+            .AsNoTracking()
+            .OrderBy(e => e.nombre)
+            .Select(e => new { e.id_estado, e.nombre })
+            .ToListAsync();
+
+        return new SelectList(items, "id_estado", "nombre", seleccionado);
+    }
+
+    public static async Task<SelectList> MediosTransporteAsync(this DomiciliosContext db, int? seleccionado = null)
+    {
+        var items = await db.mediodetransportes
+            .AsNoTracking()
+            .OrderBy(m => m.nombre)
+            .Select(m => new { m.id_transporte, m.nombre })
+            .ToListAsync();
+
+        return new SelectList(items, "id_transporte", "nombre", seleccionado);
+    }
+
+    public static async Task<SelectList> TiposEstablecimientoAsync(this DomiciliosContext db, int? seleccionado = null)
+    {
+        var items = await db.tipoestablecimientos
+            .AsNoTracking()
+            .OrderBy(t => t.nombre)
+            .Select(t => new { t.id_tipoEstablecimiento, t.nombre })
+            .ToListAsync();
+
+        return new SelectList(items, "id_tipoEstablecimiento", "nombre", seleccionado);
+    }
+
+    public static async Task<SelectList> EstadosSolicitudAsync(this DomiciliosContext db, int? seleccionado = null)
+    {
+        var items = await db.estadosolicituds
+            .AsNoTracking()
+            .OrderBy(e => e.id_estado)
+            .Select(e => new { e.id_estado, e.nombre })
+            .ToListAsync();
+
+        return new SelectList(items, "id_estado", "nombre", seleccionado);
+    }
+
+    public static async Task<SelectList> MetodosPagoAsync(this DomiciliosContext db, int? seleccionado = null)
+    {
+        var items = await db.metodopagos
+            .AsNoTracking()
+            .OrderBy(m => m.nombre)
+            .Select(m => new { m.id_metodoPago, m.nombre })
+            .ToListAsync();
+
+        return new SelectList(items, "id_metodoPago", "nombre", seleccionado);
+    }
+
+    public static async Task<SelectList> TiposIncidenteAsync(this DomiciliosContext db, int? seleccionado = null)
+    {
+        var items = await db.tipoincidentes
+            .AsNoTracking()
+            .OrderBy(t => t.nombre)
+            .Select(t => new { t.id_tipoIncidente, t.nombre })
+            .ToListAsync();
+
+        return new SelectList(items, "id_tipoIncidente", "nombre", seleccionado);
+    }
+
     // ---------- Utilidades para las vistas ----------
     /// <summary>Devuelve el texto de la opción cuyo valor es "id" (o "—" si no existe).</summary>
     public static string Texto(this IEnumerable<SelectListItem> lista, object? id) =>

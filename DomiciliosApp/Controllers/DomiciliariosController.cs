@@ -19,17 +19,29 @@ namespace DomiciliosApp.Controllers
         }
 
         // GET: Domiciliarios
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? idEstado, int? idTransporte)
         {
-            var domiciliarios = await _context.domiciliarios
-                .Include(d => d.id_domiciliarioNavigation)   // domiciliario -> usuario
-                .Include(d => d.id_estadoNavigation)         // estadodomiciliario
-                .Include(d => d.id_transporteNavigation)     // mediodetransporte
+            var query = _context.domiciliarios
                 .AsNoTracking()
-                .ToListAsync();
-            return View(domiciliarios);
+                .Include(d => d.id_domiciliarioNavigation) // o .Usuario según tu navegación
+                .Include(d => d.id_estadoNavigation)
+                .Include(d => d.id_transporteNavigation)
+                .AsQueryable();
+
+            if (idEstado.HasValue)
+                query = query.Where(d => d.id_estado == idEstado.Value);
+
+            if (idTransporte.HasValue)
+                query = query.Where(d => d.id_transporte == idTransporte.Value);
+
+            ViewData["EstadosDomiciliario"] = await _context.EstadosDomiciliarioAsync(idEstado);
+            ViewData["MediosTransporte"] = await _context.MediosTransporteAsync(idTransporte);
+            ViewData["FiltroEstado"] = idEstado;
+            ViewData["FiltroTransporte"] = idTransporte;
+
+            return View(await query.ToListAsync());
         }
-        
+
         // GET: Domiciliarios/Details/5
         public async Task<IActionResult> Details(int? id)
         {

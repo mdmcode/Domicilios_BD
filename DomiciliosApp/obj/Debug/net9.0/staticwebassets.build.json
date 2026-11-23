@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "kwpFeMEAnT6BqQkgwd7j/Nrr3y8OC2t++zKNd2ij6oY=",
+  "Hash": "PTpdnLUJxBdSHDvskqAE0Uyynm1qoAd7kES8b2v5DJA=",
   "Source": "DomiciliosApp",
   "BasePath": "_content/DomiciliosApp",
   "Mode": "Default",
@@ -206,12 +206,12 @@
       "OriginalItemSpec": "C:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js"
     },
     {
-      "Identity": "C:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\obj\\Debug\\net9.0\\compressed\\54wqt50hhs-vjc4wrli4x.gz",
+      "Identity": "C:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\obj\\Debug\\net9.0\\compressed\\54wqt50hhs-1idiv4onhm.gz",
       "SourceId": "DomiciliosApp",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/DomiciliosApp",
-      "RelativePath": "js/forms#[.{fingerprint=vjc4wrli4x}]?.js.gz",
+      "RelativePath": "js/forms#[.{fingerprint=1idiv4onhm}]?.js.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -220,8 +220,8 @@
       "RelatedAsset": "C:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\wwwroot\\js\\forms.js",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "6tndt1cy6b",
-      "Integrity": "NiVZdmR7eiyXKqs+TXEwWf/5P4vlZG7H/1rXry5Egck=",
+      "Fingerprint": "mr0p3e1cyb",
+      "Integrity": "3kT0it/g7CWxuv2ZmIef5hmly7wYeDthX6FLw0l2Zcw=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\wwwroot\\js\\forms.js"
@@ -1522,8 +1522,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "vjc4wrli4x",
-      "Integrity": "i1S7z25LpVQMFEuiKYgr8CNoUBp3XRwvKiG7jha4BQ0=",
+      "Fingerprint": "1idiv4onhm",
+      "Integrity": "2WPsei883RgoMOYFI6EMwJQ4UhBpQge4EMPPC58HqgQ=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\forms.js"
@@ -4302,13 +4302,13 @@
       ]
     },
     {
-      "Route": "js/forms.js",
-      "AssetFile": "C:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\obj\\Debug\\net9.0\\compressed\\54wqt50hhs-vjc4wrli4x.gz",
+      "Route": "js/forms.1idiv4onhm.js",
+      "AssetFile": "C:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\obj\\Debug\\net9.0\\compressed\\54wqt50hhs-1idiv4onhm.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000513347023"
+          "Quality": "0.000475059382"
         }
       ],
       "ResponseHeaders": [
@@ -4318,19 +4318,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1947"
+          "Value": "2104"
         },
         {
           "Name": "ETag",
-          "Value": "\"NiVZdmR7eiyXKqs+TXEwWf/5P4vlZG7H/1rXry5Egck=\""
+          "Value": "\"3kT0it/g7CWxuv2ZmIef5hmly7wYeDthX6FLw0l2Zcw=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 20 Nov 2026 13:45:17 GMT"
+          "Value": "Mon, 23 Nov 2026 20:34:10 GMT"
         },
         {
           "Name": "Cache-Control",
-          "Value": "no-cache"
+          "Value": "max-age=31536000, immutable"
         },
         {
           "Name": "Content-Encoding",
@@ -4346,18 +4346,26 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"i1S7z25LpVQMFEuiKYgr8CNoUBp3XRwvKiG7jha4BQ0=\""
+          "Value": "W/\"2WPsei883RgoMOYFI6EMwJQ4UhBpQge4EMPPC58HqgQ=\""
         }
       ],
       "EndpointProperties": [
         {
+          "Name": "fingerprint",
+          "Value": "1idiv4onhm"
+        },
+        {
+          "Name": "label",
+          "Value": "js/forms.js"
+        },
+        {
           "Name": "integrity",
-          "Value": "sha256-i1S7z25LpVQMFEuiKYgr8CNoUBp3XRwvKiG7jha4BQ0="
+          "Value": "sha256-2WPsei883RgoMOYFI6EMwJQ4UhBpQge4EMPPC58HqgQ="
         }
       ]
     },
     {
-      "Route": "js/forms.js",
+      "Route": "js/forms.1idiv4onhm.js",
       "AssetFile": "C:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\wwwroot\\js\\forms.js",
       "Selectors": [],
       "ResponseHeaders": [
@@ -4367,7 +4375,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "6314"
+          "Value": "6808"
         },
         {
           "Name": "Content-Type",
@@ -4375,121 +4383,21 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"i1S7z25LpVQMFEuiKYgr8CNoUBp3XRwvKiG7jha4BQ0=\""
+          "Value": "\"2WPsei883RgoMOYFI6EMwJQ4UhBpQge4EMPPC58HqgQ=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 20 Nov 2026 13:45:17 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-i1S7z25LpVQMFEuiKYgr8CNoUBp3XRwvKiG7jha4BQ0="
-        }
-      ]
-    },
-    {
-      "Route": "js/forms.js.gz",
-      "AssetFile": "C:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\obj\\Debug\\net9.0\\compressed\\54wqt50hhs-vjc4wrli4x.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1947"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"NiVZdmR7eiyXKqs+TXEwWf/5P4vlZG7H/1rXry5Egck=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 20 Nov 2026 13:45:17 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-NiVZdmR7eiyXKqs+TXEwWf/5P4vlZG7H/1rXry5Egck="
-        }
-      ]
-    },
-    {
-      "Route": "js/forms.vjc4wrli4x.js",
-      "AssetFile": "C:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\obj\\Debug\\net9.0\\compressed\\54wqt50hhs-vjc4wrli4x.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000513347023"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1947"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"NiVZdmR7eiyXKqs+TXEwWf/5P4vlZG7H/1rXry5Egck=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 20 Nov 2026 13:45:17 GMT"
+          "Value": "Mon, 23 Nov 2026 20:34:10 GMT"
         },
         {
           "Name": "Cache-Control",
           "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"i1S7z25LpVQMFEuiKYgr8CNoUBp3XRwvKiG7jha4BQ0=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "vjc4wrli4x"
+          "Value": "1idiv4onhm"
         },
         {
           "Name": "label",
@@ -4497,13 +4405,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-i1S7z25LpVQMFEuiKYgr8CNoUBp3XRwvKiG7jha4BQ0="
+          "Value": "sha256-2WPsei883RgoMOYFI6EMwJQ4UhBpQge4EMPPC58HqgQ="
         }
       ]
     },
     {
-      "Route": "js/forms.vjc4wrli4x.js",
-      "AssetFile": "C:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\wwwroot\\js\\forms.js",
+      "Route": "js/forms.1idiv4onhm.js.gz",
+      "AssetFile": "C:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\obj\\Debug\\net9.0\\compressed\\54wqt50hhs-1idiv4onhm.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -4512,7 +4420,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "6314"
+          "Value": "2104"
         },
         {
           "Name": "Content-Type",
@@ -4520,56 +4428,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"i1S7z25LpVQMFEuiKYgr8CNoUBp3XRwvKiG7jha4BQ0=\""
+          "Value": "\"3kT0it/g7CWxuv2ZmIef5hmly7wYeDthX6FLw0l2Zcw=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 20 Nov 2026 13:45:17 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "vjc4wrli4x"
-        },
-        {
-          "Name": "label",
-          "Value": "js/forms.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-i1S7z25LpVQMFEuiKYgr8CNoUBp3XRwvKiG7jha4BQ0="
-        }
-      ]
-    },
-    {
-      "Route": "js/forms.vjc4wrli4x.js.gz",
-      "AssetFile": "C:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\obj\\Debug\\net9.0\\compressed\\54wqt50hhs-vjc4wrli4x.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1947"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"NiVZdmR7eiyXKqs+TXEwWf/5P4vlZG7H/1rXry5Egck=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 20 Nov 2026 13:45:17 GMT"
+          "Value": "Mon, 23 Nov 2026 20:34:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4587,7 +4450,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "vjc4wrli4x"
+          "Value": "1idiv4onhm"
         },
         {
           "Name": "label",
@@ -4595,7 +4458,144 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-NiVZdmR7eiyXKqs+TXEwWf/5P4vlZG7H/1rXry5Egck="
+          "Value": "sha256-3kT0it/g7CWxuv2ZmIef5hmly7wYeDthX6FLw0l2Zcw="
+        }
+      ]
+    },
+    {
+      "Route": "js/forms.js",
+      "AssetFile": "C:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\obj\\Debug\\net9.0\\compressed\\54wqt50hhs-1idiv4onhm.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000475059382"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2104"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"3kT0it/g7CWxuv2ZmIef5hmly7wYeDthX6FLw0l2Zcw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 23 Nov 2026 20:34:10 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"2WPsei883RgoMOYFI6EMwJQ4UhBpQge4EMPPC58HqgQ=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-2WPsei883RgoMOYFI6EMwJQ4UhBpQge4EMPPC58HqgQ="
+        }
+      ]
+    },
+    {
+      "Route": "js/forms.js",
+      "AssetFile": "C:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\wwwroot\\js\\forms.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "6808"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"2WPsei883RgoMOYFI6EMwJQ4UhBpQge4EMPPC58HqgQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 23 Nov 2026 20:34:10 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-2WPsei883RgoMOYFI6EMwJQ4UhBpQge4EMPPC58HqgQ="
+        }
+      ]
+    },
+    {
+      "Route": "js/forms.js.gz",
+      "AssetFile": "C:\\Users\\USER\\OneDrive\\Documentos\\BD\\Domicilios_BD\\DomiciliosApp\\obj\\Debug\\net9.0\\compressed\\54wqt50hhs-1idiv4onhm.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2104"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"3kT0it/g7CWxuv2ZmIef5hmly7wYeDthX6FLw0l2Zcw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 23 Nov 2026 20:34:10 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-3kT0it/g7CWxuv2ZmIef5hmly7wYeDthX6FLw0l2Zcw="
         }
       ]
     },
