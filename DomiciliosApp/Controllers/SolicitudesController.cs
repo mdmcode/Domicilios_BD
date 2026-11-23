@@ -19,14 +19,19 @@ namespace DomiciliosApp.Controllers
         }
 
         // GET: Solicitudes
+        [HttpGet]
         public async Task<IActionResult> Index(int? idEstado, int? idMetodoPago)
         {
             var query = _context.solicituds
                 .AsNoTracking()
-                .Include(s => s.id_clienteNavigation).ThenInclude(c => c.id_clienteNavigation)
-                .Include(s => s.id_domiciliarioNavigation).ThenInclude(d => d!.id_domiciliarioNavigation)
+                .Include(s => s.id_clienteNavigation)
+                    .ThenInclude(c => c.id_clienteNavigation)
+                .Include(s => s.id_domiciliarioNavigation)
+                    .ThenInclude(d => d!.id_domiciliarioNavigation)
                 .Include(s => s.id_estadoNavigation)
                 .Include(s => s.id_metodoPagoNavigation)
+                .Include(s => s.id_establecimientoRecogidaNavigation)
+                .Include(s => s.id_direccionRecogidaExternaNavigation)
                 .AsQueryable();
 
             if (idEstado.HasValue)
@@ -35,10 +40,8 @@ namespace DomiciliosApp.Controllers
             if (idMetodoPago.HasValue)
                 query = query.Where(s => s.id_metodoPago == idMetodoPago.Value);
 
-            ViewData["EstadosSolicitud"] = await _context.EstadosSolicitudAsync(idEstado);
-            ViewData["MetodosPago"] = await _context.MetodosPagoAsync(idMetodoPago);
-            ViewData["FiltroEstado"] = idEstado;
-            ViewData["FiltroMetodoPago"] = idMetodoPago;
+            ViewBag.IdEstado = idEstado;
+            ViewBag.IdMetodoPago = idMetodoPago;
 
             return View(await query.OrderByDescending(s => s.id_solicitud).ToListAsync());
         }
@@ -72,6 +75,12 @@ namespace DomiciliosApp.Controllers
         }
 
         // GET: Solicitudes/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Solicitudes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("descripcion,montoTotal,id_metodoPago,id_cliente,id_direccionEntrega,id_establecimientoRecogida,id_direccionRecogidaExterna")] solicitud solicitud)
@@ -123,7 +132,7 @@ namespace DomiciliosApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["id_cliente"] = new SelectList(_context.cliente_direccions, "id_cliente", "id_cliente", solicitud.id_cliente);
+
             ViewData["id_cliente"] = new SelectList(_context.clientes, "id_cliente", "id_cliente", solicitud.id_cliente);
             ViewData["id_direccionRecogidaExterna"] = new SelectList(_context.direccions, "id_direccion", "id_direccion", solicitud.id_direccionRecogidaExterna);
             ViewData["id_domiciliario"] = new SelectList(_context.domiciliarios, "id_domiciliario", "id_domiciliario", solicitud.id_domiciliario);
@@ -134,8 +143,6 @@ namespace DomiciliosApp.Controllers
         }
 
         // POST: Solicitudes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("id_solicitud,fechaCreacion,horaCreacion,descripcion,montoTotal,id_estado,id_metodoPago,id_cliente,id_domiciliario,fechaAsignacion,horaAsignacion,id_direccionEntrega,id_establecimientoRecogida,id_direccionRecogidaExterna")] solicitud solicitud)
@@ -145,7 +152,7 @@ namespace DomiciliosApp.Controllers
                 return NotFound();
             }
 
-            await ValidarReglasAsync(solicitud);   // Edit
+            await ValidarReglasAsync(solicitud);
 
             if (ModelState.IsValid)
             {
@@ -171,9 +178,8 @@ namespace DomiciliosApp.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["id_cliente"] = new SelectList(_context.cliente_direccions, "id_cliente", "id_cliente", solicitud.id_cliente);
+
             ViewData["id_cliente"] = new SelectList(_context.clientes, "id_cliente", "id_cliente", solicitud.id_cliente);
             ViewData["id_direccionRecogidaExterna"] = new SelectList(_context.direccions, "id_direccion", "id_direccion", solicitud.id_direccionRecogidaExterna);
             ViewData["id_domiciliario"] = new SelectList(_context.domiciliarios, "id_domiciliario", "id_domiciliario", solicitud.id_domiciliario);
