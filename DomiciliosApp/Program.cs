@@ -5,9 +5,10 @@ using Microsoft.AspNetCore.Localization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews(options =>
 {
+    options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+
     // Mensajes de validación en español
     var m = options.ModelBindingMessageProvider;
     m.SetValueMustNotBeNullAccessor(_ => "Este campo es obligatorio.");

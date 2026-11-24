@@ -331,3 +331,4 @@ C:\Users\USER\OneDrive\Documentos\BD\Domicilios_BD\DomiciliosApp\obj\Debug\net9.
 C:\Users\USER\OneDrive\Documentos\BD\Domicilios_BD\DomiciliosApp\obj\Debug\net9.0\compressed\kax8hdreeg-5o7uc33z37.gz
 C:\Users\USER\OneDrive\Documentos\BD\Domicilios_BD\DomiciliosApp\obj\Debug\net9.0\compressed\iiyvps40br-a3zc9iqk3b.gz
 C:\Users\USER\OneDrive\Documentos\BD\Domicilios_BD\DomiciliosApp\obj\Debug\net9.0\compressed\54wqt50hhs-1idiv4onhm.gz
+C:\Users\USER\OneDrive\Documentos\BD\Domicilios_BD\DomiciliosApp\bin\Debug\net9.0\pruebas_domicilios.json

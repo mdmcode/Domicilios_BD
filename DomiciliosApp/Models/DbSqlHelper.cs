@@ -53,25 +53,40 @@ public static class DbSqlHelper
 
     public static async Task<int> CrearSolicitudAsync(DomiciliosContext db, solicitud s)
     {
-        var pCliente = new MySqlParameter("@p_cliente", s.id_cliente);
-        var pDirEntrega = new MySqlParameter("@p_direccionEntrega", s.id_direccionEntrega);
-        var pMetodoPago = new MySqlParameter("@p_metodoPago", s.id_metodoPago);
-        var pMonto = new MySqlParameter("@p_monto", s.montoTotal);
-        var pDescripcion = new MySqlParameter("@p_descripcion", (object?)s.descripcion ?? DBNull.Value);
-        var pEstablecimiento = new MySqlParameter("@p_establecimiento", (object?)s.id_establecimientoRecogida ?? DBNull.Value);
-        var pDirExterna = new MySqlParameter("@p_direccionExterna", (object?)s.id_direccionRecogidaExterna ?? DBNull.Value);
-        var pIdOut = new MySqlParameter("@p_id", MySqlDbType.Int32)
+        var conn = db.Database.GetDbConnection();
+        var abrirAqui = conn.State != ConnectionState.Open;
+        if (abrirAqui)
+            await conn.OpenAsync();
+
+        try
         {
-            Direction = ParameterDirection.Output
-        };
+            await using var cmd = conn.CreateCommand();
+            cmd.CommandText = "sp_crear_solicitud";
+            cmd.CommandType = CommandType.StoredProcedure;
 
-        await db.Database.ExecuteSqlRawAsync(
-            "CALL sp_crear_solicitud(@p_cliente, @p_direccionEntrega, @p_metodoPago, @p_monto, @p_descripcion, @p_establecimiento, @p_direccionExterna, @p_id)",
-            pCliente, pDirEntrega, pMetodoPago, pMonto, pDescripcion, pEstablecimiento, pDirExterna, pIdOut);
+            cmd.Parameters.Add(new MySqlParameter("p_cliente", s.id_cliente));
+            cmd.Parameters.Add(new MySqlParameter("p_direccionEntrega", s.id_direccionEntrega));
+            cmd.Parameters.Add(new MySqlParameter("p_metodoPago", s.id_metodoPago));
+            cmd.Parameters.Add(new MySqlParameter("p_monto", s.montoTotal));
+            cmd.Parameters.Add(new MySqlParameter("p_descripcion", (object?)s.descripcion ?? DBNull.Value));
+            cmd.Parameters.Add(new MySqlParameter("p_establecimiento", (object?)s.id_establecimientoRecogida ?? DBNull.Value));
+            cmd.Parameters.Add(new MySqlParameter("p_direccionExterna", (object?)s.id_direccionRecogidaExterna ?? DBNull.Value));
 
-        return Convert.ToInt32(pIdOut.Value);
+            var pIdOut = new MySqlParameter("p_id", MySqlDbType.Int32)
+            {
+                Direction = ParameterDirection.Output
+            };
+            cmd.Parameters.Add(pIdOut);
+
+            await cmd.ExecuteNonQueryAsync();
+            return Convert.ToInt32(pIdOut.Value);
+        }
+        finally
+        {
+            if (abrirAqui)
+                await conn.CloseAsync();
+        }
     }
-
     public static async Task AsignarDomiciliarioAsync(DomiciliosContext db, int idSolicitud, int idDomiciliario)
     {
         await db.Database.ExecuteSqlInterpolatedAsync(

@@ -1,0 +1,824 @@
+{
+  "info": {
+    "_postman_id": "4227527a-f47f-4891-95e7-92d463740a9f",
+    "name": "Pruebas DomiciliosApp (Domi Express)",
+    "description": "Batería automatizada de pruebas funcionales y de reglas de negocio (triggers y procedimientos almacenados en MySQL 8.0) para DomiciliosApp (.NET 9.0 MVC).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5229",
+      "type": "string"
+    },
+    {
+      "key": "antiForgeryToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "solicitudId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "clienteId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "direccionEntregaId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "establecimientoId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "domiciliarioId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "metodoPagoId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "tipoIncidenteId",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Filtros por Catálogo (GET)",
+      "item": [
+        {
+          "name": "1.1 Filtrar Domiciliarios (Estado y Transporte)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status HTTP 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Renderiza tabla de Domiciliarios\", function () {",
+                  "    pm.expect(pm.response.text()).to.include(\"Domiciliarios\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/Domiciliarios?idEstado=1&idTransporte=1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Domiciliarios"
+              ],
+              "query": [
+                {
+                  "key": "idEstado",
+                  "value": "1"
+                },
+                {
+                  "key": "idTransporte",
+                  "value": "1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "1.2 Filtrar Establecimientos por Tipo",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status HTTP 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Renderiza tabla de Establecimientos\", function () {",
+                  "    pm.expect(pm.response.text()).to.include(\"Establecimientos\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/Establecimientos?idTipoEstablecimiento=1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Establecimientos"
+              ],
+              "query": [
+                {
+                  "key": "idTipoEstablecimiento",
+                  "value": "1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "1.3 Filtrar Solicitudes (Estado y Método de Pago)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status HTTP 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Renderiza tabla de Solicitudes\", function () {",
+                  "    pm.expect(pm.response.text()).to.include(\"Solicitudes\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/Solicitudes?idEstado=1&idMetodoPago=1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Solicitudes"
+              ],
+              "query": [
+                {
+                  "key": "idEstado",
+                  "value": "1"
+                },
+                {
+                  "key": "idMetodoPago",
+                  "value": "1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "1.4 Filtrar Incidentes por Tipo",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status HTTP 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Renderiza tabla de Incidentes\", function () {",
+                  "    pm.expect(pm.response.text()).to.include(\"Incidentes\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/Incidentes?idTipoIncidente=1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Incidentes"
+              ],
+              "query": [
+                {
+                  "key": "idTipoIncidente",
+                  "value": "1"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Ciclo de Vida de Solicitud (SPs y Triggers)",
+      "item": [
+        {
+          "name": "2.1 GET Formulario Crear Solicitud (Obtener Token e IDs Reales)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Formulario de creación carga correctamente (200 OK)\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    pm.expect(pm.response.text()).to.include(\"Nueva solicitud\");",
+                  "});",
+                  "if (pm.response && pm.response.code) {",
+                  "    const html = pm.response.text();",
+                  "    const match = html.match(/name=\"__RequestVerificationToken\"[^>]*value=\"([^\"]+)\"/);",
+                  "    if (match) {",
+                  "        pm.collectionVariables.set(\"antiForgeryToken\", match[1]);",
+                  "    }",
+                  "    function firstOption(selectId) {",
+                  "        const selMatch = html.match(new RegExp('<select[^>]*id=\"' + selectId + '\"[^>]*>([\\\\s\\\\S]*?)<\\\\/select>', 'i'));",
+                  "        if (!selMatch) return '';",
+                  "        const optRegex = /<option[^>]*value=\"([^\"]+)\"/gi;",
+                  "        let m;",
+                  "        while ((m = optRegex.exec(selMatch[1])) !== null) {",
+                  "            if (m[1] && m[1].trim() !== '') return m[1].trim();",
+                  "        }",
+                  "        return '';",
+                  "    }",
+                  "    if (!pm.variables.get('metodoPagoId')) {",
+                  "        pm.collectionVariables.set('metodoPagoId', firstOption('id_metodoPago') || '1');",
+                  "    }",
+                  "    if (!pm.variables.get('establecimientoId')) {",
+                  "        pm.collectionVariables.set('establecimientoId', firstOption('id_establecimientoRecogida') || '1');",
+                  "    }",
+                  "    const dirMapMatch = html.match(/window\\.direccionesPorCliente\\s*=\\s*(\\{[\\s\\S]*?\\});/);",
+                  "    if (dirMapMatch) {",
+                  "        try {",
+                  "            const mapa = JSON.parse(dirMapMatch[1]);",
+                  "            const curCli = pm.variables.get('clienteId');",
+                  "            const curDir = pm.variables.get('direccionEntregaId');",
+                  "            const validPair = curCli && mapa[curCli] && mapa[curCli].some(d => String(d.value) === String(curDir));",
+                  "            if (!validPair) {",
+                  "                const cliKeys = Object.keys(mapa).filter(k => Array.isArray(mapa[k]) && mapa[k].length > 0);",
+                  "                if (cliKeys.length > 0) {",
+                  "                    pm.collectionVariables.set('clienteId', cliKeys[0]);",
+                  "                    pm.collectionVariables.set('direccionEntregaId', String(mapa[cliKeys[0]][0].value));",
+                  "                }",
+                  "            }",
+                  "        } catch (e) {}",
+                  "    }",
+                  "}",
+                  "pm.test(\"AntiForgeryToken e IDs válidos capturados\", function () {",
+                  "    pm.expect(pm.collectionVariables.get(\"antiForgeryToken\")).to.not.be.empty;",
+                  "    pm.expect(pm.variables.get(\"clienteId\"), \"Debe existir al menos un cliente con dirección registrada en cliente_direccion\").to.not.be.empty;",
+                  "    pm.expect(pm.variables.get(\"direccionEntregaId\"), \"Debe existir una dirección de entrega asociada al cliente\").to.not.be.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/Solicitudes/Create",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Solicitudes",
+                "Create"
+              ]
+            }
+          }
+        },
+        {
+          "name": "2.2 POST Crear Solicitud - Caso Negativo (Regla XOR Trigger)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Trigger XOR bloquea envío con ambos orígenes de recogida\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    const body = pm.response.text();",
+                  "    const bloqueado = body.includes(\"validation-summary-errors\") || body.includes(\"Nueva solicitud\");",
+                  "    pm.expect(bloqueado).to.be.true;",
+                  "});",
+                  "if (pm.response && pm.response.code) {",
+                  "    const htmlToken = pm.response.text();",
+                  "    const match = htmlToken.match(/name=\"__RequestVerificationToken\"[^>]*value=\"([^\"]+)\"/);",
+                  "    if (match) {",
+                  "        pm.collectionVariables.set(\"antiForgeryToken\", match[1]);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "__RequestVerificationToken",
+                  "value": "{{antiForgeryToken}}",
+                  "type": "text"
+                },
+                {
+                  "key": "descripcion",
+                  "value": "Prueba negativa XOR desde Newman",
+                  "type": "text"
+                },
+                {
+                  "key": "montoTotal",
+                  "value": "25000",
+                  "type": "text"
+                },
+                {
+                  "key": "id_metodoPago",
+                  "value": "{{metodoPagoId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "id_cliente",
+                  "value": "{{clienteId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "id_direccionEntrega",
+                  "value": "{{direccionEntregaId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "id_establecimientoRecogida",
+                  "value": "{{establecimientoId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "id_direccionRecogidaExterna",
+                  "value": "{{direccionEntregaId}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Solicitudes/Create",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Solicitudes",
+                "Create"
+              ]
+            }
+          }
+        },
+        {
+          "name": "2.3 POST Crear Solicitud - Caso Exitoso (sp_crear_solicitud)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const html = pm.response ? pm.response.text() : '';",
+                  "const errMatches = [...html.matchAll(/class=\"[^\"]*(?:field-error|validation-summary-errors|alert-danger)[^\"]*\"[^>]*>([\\s\\S]*?)<\\/(?:span|div)>/gi)]",
+                  "    .map(m => m[1].replace(/<[^>]+>/g, ' ').replace(/\\s+/g, ' ').trim())",
+                  "    .filter(t => t.length > 0);",
+                  "const detalleError = errMatches.length ? ' Error del servidor: ' + errMatches.join(' | ') : '';",
+                  "pm.test(\"Solicitud creada y redirigida a Details (200 OK)\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    pm.expect(html, detalleError).to.include(\"Detalle de la solicitud\");",
+                  "});",
+                  "if (html) {",
+                  "    const idMatch = html.match(/Solicitud n\\.º\\s*(\\d+)/);",
+                  "    if (idMatch) {",
+                  "        pm.collectionVariables.set(\"solicitudId\", idMatch[1]);",
+                  "    }",
+                  "    const tokenMatch = html.match(/name=\"__RequestVerificationToken\"[^>]*value=\"([^\"]+)\"/);",
+                  "    if (tokenMatch) {",
+                  "        pm.collectionVariables.set(\"antiForgeryToken\", tokenMatch[1]);",
+                  "    }",
+                  "    if (!pm.variables.get('domiciliarioId')) {",
+                  "        const domSel = html.match(/<select[^>]*name=\"id_domiciliario\"[^>]*>([\\s\\S]*?)<\\/select>/i);",
+                  "        if (domSel) {",
+                  "            const optRegex = /<option[^>]*value=\"([^\"]+)\"/gi;",
+                  "            let m;",
+                  "            while ((m = optRegex.exec(domSel[1])) !== null) {",
+                  "                if (m[1] && m[1].trim() !== '') {",
+                  "                    pm.collectionVariables.set('domiciliarioId', m[1].trim());",
+                  "                    break;",
+                  "                }",
+                  "            }",
+                  "        }",
+                  "    }",
+                  "}",
+                  "pm.test(\"ID de solicitud y domiciliario disponible capturados\", function () {",
+                  "    pm.expect(pm.collectionVariables.get(\"solicitudId\"), detalleError).to.not.be.empty;",
+                  "    pm.expect(pm.variables.get(\"domiciliarioId\"), \"No hay domiciliarios disponibles (fn_domiciliario_disponible = 1)\").to.not.be.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "__RequestVerificationToken",
+                  "value": "{{antiForgeryToken}}",
+                  "type": "text"
+                },
+                {
+                  "key": "descripcion",
+                  "value": "Pedido automatizado Newman",
+                  "type": "text"
+                },
+                {
+                  "key": "montoTotal",
+                  "value": "35000",
+                  "type": "text"
+                },
+                {
+                  "key": "id_metodoPago",
+                  "value": "{{metodoPagoId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "id_cliente",
+                  "value": "{{clienteId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "id_direccionEntrega",
+                  "value": "{{direccionEntregaId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "id_establecimientoRecogida",
+                  "value": "{{establecimientoId}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Solicitudes/Create",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Solicitudes",
+                "Create"
+              ]
+            }
+          }
+        },
+        {
+          "name": "2.4 POST Asignar Domiciliario (sp_asignar_domiciliario)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Domiciliario asignado (Estado 1 -> 2)\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    const body = pm.response.text();",
+                  "    pm.expect(body).to.include(\"Detalle de la solicitud\");",
+                  "    pm.expect(body).to.not.include(\"alert-danger\");",
+                  "});",
+                  "if (pm.response && pm.response.code) {",
+                  "    const htmlToken = pm.response.text();",
+                  "    const match = htmlToken.match(/name=\"__RequestVerificationToken\"[^>]*value=\"([^\"]+)\"/);",
+                  "    if (match) {",
+                  "        pm.collectionVariables.set(\"antiForgeryToken\", match[1]);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "__RequestVerificationToken",
+                  "value": "{{antiForgeryToken}}",
+                  "type": "text"
+                },
+                {
+                  "key": "id",
+                  "value": "{{solicitudId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "id_domiciliario",
+                  "value": "{{domiciliarioId}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Solicitudes/Asignar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Solicitudes",
+                "Asignar"
+              ]
+            }
+          }
+        },
+        {
+          "name": "2.5 POST Iniciar Entrega (sp_iniciar_entrega)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Entrega iniciada (Estado 2 -> 3)\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    const body = pm.response.text();",
+                  "    pm.expect(body).to.include(\"Detalle de la solicitud\");",
+                  "    pm.expect(body).to.not.include(\"alert-danger\");",
+                  "});",
+                  "if (pm.response && pm.response.code) {",
+                  "    const htmlToken = pm.response.text();",
+                  "    const match = htmlToken.match(/name=\"__RequestVerificationToken\"[^>]*value=\"([^\"]+)\"/);",
+                  "    if (match) {",
+                  "        pm.collectionVariables.set(\"antiForgeryToken\", match[1]);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "__RequestVerificationToken",
+                  "value": "{{antiForgeryToken}}",
+                  "type": "text"
+                },
+                {
+                  "key": "id",
+                  "value": "{{solicitudId}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Solicitudes/IniciarEntrega",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Solicitudes",
+                "IniciarEntrega"
+              ]
+            }
+          }
+        },
+        {
+          "name": "2.6 POST Finalizar Solicitud (sp_finalizar_solicitud)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Solicitud finalizada (Estado 3 -> 4)\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    const body = pm.response.text();",
+                  "    pm.expect(body).to.include(\"Detalle de la solicitud\");",
+                  "    pm.expect(body).to.not.include(\"alert-danger\");",
+                  "});",
+                  "if (pm.response && pm.response.code) {",
+                  "    const htmlToken = pm.response.text();",
+                  "    const match = htmlToken.match(/name=\"__RequestVerificationToken\"[^>]*value=\"([^\"]+)\"/);",
+                  "    if (match) {",
+                  "        pm.collectionVariables.set(\"antiForgeryToken\", match[1]);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "__RequestVerificationToken",
+                  "value": "{{antiForgeryToken}}",
+                  "type": "text"
+                },
+                {
+                  "key": "id",
+                  "value": "{{solicitudId}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Solicitudes/Finalizar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Solicitudes",
+                "Finalizar"
+              ]
+            }
+          }
+        },
+        {
+          "name": "2.7 POST Cancelar Solicitud Finalizada - Caso Negativo (SIGNAL 45000)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Bloquea cancelación de solicitud en estado terminal (4)\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    const body = pm.response.text();",
+                  "    pm.expect(body).to.include(\"alert-danger\");",
+                  "});",
+                  "if (pm.response && pm.response.code) {",
+                  "    const htmlToken = pm.response.text();",
+                  "    const match = htmlToken.match(/name=\"__RequestVerificationToken\"[^>]*value=\"([^\"]+)\"/);",
+                  "    if (match) {",
+                  "        pm.collectionVariables.set(\"antiForgeryToken\", match[1]);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "__RequestVerificationToken",
+                  "value": "{{antiForgeryToken}}",
+                  "type": "text"
+                },
+                {
+                  "key": "id",
+                  "value": "{{solicitudId}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Solicitudes/Cancelar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Solicitudes",
+                "Cancelar"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Registro de Incidentes (sp_registrar_incidente)",
+      "item": [
+        {
+          "name": "3.1 GET Formulario Crear Incidente (Obtener Token)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Formulario de incidente carga correctamente (200 OK)\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    pm.expect(pm.response.text()).to.include(\"Nuevo incidente\");",
+                  "});",
+                  "if (pm.response && pm.response.code) {",
+                  "    const htmlToken = pm.response.text();",
+                  "    const match = htmlToken.match(/name=\"__RequestVerificationToken\"[^>]*value=\"([^\"]+)\"/);",
+                  "    if (match) {",
+                  "        pm.collectionVariables.set(\"antiForgeryToken\", match[1]);",
+                  "    }",
+                  "    const tipoSel = htmlToken.match(/<select[^>]*id=\"tipoIncidente\"[^>]*>([\\s\\S]*?)<\\/select>/i);",
+                  "    if (tipoSel) {",
+                  "        const optRegex = /<option[^>]*value=\"([^\"]+)\"/gi;",
+                  "        let m;",
+                  "        while ((m = optRegex.exec(tipoSel[1])) !== null) {",
+                  "            if (m[1] && m[1].trim() !== '') {",
+                  "                pm.collectionVariables.set('tipoIncidenteId', m[1].trim());",
+                  "                break;",
+                  "            }",
+                  "        }",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/Incidentes/Create",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Incidentes",
+                "Create"
+              ]
+            }
+          }
+        },
+        {
+          "name": "3.2 POST Crear Incidente (sp_registrar_incidente)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Incidente registrado correctamente (200 OK)\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    pm.expect(pm.response.text()).to.include(\"Incidente registrado correctamente\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "__RequestVerificationToken",
+                  "value": "{{antiForgeryToken}}",
+                  "type": "text"
+                },
+                {
+                  "key": "tipoIncidente",
+                  "value": "{{tipoIncidenteId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "id_solicitud",
+                  "value": "{{solicitudId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "descripcion",
+                  "value": "Novedad registrada desde Newman CLI",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Incidentes/Create",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Incidentes",
+                "Create"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
