@@ -35,6 +35,11 @@ public class UsuarioCrearVM : IValidatableObject
     [Display(Name = "Estado")]
     public int? IdEstado { get; set; }
 
+    // Direcciones del cliente (opcional): se guardan en cliente_direccion y luego aparecen
+    // como "dirección de entrega" al crear una solicitud de ese cliente.
+    [Display(Name = "Direcciones del cliente")]
+    public List<int> Direcciones { get; set; } = new();
+
     public bool EsCliente => Tipo == TipoCliente || Tipo == TipoAmbos;
     public bool EsDomiciliario => Tipo == TipoDomiciliario || Tipo == TipoAmbos;
 
@@ -75,7 +80,24 @@ public static class UsuarioServicio
         db.usuarios.Add(vm.Usuario);
 
         if (vm.EsCliente)
-            db.clientes.Add(new cliente { id_clienteNavigation = vm.Usuario });
+        {
+            var nuevoCliente = new cliente { id_clienteNavigation = vm.Usuario };
+
+            // Solo se aceptan direcciones que existan; cada una crea una fila en cliente_direccion
+            var ids = vm.Direcciones.Distinct().ToList();
+            if (ids.Count > 0)
+            {
+                var validas = await db.direccions
+                    .Where(d => ids.Contains(d.id_direccion))
+                    .Select(d => d.id_direccion)
+                    .ToListAsync();
+
+                foreach (var idDir in validas)
+                    nuevoCliente.cliente_direccions.Add(new cliente_direccion { id_direccion = idDir });
+            }
+
+            db.clientes.Add(nuevoCliente);
+        }
 
         if (vm.EsDomiciliario)
             db.domiciliarios.Add(new domiciliario

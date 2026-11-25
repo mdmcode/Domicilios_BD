@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DomiciliosApp.Models;
 
@@ -19,24 +18,23 @@ namespace DomiciliosApp.Controllers
         }
 
         // GET: ClientesDirecciones
+        // Las vistas arman los nombres con Db.Clientes() / Db.Direcciones(), no necesitan Include.
         public async Task<IActionResult> Index()
         {
-            var domiciliosContext = _context.cliente_direccions.Include(c => c.id_clienteNavigation).Include(c => c.id_direccionNavigation);
-            return View(await domiciliosContext.ToListAsync());
+            return View(await _context.cliente_direccions.AsNoTracking().ToListAsync());
         }
 
-        // GET: ClientesDirecciones/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: ClientesDirecciones/Details?id_cliente=32&id_direccion=45
+        public async Task<IActionResult> Details(int? id_cliente, int? id_direccion)
         {
-            if (id == null)
+            if (id_cliente == null || id_direccion == null)
             {
                 return NotFound();
             }
 
             var cliente_direccion = await _context.cliente_direccions
-                .Include(c => c.id_clienteNavigation)
-                .Include(c => c.id_direccionNavigation)
-                .FirstOrDefaultAsync(m => m.id_cliente == id);
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.id_cliente == id_cliente && m.id_direccion == id_direccion);
             if (cliente_direccion == null)
             {
                 return NotFound();
@@ -48,96 +46,46 @@ namespace DomiciliosApp.Controllers
         // GET: ClientesDirecciones/Create
         public IActionResult Create()
         {
-            ViewData["id_cliente"] = new SelectList(_context.clientes, "id_cliente", "id_cliente");
-            ViewData["id_direccion"] = new SelectList(_context.direccions, "id_direccion", "id_direccion");
             return View();
         }
 
         // POST: ClientesDirecciones/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id_cliente,id_direccion")] cliente_direccion cliente_direccion)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(cliente_direccion);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["id_cliente"] = new SelectList(_context.clientes, "id_cliente", "id_cliente", cliente_direccion.id_cliente);
-            ViewData["id_direccion"] = new SelectList(_context.direccions, "id_direccion", "id_direccion", cliente_direccion.id_direccion);
-            return View(cliente_direccion);
-        }
-
-        // GET: ClientesDirecciones/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var cliente_direccion = await _context.cliente_direccions.FindAsync(id);
-            if (cliente_direccion == null)
-            {
-                return NotFound();
-            }
-            ViewData["id_cliente"] = new SelectList(_context.clientes, "id_cliente", "id_cliente", cliente_direccion.id_cliente);
-            ViewData["id_direccion"] = new SelectList(_context.direccions, "id_direccion", "id_direccion", cliente_direccion.id_direccion);
-            return View(cliente_direccion);
-        }
-
-        // POST: ClientesDirecciones/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id_cliente,id_direccion")] cliente_direccion cliente_direccion)
-        {
-            if (id != cliente_direccion.id_cliente)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
                 try
                 {
-                    _context.Update(cliente_direccion);
+                    _context.Add(cliente_direccion);
                     await _context.SaveChangesAsync();
+                    TempData["Exito"] = "Dirección asignada al cliente.";
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateException ex)
                 {
-                    if (!cliente_direccionExists(cliente_direccion.id_cliente))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    // Muestra el motivo real que devuelve MySQL (llave foránea, duplicado, etc.)
+                    ModelState.AddModelError(string.Empty,
+                        "No se pudo guardar: " + (ex.InnerException?.Message ?? ex.Message));
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["id_cliente"] = new SelectList(_context.clientes, "id_cliente", "id_cliente", cliente_direccion.id_cliente);
-            ViewData["id_direccion"] = new SelectList(_context.direccions, "id_direccion", "id_direccion", cliente_direccion.id_direccion);
             return View(cliente_direccion);
         }
 
-        // GET: ClientesDirecciones/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // GET: ClientesDirecciones/Edit?id_cliente=32&id_direccion=45
+        // Esta tabla solo tiene las dos claves, así que no hay nada que modificar:
+        // la vista muestra la información y explica que se elimina y se crea de nuevo.
+        public async Task<IActionResult> Edit(int? id_cliente, int? id_direccion)
         {
-            if (id == null)
+            if (id_cliente == null || id_direccion == null)
             {
                 return NotFound();
             }
 
             var cliente_direccion = await _context.cliente_direccions
-                .Include(c => c.id_clienteNavigation)
-                .Include(c => c.id_direccionNavigation)
-                .FirstOrDefaultAsync(m => m.id_cliente == id);
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.id_cliente == id_cliente && m.id_direccion == id_direccion);
             if (cliente_direccion == null)
             {
                 return NotFound();
@@ -146,24 +94,46 @@ namespace DomiciliosApp.Controllers
             return View(cliente_direccion);
         }
 
-        // POST: ClientesDirecciones/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        // GET: ClientesDirecciones/Delete?id_cliente=32&id_direccion=45
+        public async Task<IActionResult> Delete(int? id_cliente, int? id_direccion)
         {
-            var cliente_direccion = await _context.cliente_direccions.FindAsync(id);
-            if (cliente_direccion != null)
+            if (id_cliente == null || id_direccion == null)
             {
-                _context.cliente_direccions.Remove(cliente_direccion);
+                return NotFound();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var cliente_direccion = await _context.cliente_direccions
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.id_cliente == id_cliente && m.id_direccion == id_direccion);
+            if (cliente_direccion == null)
+            {
+                return NotFound();
+            }
+
+            return View(cliente_direccion);
         }
 
-        private bool cliente_direccionExists(int id)
+        // POST: ClientesDirecciones/Delete
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id_cliente, int id_direccion)
         {
-            return _context.cliente_direccions.Any(e => e.id_cliente == id);
+            var cliente_direccion = await _context.cliente_direccions.FindAsync(id_cliente, id_direccion);
+            if (cliente_direccion != null)
+            {
+                try
+                {
+                    _context.cliente_direccions.Remove(cliente_direccion);
+                    await _context.SaveChangesAsync();
+                    TempData["Exito"] = "Dirección eliminada del cliente.";
+                }
+                catch (DbUpdateException)
+                {
+                    // La llave foránea de solicitud apunta a este par (cliente, dirección)
+                    TempData["Error"] = "No se puede eliminar: esa dirección ya se usó como dirección de entrega en una solicitud de este cliente.";
+                }
+            }
+            return RedirectToAction(nameof(Index));
         }
     }
 }

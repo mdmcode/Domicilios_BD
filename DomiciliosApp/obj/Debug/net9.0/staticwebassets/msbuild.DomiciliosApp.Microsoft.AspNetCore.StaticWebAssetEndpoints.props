@@ -48,17 +48,17 @@
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-Jtxf9L\u002B5ITKRc1gIRl4VbUpGkRNfOBXjYTdhJD4facM="}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"5430"},{"Name":"Content-Type","Value":"image/x-icon"},{"Name":"ETag","Value":"\u0022Jtxf9L\u002B5ITKRc1gIRl4VbUpGkRNfOBXjYTdhJD4facM=\u0022"},{"Name":"Last-Modified","Value":"Fri, 20 Nov 2026 13:45:17 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/DomiciliosApp/js/forms.1idiv4onhm.js">
-      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\forms.js'))</AssetFile>
-      <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"1idiv4onhm"},{"Name":"integrity","Value":"sha256-2WPsei883RgoMOYFI6EMwJQ4UhBpQge4EMPPC58HqgQ="},{"Name":"label","Value":"_content/DomiciliosApp/js/forms.js"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"6808"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u00222WPsei883RgoMOYFI6EMwJQ4UhBpQge4EMPPC58HqgQ=\u0022"},{"Name":"Last-Modified","Value":"Mon, 23 Nov 2026 20:34:10 GMT"}]]]></ResponseHeaders>
-    </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/DomiciliosApp/js/forms.js">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\forms.js'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-2WPsei883RgoMOYFI6EMwJQ4UhBpQge4EMPPC58HqgQ="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"6808"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u00222WPsei883RgoMOYFI6EMwJQ4UhBpQge4EMPPC58HqgQ=\u0022"},{"Name":"Last-Modified","Value":"Mon, 23 Nov 2026 20:34:10 GMT"}]]]></ResponseHeaders>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-6KVJVGriNivbzJD8eDA6KTGd\u002BU9b7TkL\u002B589Vc8edG0="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"9179"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u00226KVJVGriNivbzJD8eDA6KTGd\u002BU9b7TkL\u002B589Vc8edG0=\u0022"},{"Name":"Last-Modified","Value":"Wed, 25 Nov 2026 02:08:27 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/DomiciliosApp/js/forms.wy7n244r3q.js">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\forms.js'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"wy7n244r3q"},{"Name":"integrity","Value":"sha256-6KVJVGriNivbzJD8eDA6KTGd\u002BU9b7TkL\u002B589Vc8edG0="},{"Name":"label","Value":"_content/DomiciliosApp/js/forms.js"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"9179"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u00226KVJVGriNivbzJD8eDA6KTGd\u002BU9b7TkL\u002B589Vc8edG0=\u0022"},{"Name":"Last-Modified","Value":"Wed, 25 Nov 2026 02:08:27 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/DomiciliosApp/js/site.a3zc9iqk3b.js">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\site.js'))</AssetFile>

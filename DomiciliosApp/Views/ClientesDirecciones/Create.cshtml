@@ -11,36 +11,43 @@
 <div class="page-head">
     <div>
         <h1>Nueva dirección de cliente</h1>
-        <p class="page-sub">Asocie una dirección ya registrada a un cliente. Esa dirección podrá usarse como dirección de entrega en sus solicitudes.</p>
+        <p class="page-sub">Asocie una dirección ya registrada a un cliente. Esa dirección podrá usarse como dirección
+            de entrega en sus solicitudes.</p>
+        </div>
+        <a asp-action="Index" class="btn btn-outline-secondary">&larr; Volver al listado</a>
     </div>
-    <a asp-action="Index" class="btn btn-outline-secondary">&larr; Volver al listado</a>
-</div>
 
-<form asp-action="Create" class="form-card">
-    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+    <form asp-action="Create" class="form-card">
+        <div asp-validation-summary="All" class="validation-summary"></div>
 
-    <div class="form-section">
-        <h2>Relación</h2>
-        <div class="form-grid">
-            <div class="field span-2">
-                <label asp-for="id_cliente" class="form-label required"></label>
-                <select asp-for="id_cliente" class="form-select" asp-items="clientes"><option value="">Seleccione…</option></select>
-                <span asp-validation-for="id_cliente" class="field-error"></span>
-            </div>
-            <div class="field span-2">
-                <label asp-for="id_direccion" class="form-label required"></label>
-                <select asp-for="id_direccion" class="form-select" asp-items="direcciones"><option value="">Seleccione…</option></select>
-                <span asp-validation-for="id_direccion" class="field-error"></span>
+        <div class="form-section">
+            <h2>Relación</h2>
+            <div class="form-grid">
+                <div class="field span-2">
+                    <label asp-for="id_cliente" class="form-label required"></label>
+                    <select asp-for="id_cliente" class="form-select" asp-items="clientes">
+                        <option value="">Seleccione…</option>
+                    </select>
+                    <span asp-validation-for="id_cliente" class="field-error"></span>
+                </div>
+                <div class="field span-2">
+                    <label asp-for="id_direccion" class="form-label required"></label>
+                    <select asp-for="id_direccion" class="form-select" asp-items="direcciones">
+                        <option value="">Seleccione…</option>
+                    </select>
+                    <span asp-validation-for="id_direccion" class="field-error"></span>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="form-actions">
-        <a asp-action="Index" class="btn btn-light">Cancelar</a>
-        <button type="submit" class="btn btn-primary">Guardar</button>
-    </div>
-</form>
+        <div class="form-actions">
+            <a asp-action="Index" class="btn btn-light">Cancelar</a>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+    </form>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }

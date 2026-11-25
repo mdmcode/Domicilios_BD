@@ -56,8 +56,16 @@
             </div>
             <div class="field">
                 <label asp-for="id_direccionEntrega" class="form-label required"></label>
-                <select asp-for="id_direccionEntrega" class="form-select searchable" asp-items="dirCliente" data-depends-on="id_cliente" data-source="direccionesPorCliente"><option value="">Seleccione…</option></select>
+                <select asp-for="id_direccionEntrega" class="form-select" asp-items="dirCliente" data-depends-on="id_cliente" data-source="direccionesPorCliente" data-url="@Url.Action("DireccionesDeCliente", "Solicitudes")" data-empty-hint="sinDireccion" data-error-hint="errorDireccion"><option value="">Seleccione…</option></select>
                 <div class="field-hint">Solo se listan las direcciones registradas para el cliente elegido.</div>
+                <div class="field-hint text-danger" id="errorDireccion" hidden>
+                    No se pudieron cargar las direcciones del cliente (error del servidor). Revise la consola del navegador (F12) y la ventana de Visual Studio.
+                </div>
+                <div class="field-hint text-danger" id="sinDireccion" hidden>
+                    Este cliente no tiene direcciones registradas, por eso no hay nada que elegir.
+                    <a asp-controller="ClientesDirecciones" asp-action="Create" target="_blank">Agregar una dirección al cliente</a>
+                    y luego recargue esta página.
+                </div>
                 <span asp-validation-for="id_direccionEntrega" class="field-error"></span>
             </div>
         </div>

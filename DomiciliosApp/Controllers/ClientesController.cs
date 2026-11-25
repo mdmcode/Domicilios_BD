@@ -52,25 +52,33 @@ namespace DomiciliosApp.Controllers
         // GET: Clientes/Create
         public IActionResult Create()
         {
-            ViewData["id_cliente"] = new SelectList(_context.usuarios, "id_usuario", "id_usuario");
-            return View();
+            return View(new UsuarioCrearVM { Tipo = UsuarioCrearVM.TipoCliente });
         }
 
         // POST: Clientes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Crea el usuario (datos personales) y su fila en cliente, junto con las direcciones elegidas.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id_cliente")] cliente cliente)
+        public async Task<IActionResult> Create(UsuarioCrearVM vm)
         {
+            vm.Tipo = UsuarioCrearVM.TipoCliente;   // esta pantalla solo crea clientes
+
             if (ModelState.IsValid)
             {
-                _context.Add(cliente);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    await UsuarioServicio.CrearAsync(_context, vm);
+                    TempData["Exito"] = "Cliente creado correctamente.";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateException ex)
+                {
+                    var msg = DbSqlHelper.ExtraerMensajeNegocio(ex);
+                    if (msg == null) throw;
+                    ModelState.AddModelError(string.Empty, msg);
+                }
             }
-            ViewData["id_cliente"] = new SelectList(_context.usuarios, "id_usuario", "id_usuario", cliente.id_cliente);
-            return View(cliente);
+            return View(vm);
         }
 
         // GET: Clientes/Edit/5

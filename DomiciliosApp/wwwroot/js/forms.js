@@ -1,5 +1,6 @@
 /* forms.js — comportamiento de los formularios (Crear / Editar)
-   - desplegables con búsqueda (Tom Select)
+   - desplegables con búsqueda (Tom Select) en TODOS los select.form-select
+   - filtros que se envían solos (data-auto-submit="true")
    - valores por defecto de fecha/hora
    - solo dígitos, limpieza de espacios
    - dirección de entrega que depende del cliente
@@ -45,17 +46,27 @@
         });
 
         // ---- 5. Desplegables con búsqueda ----
-        document.querySelectorAll("select.searchable").forEach(function (el) {
+        // Un select NUNCA debe inicializarse dos veces (Tom Select lanza un error y aborta todo
+        // lo que viene después), por eso se revisa "el.tomselect" antes de crear la instancia.
+        function crearTomSelect(el) {
             if (typeof TomSelect === "undefined") return; // sin la librería queda un <select> normal
+            if (el.tomselect) return;
+
+            var autoEnvio = el.dataset.autoSubmit === "true";   // filtros que envían el formulario al cambiar
+
             new TomSelect(el, {
                 create: false,
                 maxOptions: null,
                 allowEmptyOption: true,
-                plugins: ["clear_button"],
+                plugins: el.classList.contains("searchable") ? ["clear_button"] : [],
                 placeholder: el.dataset.placeholder || "Escriba para buscar…",
-                render: { no_results: function () { return '<div class="no-results">Sin resultados</div>'; } }
+                render: { no_results: function () { return '<div class="no-results">Sin resultados</div>'; } },
+                onChange: function () {
+                    if (autoEnvio && el.form) el.form.submit();
+                }
             });
-        });
+        }
+        document.querySelectorAll("select.form-select, select.searchable").forEach(crearTomSelect);
 
         function limpiarSelect(sel) {
             if (!sel) return;
@@ -68,27 +79,66 @@
             var padre = document.getElementById(dep.dataset.dependsOn);
             var fuente = window[dep.dataset.source] || {};
             if (!padre) return;
+            var aviso = dep.dataset.emptyHint ? document.getElementById(dep.dataset.emptyHint) : null;
+            var avisoError = dep.dataset.errorHint ? document.getElementById(dep.dataset.errorHint) : null;
+            var turno = 0;              // descarta respuestas viejas si el usuario cambia de cliente rápido
+            var ultimo = padre.value;   // último cliente procesado (evita repetir la carga)
 
-            padre.addEventListener("change", function () {
-                var items = fuente[padre.value] || [];
-                var ts = dep.tomselect;
+            // Si el select trae data-url, las direcciones se piden al servidor en cada cambio de cliente;
+            // si no, se usa el diccionario que la vista dejó en la página (window[data-source]).
+            function actualizar() {
+                if (padre.value === ultimo) return;
+                ultimo = padre.value;
 
-                if (ts) {
-                    ts.clear(true);
-                    ts.clearOptions();
-                    ts.addOptions(items);
-                    ts.refreshOptions(false);
-                    if (items.length === 1) ts.setValue(items[0].value);   // una sola: se elige sola
-                } else {
-                    dep.innerHTML = '<option value="">Seleccione…</option>';
-                    items.forEach(function (it) {
-                        var o = document.createElement("option");
-                        o.value = it.value; o.textContent = it.text;
-                        dep.appendChild(o);
+                var miTurno = ++turno;
+                if (avisoError) avisoError.hidden = true;
+
+                if (!dep.dataset.url) { pintar(fuente[padre.value] || []); return; }
+                if (!padre.value) { pintar([]); return; }
+
+                fetch(dep.dataset.url + "?idCliente=" + encodeURIComponent(padre.value), { headers: { "Accept": "application/json" } })
+                    .then(function (r) {
+                        if (!r.ok) throw new Error("HTTP " + r.status);
+                        return r.json();
+                    })
+                    .then(function (items) { if (miTurno === turno) pintar(items); })
+                    .catch(function (err) {
+                        console.error("No se pudieron cargar las direcciones del cliente:", err);
+                        if (miTurno !== turno) return;
+                        pintar([]);
+                        if (avisoError) { avisoError.hidden = false; if (aviso) aviso.hidden = true; }
                     });
-                    if (items.length === 1) dep.value = items[0].value;
-                }
-            });
+            }
+
+            // Reconstruye el <select> desde cero y vuelve a crear el desplegable con búsqueda.
+            function pintar(items) {
+                // Cliente elegido pero sin direcciones registradas: se avisa en vez de dejar la lista vacía sin explicación
+                if (aviso) aviso.hidden = !(padre.value && items.length === 0);
+
+                if (dep.tomselect) dep.tomselect.destroy();
+
+                dep.innerHTML = "";
+                var vacio = document.createElement("option");
+                vacio.value = "";
+                vacio.textContent = "Seleccione…";
+                dep.appendChild(vacio);
+
+                items.forEach(function (it) {
+                    var o = document.createElement("option");
+                    o.value = String(it.value);
+                    o.textContent = it.text;
+                    dep.appendChild(o);
+                });
+
+                // una sola dirección: se elige sola
+                dep.value = items.length === 1 ? String(items[0].value) : "";
+
+                crearTomSelect(dep);
+            }
+
+            padre.addEventListener("change", actualizar);
+            // Por si el desplegable con búsqueda del cliente no dispara el evento nativo
+            if (padre.tomselect) padre.tomselect.on("change", actualizar);
         });
 
         // ---- 7. Domiciliario -> completa / limpia fecha y hora de asignación ----
@@ -136,20 +186,3 @@
         if (radiosTipo.length) aplicarTipo(); else sincronizarRequeridos();
     });
 })();
-
-// Dentro de la inicialización de Tom Select en wwwroot/js/forms.js
-document.querySelectorAll('select.form-select').forEach((selectEl) => {
-    if (selectEl.tomselect) return;
-
-    const esFiltro = selectEl.dataset.autoSubmit === 'true';
-
-    new TomSelect(selectEl, {
-        allowEmptyOption: true,
-        create: false,
-        onChange: function () {
-            if (esFiltro && selectEl.form) {
-                selectEl.form.submit();
-            }
-        }
-    });
-});

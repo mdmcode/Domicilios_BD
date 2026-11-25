@@ -1,0 +1,12 @@
+@model DomiciliosApp.Models.UsuarioCrearVM
+@using DomiciliosApp.Models
+@inject DomiciliosContext Db
+@{
+    var direcciones = Db.Direcciones();
+}
+<div class="field span-2">
+    <label asp-for="Direcciones" class="form-label"></label>
+    <select asp-for="Direcciones" class="form-select searchable" asp-items="direcciones" multiple data-placeholder="Escriba para buscar direcciones…"></select>
+    <div class="field-hint">Opcional. Son las direcciones que luego podrá elegir como dirección de entrega al crear una solicitud de este cliente. También puede agregarlas después en «Direcciones de clientes».</div>
+    <span asp-validation-for="Direcciones" class="field-error"></span>
+</div>

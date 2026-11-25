@@ -50,23 +50,31 @@ namespace DomiciliosApp.Controllers
         // GET: Usuarios/Create
         public IActionResult Create()
         {
-            return View();
+            return View(new UsuarioCrearVM { Tipo = UsuarioCrearVM.TipoCliente });
         }
 
         // POST: Usuarios/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Crea el usuario y, según el tipo elegido, su fila en cliente y/o domiciliario (un solo guardado).
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id_usuario,numeroId,nombre_completo,telefono,correo")] usuario usuario)
+        public async Task<IActionResult> Create(UsuarioCrearVM vm)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(usuario);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    await UsuarioServicio.CrearAsync(_context, vm);
+                    TempData["Exito"] = "Usuario creado correctamente.";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateException ex)
+                {
+                    var msg = DbSqlHelper.ExtraerMensajeNegocio(ex);
+                    if (msg == null) throw;
+                    ModelState.AddModelError(string.Empty, msg);
+                }
             }
-            return View(usuario);
+            return View(vm);
         }
 
         // GET: Usuarios/Edit/5

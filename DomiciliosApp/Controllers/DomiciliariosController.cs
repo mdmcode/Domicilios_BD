@@ -68,29 +68,33 @@ namespace DomiciliosApp.Controllers
         // GET: Domiciliarios/Create
         public IActionResult Create()
         {
-            ViewData["id_domiciliario"] = new SelectList(_context.usuarios, "id_usuario", "id_usuario");
-            ViewData["id_estado"] = new SelectList(_context.estadodomiciliarios, "id_estado", "id_estado");
-            ViewData["id_transporte"] = new SelectList(_context.mediodetransportes, "id_transporte", "id_transporte");
-            return View();
+            return View(new UsuarioCrearVM { Tipo = UsuarioCrearVM.TipoDomiciliario });
         }
 
         // POST: Domiciliarios/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Crea el usuario (datos personales) y su fila en domiciliario (código, transporte y estado).
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id_domiciliario,codigo,id_transporte,id_estado")] domiciliario domiciliario)
+        public async Task<IActionResult> Create(UsuarioCrearVM vm)
         {
+            vm.Tipo = UsuarioCrearVM.TipoDomiciliario;   // esta pantalla solo crea domiciliarios
+
             if (ModelState.IsValid)
             {
-                _context.Add(domiciliario);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    await UsuarioServicio.CrearAsync(_context, vm);
+                    TempData["Exito"] = "Domiciliario creado correctamente.";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateException ex)
+                {
+                    var msg = DbSqlHelper.ExtraerMensajeNegocio(ex);
+                    if (msg == null) throw;
+                    ModelState.AddModelError(string.Empty, msg);
+                }
             }
-            ViewData["id_domiciliario"] = new SelectList(_context.usuarios, "id_usuario", "id_usuario", domiciliario.id_domiciliario);
-            ViewData["id_estado"] = new SelectList(_context.estadodomiciliarios, "id_estado", "id_estado", domiciliario.id_estado);
-            ViewData["id_transporte"] = new SelectList(_context.mediodetransportes, "id_transporte", "id_transporte", domiciliario.id_transporte);
-            return View(domiciliario);
+            return View(vm);
         }
 
         // GET: Domiciliarios/Edit/5

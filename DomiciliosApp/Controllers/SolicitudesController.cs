@@ -80,6 +80,32 @@ namespace DomiciliosApp.Controllers
             return View();
         }
 
+        // GET: Solicitudes/DireccionesDeCliente?idCliente=5
+        // Devuelve (JSON) las direcciones registradas para un cliente en cliente_direccion.
+        // La usa el formulario de nueva solicitud para llenar "Dirección de entrega".
+        // También sirve para comprobar a mano si la dirección del cliente quedó guardada.
+        [HttpGet]
+        public async Task<IActionResult> DireccionesDeCliente(int idCliente)
+        {
+            var filas = await (from cd in _context.cliente_direccions
+                               join d in _context.direccions on cd.id_direccion equals d.id_direccion
+                               where cd.id_cliente == idCliente
+                               select new { d.id_direccion, d.ubicacion, d.barrio })
+                              .AsNoTracking()
+                              .ToListAsync();
+
+            var items = filas
+                .OrderBy(x => x.ubicacion)
+                .Select(x => new
+                {
+                    value = x.id_direccion.ToString(),
+                    text = string.IsNullOrWhiteSpace(x.barrio) ? x.ubicacion : $"{x.ubicacion} · {x.barrio}"
+                })
+                .ToList();
+
+            return Json(items);
+        }
+
         // POST: Solicitudes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
